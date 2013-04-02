@@ -3,6 +3,26 @@ Ext.application({
     
     appFolder : 'resources/js/login',
     
+    init: function() {
+        this.control({
+        	'[action=submit]' : {
+        		click : this.submitForm
+        	},
+        	'form textfield': {
+        		specialkey: function(field, e){
+                    if (e.getKey() == e.ENTER) {
+                    	this.submitForm(field);
+                    }
+                }
+            },
+            'form': {
+            	afterrender : function(comp){
+            		comp.down('[name=j_username]').focus(false, 100);
+            	}
+            }
+        });
+    },
+    
     launch: function() {
         Ext.create('Ext.container.Viewport', {
             layout: 'fit',
@@ -23,21 +43,31 @@ Ext.application({
             	},{
             		xtype: 'textfield',
             		fieldLabel: 'Numele utilizatorului',
-            		name: 'j_username'
+            		allowBlank: false,
+            		name: 'j_username',
+            		tabIndex : 1
             	},{
             		xtype: 'textfield',
-            		fieldLabel: 'Parola',	
-            		name: 'j_password'
+            		fieldLabel: 'Parola',
+            		allowBlank: false,
+            		inputType: 'password',
+            		name: 'j_password',
+            		tabIndex : 2
             	}],
             	bbar : [{
             		text: 'Trimite',
-            		handler: function(button) {
-            			button.up('form').submit();
-            		}
+            		action: 'submit',
+            		tabIndex : 3
             	}]
             }]
             
         });
-    }    
+    },
+    
+    submitForm: function(childComp){
+    	var form = childComp.up('form');
+		if(form.isValid())
+			form.submit();
+    }
     
 });
