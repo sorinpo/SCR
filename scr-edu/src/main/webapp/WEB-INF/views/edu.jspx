@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:sec="http://www.springframework.org/security/tags">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <jsp:output omit-xml-declaration="yes"/>
+  
+  	<script type="text/javascript">
+	
+	window.APP_SEC = {
+		
+		username : '<sec:authentication property="principal.username"/>'
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+		, isAdmin: true
+		</sec:authorize>
+		
+	}
+	</script>
+  
+	<spring:url value="/resources/js/edu/app.js" var="ext_app" />
+	<script type="text/javascript" src="${ext_app}">.</script>
+</div>

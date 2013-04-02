@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<cloudbees-web-app xmlns="http://www.cloudbees.com/xml/webapp/1">
+    
+    <appid>sorinpo/scr-edu</appid>
+    
+    <!-- context parameter to setup the correct spring profile -->
+    <context-param>
+	    <param-name>spring.profiles.active</param-name>
+	    <param-value>cloudbees</param-value>
+	</context-param>
+	
+</cloudbees-web-app>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security" 
+    xmlns:beans="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+    <!-- HTTP security configurations -->
+    <http auto-config="true" use-expressions="true">
+        <form-login login-processing-url="/resources/j_spring_security_check" login-page="/login" authentication-failure-url="/login?login_error=t" />
+        <logout logout-url="/resources/j_spring_security_logout" />
+        <intercept-url pattern="/login" access="permitAll" />
+        <!-- Configure these elements to secure URIs in your application -->
+		<!--    
+		<intercept-url pattern="/choices/**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/member/**" access="isAuthenticated()" /> 
+        -->
+        <intercept-url pattern="/resources/**" access="permitAll" />
+        <!-- 
+        <intercept-url pattern="/**" access="permitAll" />
+        -->
+        <intercept-url pattern="/**" access="isAuthenticated()" />
+    </http>
+    <!-- Configure Authentication mechanism -->
+    <authentication-manager alias="authenticationManager">
+        <!-- SHA-256 values can be produced using 'echo -n your_desired_password | sha256sum' (using normal *nix environments) -->
+        <authentication-provider>
+            <password-encoder hash="sha-256" />
+            <user-service>
+                <user name="alexandra" password='91db92ca1ec8712936531cde1c509737e9b2d922bad5c4b5bbbb82f70598b989' authorities="ROLE_ADMIN" />
+                
+                <user name='admin' password='c80194cefba53b4a38d06e32f555e1c745038550992744a876ffbe495f4f93e1' authorities='ROLE_ADMIN' />
+                <user name='ag' password='801013174f32ac0c7e7769f3c9b560765fc38bd246f15f01edee9d80f94ebf47' authorities='ROLE_USER' />
+				<user name='bv' password='d37a41e25fade34a56f0418fd413c989c392014c71ff8bd200da98afd721eae2' authorities='ROLE_USER' />
+				<user name='b' password='76a8277347f52530e1cf979175a178980b3a180d176165c985d85f7e142f1eed' authorities='ROLE_USER' />
+				<user name='cs' password='aa8ebf86720ae5dd38222ca249efee187d7ca392ec9c18d9abaf997363a774a2' authorities='ROLE_USER' />
+				<user name='ct' password='b493079ca6ed53f8369441a11d806e06d5ef0fa1ef1197d97d6d00279e09a6fb' authorities='ROLE_USER' />
+				<user name='db1' password='e9e5c570ad87711c0ddeaa4fa6624f3b80e78d14dd805e8ef17d733624a6f757' authorities='ROLE_USER' />
+				<user name='db2' password='a369d6a22fef8696346428a03ca09db81a928fde8d0382a09a201af0d729f925' authorities='ROLE_USER' />
+				<user name='dj' password='4084caecf0b20474680ed6a49cdfa92374998f7931d94288448e538078857734' authorities='ROLE_USER' />
+				<user name='hdp' password='adc0e261b5f074d424f54828b70702bf4397eef64065eb4ebc5b367005f37155' authorities='ROLE_USER' />
+				<user name='hdl' password='037da5240d2154c1e7c2c638007c66ceb43a04d3bd3d7009a9306487b27b862d' authorities='ROLE_USER' />
+				<user name='is' password='9f1cf34385aa1f130d6ed84c5998b1f63a1a327508a2c8e482bf85052a082b0d' authorities='ROLE_USER' />
+				<user name='ms' password='0f240c0703ae4491466bf5ced39ea3f2d9a12ea623b29f1546470a1278397eb4' authorities='ROLE_USER' />
+				<user name='nt' password='7f82258a1ebf7586924dcee8176d7ecd96f3c4ca93c9d10e45b7f8dc726ba2ff' authorities='ROLE_USER' />
+				<user name='sv' password='b5653731cd8ccc18b2197e8a2acd005b0d8d577e64ce9c2557e7866dd7608b54' authorities='ROLE_USER' />
+				<user name='tm' password='0ae7a41c85a9a431d5875ed17102028111442ffec998902d9bb7118169ac3194' authorities='ROLE_USER' />
+				<user name='vs' password='7b547059e09d157febdcb652fc5a0d5adfa4f20deb479a86f86e0310c10c6f9a' authorities='ROLE_USER' />
+				                
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>
