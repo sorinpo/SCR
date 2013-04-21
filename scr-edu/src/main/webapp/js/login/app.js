@@ -28,6 +28,7 @@ Ext.application({
             layout: 'fit',
             items: [{
             	xtype: 'form',
+            	id: 'loginForm',
             	autoShow: true,
             	floating: true,
             	title: 'Autentificare',
@@ -62,6 +63,23 @@ Ext.application({
             }]
             
         });
+        
+        if(window.DEV){
+        	var form = Ext.ComponentManager.get('loginForm'),
+        		bbar = form.down('toolbar');
+        	Ext.Object.each(window.DEV, function(user, pass){
+        		var button = Ext.button.Button({
+        			text: user, 
+        			handler: function(button){ 
+	        			form.down('[name=j_username]').setValue(user);
+	        			form.down('[name=j_password]').setValue(pass);
+	        			form.submit();
+    				} 
+    			});
+        		
+        		bbar.add( button );
+        	});
+        }
     },
     
     submitForm: function(childComp){

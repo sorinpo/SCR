@@ -6,24 +6,40 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import sorinpo.scr.edu.model.User;
+
 public class SecurityUtil {
 
 	public static String ROLE_ADMIN = "ROLE_ADMIN";
 	
-	public static String getCurrenUsername(){
-		 SecurityContext context = SecurityContextHolder.getContext();
-	        if (context == null)
-	            return null;
+	public static String getCurrenUsername() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		if (context == null)
+			return null;
 
-	        Authentication authentication = context.getAuthentication();
-	        if (authentication == null)
-	            return null;
-	        
-	        UserDetails principal = (UserDetails)authentication.getPrincipal();
-	        if (principal == null)
-	            return null;
-	        
-	        return principal.getUsername();
+		Authentication authentication = context.getAuthentication();
+		if (authentication == null)
+			return null;
+
+		UserDetails principal = (UserDetails) authentication.getPrincipal();
+		if (principal == null)
+			return null;
+
+		String username = principal.getUsername();
+		if (username == null)
+			return null;
+
+		return username.toUpperCase();
+	}
+
+	public static User getCurrenUser(){
+		 
+        String username = getCurrenUsername();
+        
+        if(username == null)
+        	return null;
+        
+        return User.findUsersByUsernameEquals(username.toUpperCase()).getSingleResult();
 	}
 	
 	public static boolean isAdmin(){

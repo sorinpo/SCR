@@ -7,6 +7,30 @@ import sorinpo.scr.edu.model.Participation;
 
 privileged aspect Participation_Roo_JavaBean {
     
+    public Long Participation.getPupilId() {
+        return this.pupilId;
+    }
+    
+    public void Participation.setPupilId(Long pupilId) {
+        this.pupilId = pupilId;
+    }
+    
+    public int Participation.getYear() {
+        return this.year;
+    }
+    
+    public void Participation.setYear(int year) {
+        this.year = year;
+    }
+    
+    public Activity Participation.getActivity() {
+        return this.activity;
+    }
+    
+    public void Participation.setActivity(Activity activity) {
+        this.activity = activity;
+    }
+    
     public boolean Participation.isJan() {
         return this.jan;
     }
@@ -95,12 +119,12 @@ privileged aspect Participation_Roo_JavaBean {
         this.nov = nov;
     }
     
-    public boolean Participation.isDev() {
-        return this.dev;
+    public boolean Participation.isDec() {
+        return this.dec;
     }
     
-    public void Participation.setDev(boolean dev) {
-        this.dev = dev;
+    public void Participation.setDec(boolean dec) {
+        this.dec = dec;
     }
     
 }

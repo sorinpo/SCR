@@ -22,7 +22,7 @@ Ext.define('EDU.view.pupil.List' ,{
             	}
             },
             {header: 'Ţara unde este plecat părintele', dataIndex: 'leftToCountry', flex: 1},
-            {header: 'Observații', dataIndex: 'comment', flex: 1},
+            {header: 'Observații', dataIndex: 'comment', flex: 1}/*,
             {header: 'Pregătire şcolară', dataIndex: 'school', flex: 1,
             	renderer : function(val) {
             		var html = [];
@@ -42,18 +42,18 @@ Ext.define('EDU.view.pupil.List' ,{
             		
             		return html.join();
             	}
-            }
+            }*/
         ];
         
-        if(APP_SEC.isAdmin){
-        	this.columns.push({header: 'Județ', dataIndex: 'county', flex: 1});
-        }
+//        if(APP_SEC.isAdmin){
+//        	this.columns.push({header: 'Județ', dataIndex: 'county', flex: 1});
+//        }
         
-        this.bbar = [
+        this.tbar = [
              {text: 'Adaugă', action: 'add'}
         ]
         if(APP_SEC.isAdmin){
-        	this.bbar.push({text: 'Șterge', action: 'delete'});
+        	this.tbar.push({text: 'Șterge', action: 'delete'});
         }
         
         //last call

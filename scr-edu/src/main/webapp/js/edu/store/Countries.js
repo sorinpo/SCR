@@ -4,9 +4,19 @@ Ext.define('EDU.store.Countries', {
     fields: ['name'],
     
     data : [{
+    	name: 'Austria'		
+    },{
+    	name: 'Franta'		
+    },{
+    	name: 'Germania'		
+    },{
     	name: 'Italia'
     },{
-    	name: 'spania'		
+    	name: 'Olanda'
+    },{
+    	name: 'Marea Britanie'
+    },{
+    	name: 'Spania'		
     }] 
     
 });

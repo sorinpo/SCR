@@ -1,30 +1,50 @@
 Ext.define('EDU.controller.PupilController', {
     extend: 'Ext.app.Controller',
 
-    models : [ 'Pupil' ],
+    models : [ 'Pupil', 'Participation' ],
     
-	stores : [ 'Pupils', 'Users', 'Countries' ],
+	stores : [ 'Pupils', 'Participations', 'Countries' ],
 
-	views : [ 'pupil.List', 'pupil.Edit', 'form.Participation' ],
+	views : [ 'pupil.Main', 'pupil.List', 'pupil.Edit', 'pupil.participation.Edit' ],
 
     init: function() {
-        this.control({
+        var me= this;
+    	me.control({
         	
         	'pupil_list': {
-                itemdblclick: this.editPupil
+                itemdblclick: me.editPupil,
+                
+                select : me.pupilSelected,
+                
+                afterrender: function(grid){
+                	grid.getStore().load();
+                	
+                	me.mon(ParamManager, 'change', function(paramName, newValue){
+    		        	if(paramName == "activeYear" || paramName == "runas"){
+    		        		var pForm = grid.up('pupil_main').down('pupil_participation_edit');
+    		        		pForm.setDisabled(true);
+    		        		grid.getStore().load();
+    		        	}
+    		        });
+                }
             },
         
         	'pupil_list [action=add]': {
-        		click : this.addPupil
+        		click : me.addPupil
         	},
         	
         	'pupil_list [action=delete]': {
-        		click : this.deletePupil
+        		click : me.deletePupil
         	},
         	
         	'pupil_edit [action=save]': {
-        		click : this.savePupil
+        		click : me.savePupil
+        	},
+        	
+        	'pupil_participation_edit [action=save]': {
+        		click : me.saveParticipation
         	}
+        	
         });
     },
 
@@ -32,9 +52,7 @@ Ext.define('EDU.controller.PupilController', {
         var view = Ext.widget('pupil_edit'),
         	record = Ext.create('EDU.model.Pupil');
 
-        if(!APP_SEC.isAdmin){
-        	record.set('county', APP_SEC.username.toUpperCase());
-        }
+        record.set('owner', APP_SEC.runas);
         
         view.down('form').loadRecord(record);
     },
@@ -49,7 +67,7 @@ Ext.define('EDU.controller.PupilController', {
     	var win    = button.up('window'),
 	        form   = win.down('form'),
 	        record = form.getRecord(),
-	        values = this.inflate(form.getValues()),
+	        values = Helpers.inflate(form.getValues()),
 	        store = this.getPupilsStore();
 
     	record.set(values);
@@ -74,49 +92,30 @@ Ext.define('EDU.controller.PupilController', {
     	}
     },
     
-    //private 
-    inflate: function(data){
-    	var ret;
+    pupilSelected: function(rowModel, record) {
     	
-    	if(Ext.isArray(data)){
-    		ret = [];
-    		
-    		Ext.Array.Each(data, function(item) {
-    			
-    			ret.push( this.inflate(item) );
-    		});
-    		
-    	} else if(Ext.isObject(data)){
-    		
-    		ret = {};
-    		
-    		Ext.Object.each(data, function(key, value){
-    			
-    			var obj = ret,
-    				keyArray = key.split('.'),
-    				lastKey = keyArray.pop();
-    			
-    			Ext.Array.each(keyArray, function(prop){
-    				
-    				if(typeof obj[prop] === "undefined") {
-    					obj[prop] = {};    					
-    				}
-    				
-    				obj = obj[prop];
-    				
-    			});
-    			
-    			obj[lastKey] = value;
-    			
-    		});
-    		
-    	} else {
-    		
-    		ret = data;
-    		
-    	}
+    	var pForm = rowModel.view.up('pupil_main').down('pupil_participation_edit');
     	
-    	return ret;
+    	pForm.setDisabled(false);
+    	
+    	EDU.model.Participation.load(record.getId(), {
+    		scope: this,
+    	    failure: Helpers.operationFailed,
+    	    success: function(record){
+    	    	pForm.loadRecord(record);
+    	    }
+    	});
+    	
+    },
+    
+    saveParticipation: function(button) {
+    	var form    = button.up('form'),
+	        record = form.getRecord(),
+	        values = Helpers.inflate(form.getValues());
+
+    	record.set(values);
+    	
+    	record.save();
     	
     }
 });

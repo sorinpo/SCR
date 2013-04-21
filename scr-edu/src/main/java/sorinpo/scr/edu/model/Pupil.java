@@ -1,7 +1,5 @@
 package sorinpo.scr.edu.model;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
@@ -13,7 +11,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooJson
-@RooJpaActiveRecord(finders = { "findPupilsByCountyEquals" })
+@RooJpaActiveRecord(finders = { "findPupilsByOwner" })
 public class Pupil {
 
     private String name;
@@ -25,25 +23,8 @@ public class Pupil {
     
     private String comment;
     
-    private String county;
-    
-    @Embedded
-    private Participation school;
-    
-    @Embedded
-    private Participation extra;
-    
-    @Embedded
-    private Participation group;
-    
-    @Embedded
-    private Participation individual;
-    
-    @Embedded
-    private Participation online;
-    
-    @Embedded
-    private Participation discussion;
+    //the username that owns the data
+    private String owner;
     
     //meta
     private boolean deleteRequested;

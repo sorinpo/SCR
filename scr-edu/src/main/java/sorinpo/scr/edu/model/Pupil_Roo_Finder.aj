@@ -9,11 +9,11 @@ import sorinpo.scr.edu.model.Pupil;
 
 privileged aspect Pupil_Roo_Finder {
     
-    public static TypedQuery<Pupil> Pupil.findPupilsByCountyEquals(String county) {
-        if (county == null || county.length() == 0) throw new IllegalArgumentException("The county argument is required");
+    public static TypedQuery<Pupil> Pupil.findPupilsByOwner(String owner) {
+        if (owner == null || owner.length() == 0) throw new IllegalArgumentException("The owner argument is required");
         EntityManager em = Pupil.entityManager();
-        TypedQuery<Pupil> q = em.createQuery("SELECT o FROM Pupil AS o WHERE o.county = :county", Pupil.class);
-        q.setParameter("county", county);
+        TypedQuery<Pupil> q = em.createQuery("SELECT o FROM Pupil AS o WHERE o.owner = :owner", Pupil.class);
+        q.setParameter("owner", owner);
         return q;
     }
     

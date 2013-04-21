@@ -11,9 +11,11 @@
   		<link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext/gpl/4.2.0/resources/css/ext-all.css" />
 		<script type="text/javascript" src="http://cdn.sencha.com/ext/gpl/4.2.0/bootstrap.js">.</script>
 		
+		
 		<sec:authorize access="isAuthenticated()">
 	  	<script type="text/javascript">
-		window.APP_SEC = {
+	  	
+	  	window.APP_SEC = {
 			
 			username : '<sec:authentication property="principal.username"/>'
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -23,6 +25,19 @@
 		}
 		</script>
 		</sec:authorize>
+		<script type="text/javascript">
+		window.SERVER_ROOT = '<spring:url value="/" />'
+		</script>
+		
+		<spring:eval expression="@props.dev" var="dev"/>
+		<c:if test="${dev}">
+		<script type="text/javascript">
+		window.DEV = {
+			'admin' : 'alexandra',
+			'ag' : 'ag1'
+		}
+		</script>
+		</c:if>
 		
 		<title>Creștem împreună</title>
 	</head>
