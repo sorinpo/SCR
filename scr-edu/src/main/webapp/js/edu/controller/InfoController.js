@@ -87,7 +87,7 @@ Ext.define('EDU.controller.InfoController', {
 
     	record.set(values);
     	record.save();
-    },
+    }
     
 });
 
