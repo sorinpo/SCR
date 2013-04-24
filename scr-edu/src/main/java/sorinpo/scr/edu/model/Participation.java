@@ -1,6 +1,7 @@
 package sorinpo.scr.edu.model;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
@@ -19,16 +20,24 @@ public class Participation {
     @Column
     private int year;
 
+    @Embedded
     private ActivityData school;
+    @Embedded
     private ActivityData freeTime;
+    @Embedded
     private ActivityData extraSchool;
+    @Embedded
     private ActivityData groupCounseling;
+    @Embedded
     private ActivityData individualCounseling;
+    @Embedded
     private ActivityData parentalCommunication;
+    @Embedded
     private ActivityData localMeetings;
     
 	public Participation(long pupilId, int year) {
-		// TODO Auto-generated constructor stub
+		this.pupilId = pupilId;
+		this.year = year;
 	}
 
 	public void initializeActivityData() {
