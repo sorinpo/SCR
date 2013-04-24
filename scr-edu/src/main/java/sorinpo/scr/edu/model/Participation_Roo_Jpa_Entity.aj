@@ -24,6 +24,10 @@ privileged aspect Participation_Roo_Jpa_Entity {
     @Column(name = "version")
     private Integer Participation.version;
     
+    public Participation.new() {
+        super();
+    }
+
     public Long Participation.getId() {
         return this.id;
     }

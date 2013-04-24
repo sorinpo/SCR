@@ -13,7 +13,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJpaActiveRecord(finders = { "findInfoesByUserIdAndYear" })
 public class Info {
 	
-	public Info(Long userId, int year){
+	public Info(long userId, int year){
 		this.userId = userId;
 		this.year = year;
 	}
@@ -50,15 +50,5 @@ public class Info {
 //	Collection<String> links;
 	
 	String links;
-	
-//	public enum InfoType {
-//		BENEFICIARI_INDIRECTI,
-//		VOLUNTARI_IMPLICATI,
-//		INTALNIRI_GRUPURI_LUCRU,
-//		PARTICIPANTI_GRUPURI_LUCRU,
-//		CONFERINTE_ORGANIZATE,
-//		PARTICIPANTI_CONFERINTE,
-//		APARITII_PRESA
-//	}
 
 }

@@ -3,17 +3,16 @@ package sorinpo.scr.edu.model;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import org.springframework.roo.addon.equals.RooEquals;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.json.RooJson;
-import org.springframework.roo.addon.tostring.RooToString;
 
 @RooJavaBean
-@RooToString
+@RooEquals
 @RooJson
 @RooJpaActiveRecord(finders = { "findPupilsByOwner" })
 public class Pupil {
-
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -30,8 +29,8 @@ public class Pupil {
     private boolean deleteRequested;
     private boolean unlockRequested;
     private boolean locked;
-    
+   
     public static enum ParentState {
-    	MOTHER, FATHER, BOTH
+    	MOTHER, FATHER, BOTH, NONE
     }
 }

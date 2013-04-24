@@ -13,13 +13,15 @@ Ext.define('EDU.view.pupil.Main' ,{
         this.items = [{
         	xtype: 'pupil_list',
         	region: 'center',
-        	flex : 4
+        	flex : 5
         },{
         	xtype: 'pupil_participation_edit',
     	    collapsible: true,
     	    disabled: true,
         	region: 'east',
-        	flex: 1
+        	flex: 2,
+        	overflowX: 'auto',
+        	overflowY: 'auto'
         }];
         
         //last call

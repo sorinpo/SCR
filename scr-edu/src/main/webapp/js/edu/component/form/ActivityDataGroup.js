@@ -1,9 +1,8 @@
-Ext.define('EDU.component.form.ParticipationGroup', {
+Ext.define('EDU.component.form.ActivityDataGroup', {
     extend:'Ext.form.CheckboxGroup',
 
-    alias: 'widget.participation',
-    requires: ['Ext.layout.container.CheckboxGroup', 'Ext.form.field.Base'],
-    
+    alias: 'widget.activity',
+     
     initComponent: function() {
         
     	this.items = [

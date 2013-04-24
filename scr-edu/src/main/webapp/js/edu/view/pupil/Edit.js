@@ -38,7 +38,7 @@ Ext.define('EDU.view.pupil.Edit', {
                 name : 'comment',
                 fieldLabel: 'Observații'
             }/*,{
-                xtype: 'participation',
+                xtype: 'activity',
                 name : 'school',
                 columns: 3,
                 fieldLabel: 'Pregătire şcolară'

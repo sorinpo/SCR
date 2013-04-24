@@ -120,7 +120,8 @@ Ext.application({
     
     controllers : [
         'InfoController',
-        'PupilController'
+        'PupilController',
+        'ImportController'
     ],
     
     launch: function() {
@@ -193,7 +194,7 @@ Ext.application({
 	            	xtype: 'pupil_main',
 	            	title: 'Informații beneficiari'
 	            },{
-	            	xtype: 'panel',
+	            	xtype: 'import',
 	            	title: 'Admin'
 	            }]
 	            

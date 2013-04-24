@@ -1,19 +1,40 @@
 Ext.define('EDU.view.pupil.participation.Edit', {
     extend: 'Ext.form.Panel',
     
-    requires : ['EDU.component.form.ParticipationGroup'],
+    requires : ['EDU.component.form.ActivityDataGroup'],
     
     alias: 'widget.pupil_participation_edit',
 
     title: 'Participare activități',
     
+    defaults : {
+    	xtype: 'activity',
+    	columns: 6,
+    	labelAlign: 'top'
+    },
+    
     initComponent: function() {
         this.items = [{
-            xtype: 'participation',
             name : 'school',
-            columns: 3,
-            fieldLabel: 'Pregătire şcolară',
-            labelAlign: "top"
+            fieldLabel: 'Pregătire şcolară'
+        },{
+            name : 'freeTime',
+            fieldLabel: 'Activităţi şcolare de timp liber'
+        },{
+            name : 'extraSchool',
+            fieldLabel: 'Activităţi extraşcolare'
+        },{
+            name : 'groupCounseling',
+            fieldLabel: 'Consiliere psihologica de grup'
+        },{
+            name : 'individualCounseling',
+            fieldLabel: 'Consiliere psihologica  individuală'
+        },{
+            name : 'parentalCommunication',
+            fieldLabel: 'Comunicare cu părinţii plecati'
+        },{
+            name : 'localMeetings',
+            fieldLabel: 'Întâlniri cu părinţii sau cei care au grija de copil în tara'
         }];
 
         this.tbar = [

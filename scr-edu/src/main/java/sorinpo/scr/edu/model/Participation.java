@@ -1,8 +1,6 @@
 package sorinpo.scr.edu.model;
 
 import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
@@ -20,25 +18,26 @@ public class Participation {
 	
     @Column
     private int year;
+
+    private ActivityData school;
+    private ActivityData freeTime;
+    private ActivityData extraSchool;
+    private ActivityData groupCounseling;
+    private ActivityData individualCounseling;
+    private ActivityData parentalCommunication;
+    private ActivityData localMeetings;
     
-    @Enumerated(EnumType.STRING)
-    private Activity activity;
-    
-    private boolean jan;
-    private boolean feb;
-    private boolean mar;
-    private boolean apr;
-    private boolean may;
-    private boolean jun;
-    private boolean jul;
-    private boolean aug;
-    private boolean sep;
-    private boolean oct;
-    private boolean nov;
-    @Column(name="dcm")
-    private boolean dec;
-    
-    public static enum Activity {
-    	SCHOOL, EXTRA, GROUP, INDIVIDUAL, ONLINE, DISCUSSION
-    }
+	public Participation(long pupilId, int year) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void initializeActivityData() {
+		school = new ActivityData();
+		freeTime = new ActivityData();
+		extraSchool = new ActivityData();
+		groupCounseling = new ActivityData();
+		individualCounseling = new ActivityData();
+		parentalCommunication = new ActivityData();
+		localMeetings = new ActivityData();
+	}
 }

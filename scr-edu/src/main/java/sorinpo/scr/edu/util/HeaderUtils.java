@@ -11,4 +11,10 @@ public class HeaderUtils {
         return headers;
 	}
 	
+	public static HttpHeaders htmlHeaders(){
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "text/html; charset=utf-8");
+        return headers;
+	}
+	
 }

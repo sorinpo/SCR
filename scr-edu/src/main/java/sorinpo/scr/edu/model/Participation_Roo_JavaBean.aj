@@ -3,6 +3,7 @@
 
 package sorinpo.scr.edu.model;
 
+import sorinpo.scr.edu.model.ActivityData;
 import sorinpo.scr.edu.model.Participation;
 
 privileged aspect Participation_Roo_JavaBean {
@@ -23,108 +24,60 @@ privileged aspect Participation_Roo_JavaBean {
         this.year = year;
     }
     
-    public Activity Participation.getActivity() {
-        return this.activity;
+    public ActivityData Participation.getSchool() {
+        return this.school;
     }
     
-    public void Participation.setActivity(Activity activity) {
-        this.activity = activity;
+    public void Participation.setSchool(ActivityData school) {
+        this.school = school;
     }
     
-    public boolean Participation.isJan() {
-        return this.jan;
+    public ActivityData Participation.getFreeTime() {
+        return this.freeTime;
     }
     
-    public void Participation.setJan(boolean jan) {
-        this.jan = jan;
+    public void Participation.setFreeTime(ActivityData freeTime) {
+        this.freeTime = freeTime;
     }
     
-    public boolean Participation.isFeb() {
-        return this.feb;
+    public ActivityData Participation.getExtraSchool() {
+        return this.extraSchool;
     }
     
-    public void Participation.setFeb(boolean feb) {
-        this.feb = feb;
+    public void Participation.setExtraSchool(ActivityData extraSchool) {
+        this.extraSchool = extraSchool;
     }
     
-    public boolean Participation.isMar() {
-        return this.mar;
+    public ActivityData Participation.getGroupCounseling() {
+        return this.groupCounseling;
     }
     
-    public void Participation.setMar(boolean mar) {
-        this.mar = mar;
+    public void Participation.setGroupCounseling(ActivityData groupCounseling) {
+        this.groupCounseling = groupCounseling;
     }
     
-    public boolean Participation.isApr() {
-        return this.apr;
+    public ActivityData Participation.getIndividualCounseling() {
+        return this.individualCounseling;
     }
     
-    public void Participation.setApr(boolean apr) {
-        this.apr = apr;
+    public void Participation.setIndividualCounseling(ActivityData individualCounseling) {
+        this.individualCounseling = individualCounseling;
     }
     
-    public boolean Participation.isMay() {
-        return this.may;
+    public ActivityData Participation.getParentalCommunication() {
+        return this.parentalCommunication;
     }
     
-    public void Participation.setMay(boolean may) {
-        this.may = may;
+    public void Participation.setParentalCommunication(ActivityData parentalCommunication) {
+        this.parentalCommunication = parentalCommunication;
     }
     
-    public boolean Participation.isJun() {
-        return this.jun;
+    public ActivityData Participation.getLocalMeetings() {
+        return this.localMeetings;
     }
     
-    public void Participation.setJun(boolean jun) {
-        this.jun = jun;
-    }
-    
-    public boolean Participation.isJul() {
-        return this.jul;
-    }
-    
-    public void Participation.setJul(boolean jul) {
-        this.jul = jul;
-    }
-    
-    public boolean Participation.isAug() {
-        return this.aug;
-    }
-    
-    public void Participation.setAug(boolean aug) {
-        this.aug = aug;
-    }
-    
-    public boolean Participation.isSep() {
-        return this.sep;
-    }
-    
-    public void Participation.setSep(boolean sep) {
-        this.sep = sep;
-    }
-    
-    public boolean Participation.isOct() {
-        return this.oct;
-    }
-    
-    public void Participation.setOct(boolean oct) {
-        this.oct = oct;
-    }
-    
-    public boolean Participation.isNov() {
-        return this.nov;
-    }
-    
-    public void Participation.setNov(boolean nov) {
-        this.nov = nov;
-    }
-    
-    public boolean Participation.isDec() {
-        return this.dec;
-    }
-    
-    public void Participation.setDec(boolean dec) {
-        this.dec = dec;
+    public void Participation.setLocalMeetings(ActivityData localMeetings) {
+        this.localMeetings = localMeetings;
     }
     
 }

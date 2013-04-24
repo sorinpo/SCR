@@ -2,10 +2,7 @@ package sorinpo.scr.edu.controller;
 
 import static sorinpo.scr.edu.util.HeaderUtils.headers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import sorinpo.scr.edu.dto.ParticipationsDTO;
 import sorinpo.scr.edu.model.Participation;
-import sorinpo.scr.edu.model.Participation.Activity;
 import sorinpo.scr.edu.model.Pupil;
 import sorinpo.scr.edu.util.SecurityUtil;
 
@@ -33,63 +28,60 @@ public class ParticipationController {
 		Pupil pupil = Pupil.findPupil(pupilId);
 		
 		if(pupil==null){
-			return new ResponseEntity<String>(headers(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
 		}
 		
         if(!SecurityUtil.isAdmin() && !SecurityUtil.getCurrenUsername().equals(pupil.getOwner()) ){
         	return new ResponseEntity<String>(headers(), HttpStatus.FORBIDDEN);
         } 
         
-        List<Participation> ps = Participation.findParticipationsByPupilIdAndYear(pupilId, year).getResultList();
+        Participation p;
+		try {
+			p = Participation.findParticipationsByPupilIdAndYear(pupil.getId(), year)
+					.getSingleResult();
+		} catch (EmptyResultDataAccessException e) {
+			p = new Participation(pupil.getId(), year);
+			p.initializeActivityData();
+		}
         		
-        return new ResponseEntity<String>(new ParticipationsDTO(pupilId, year, ps).toJson(), headers(), HttpStatus.OK);
+        return new ResponseEntity<String>(p.toJson(), headers(), HttpStatus.OK);
     }
     
     @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT} , headers = "Accept=application/json")
     public ResponseEntity<String> createOrUpdateFromJson(@RequestBody String json) {
     
-    	ParticipationsDTO pdto = ParticipationsDTO.fromJsonToParticipationDTO(json);
-    	Map<Activity, Participation> map = pdto.toMap();
+    	Participation p = Participation.fromJsonToParticipation(json);
     	
-    	Long pupilId = pdto.getId();
-    	int year = pdto.getYear();
+    	Long pupilId = p.getPupilId();
+    	int year = p.getYear();
+    	if(pupilId==null || year == 0){
+			return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
+		}
     	
-    	if(pupilId==null || year==0){
-    		return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
-    	}
-    		
+		Pupil pupil = Pupil.findPupil(pupilId);
+		
+		if(pupil==null){
+			return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
+		}
+		
+        if(!SecurityUtil.isAdmin() && !SecurityUtil.getCurrenUsername().equals(pupil.getOwner()) ){
+        	return new ResponseEntity<String>(headers(), HttpStatus.FORBIDDEN);
+        } 
     	
-    	List<Participation> ps = Participation.findParticipationsByPupilIdAndYear(pupilId, year).getResultList();
     	
-    	for(Participation oldP: ps){
-    		
-    		if(map.containsKey(oldP.getActivity())){
-    			
-    			Participation newP = map.get(oldP.getActivity());
-    			newP.setId(oldP.getId());
-    			newP.setVersion(oldP.getVersion());
-    			
-    		}
-    		
-    	}
+		if (null != p.getId()) {
+
+			if ((p = p.merge()) == null) {
+				return new ResponseEntity<String>(headers(),
+						HttpStatus.NOT_FOUND);
+			}
+
+		} else {
+			// TODO check that the current user has the right to modify the existing participation data
+			p.persist();
+		}
     	
-    	ps = new ArrayList<Participation>();
-    	
-    	for(Participation newP: map.values()){
-    		
-    		newP.setPupilId(pupilId);
-    		newP.setYear(year);
-    		
-    		if(newP.getId()!=null){
-    			newP = newP.merge();
-    		} else {
-    			newP.persist();
-    		}
-    		
-    		ps.add(newP);
-    	}
-    	
-    	return new ResponseEntity<String>(new ParticipationsDTO(pupilId, year, ps).toJson(), headers(), HttpStatus.OK);
+    	return new ResponseEntity<String>(p.toJson(), headers(), HttpStatus.OK);
     	
     }
 	
