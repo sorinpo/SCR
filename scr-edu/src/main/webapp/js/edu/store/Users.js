@@ -9,8 +9,6 @@ Ext.define('EDU.store.Users', {
         reader: {
             type: 'json'
         }
-    },
-
-	autoLoad: true
+    }
     
 });

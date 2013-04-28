@@ -1,7 +1,11 @@
 package sorinpo.scr.edu.model;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
@@ -11,7 +15,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooJson
-@RooJpaActiveRecord(finders = { "findParticipationsByPupilIdAndYear" })
+@RooJpaActiveRecord(finders = { "findParticipationsByPupilIdAndYear", "findParticipationsByYear" })
 public class Participation {
 
 	@Column
@@ -49,4 +53,14 @@ public class Participation {
 		parentalCommunication = new ActivityData();
 		localMeetings = new ActivityData();
 	}
+	
+	public static TypedQuery<Participation> findParticipationsByPupilIdsAndYear(Collection<Long> pupilIds, int year) {
+        if (pupilIds == null || pupilIds.size()==0) throw new IllegalArgumentException("The pupilIds argument is required");
+        EntityManager em = Participation.entityManager();
+        TypedQuery<Participation> q = em.createQuery("SELECT o FROM Participation AS o WHERE o.pupilId IN :pupilIds AND o.year = :year", Participation.class);
+        q.setParameter("pupilIds", pupilIds);
+        q.setParameter("year", year);
+        return q;
+    }
+	
 }

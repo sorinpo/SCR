@@ -2,18 +2,20 @@ package sorinpo.scr.edu.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 
+import sorinpo.scr.edu.dto.PupilParticipation;
 import sorinpo.scr.edu.model.ActivityData;
 import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
@@ -26,9 +28,9 @@ public class ImportService {
 	private static final int SKIP_ROWS = 2;
 	private static final int SKIP_COLLS = 1;
 	
-	public Map<Pupil,Participation> readPupils(InputStream in, int numMonths) throws ImportException {
+	public Collection<PupilParticipation> readPupilParticipations(InputStream in, int numMonths) throws ImportException {
 		
-		HashMap<Pupil, Participation> result = new LinkedHashMap<Pupil,Participation>();
+		List<PupilParticipation> result = new ArrayList<PupilParticipation>();
 		
 		try {
 			
@@ -41,8 +43,9 @@ public class ImportService {
 			}
 			
 			Sheet sheet = wb.getSheetAt(SHEET_INDEX);
-			if(sheet==null)
+			if(sheet==null){
 				throw new ImportException("Sheet-ul cu indice " + (SHEET_INDEX+1) + " nu există");
+			}
 			
 			boolean foundHeader = false;
 			boolean foundEmptyNumeSiPrenume = false;
@@ -51,7 +54,8 @@ public class ImportService {
 				if(rowIndex < SKIP_ROWS){
 					if(!foundHeader){
 						Cell cell = row.getCell(SKIP_COLLS, Row.RETURN_BLANK_AS_NULL);
-						if(cell!=null && cell.getCellType()==Cell.CELL_TYPE_STRING  && "Nume și prenume".equalsIgnoreCase(cell.getStringCellValue()) ){
+						if(cell!=null && cell.getCellType()==Cell.CELL_TYPE_STRING && 
+								"Nume și prenume".equalsIgnoreCase(getStringNorm(cell))){
 							foundHeader = true;
 						}
 					}
@@ -72,24 +76,30 @@ public class ImportService {
 				}
 				
 				Pupil pupil = new Pupil();
-				pupil.setName(cell.getStringCellValue().trim());
+				pupil.setName(getStringNorm(cell));
 				
 				boolean mama = readBoolean( row.getCell(SKIP_COLLS+1 , Row.RETURN_BLANK_AS_NULL));
 				boolean tata = readBoolean( row.getCell(SKIP_COLLS+2 , Row.RETURN_BLANK_AS_NULL));
-				boolean ambii = readBoolean( row.getCell(SKIP_COLLS+3 , Row.RETURN_BLANK_AS_NULL));
+				
+				cell = row.getCell(SKIP_COLLS+3 , Row.RETURN_BLANK_AS_NULL);
+				boolean ambii = readBoolean( cell );
 				
 				if((ambii && mama) || (mama && tata)  || (ambii && tata))
 					throw new InvalidParentalStatusException("Randul cu numarul " + (rowIndex+1) + " nu are bifata doar una dintre celulele cu parintii plecati");
 				
 				pupil.setParentState(ambii?ParentState.BOTH: mama?ParentState.MOTHER: tata?ParentState.FATHER : ParentState.NONE);
 				
+				Comment comment = cell.getCellComment();
+				if(comment!=null){
+					pupil.setComment(comment.getString().getString().substring(comment.getAuthor().length()+2));
+				}
+				
 				cell = row.getCell(SKIP_COLLS+4, Row.RETURN_BLANK_AS_NULL);
-				pupil.setLeftToCountry(cell==null?null:cell.getStringCellValue());
+				pupil.setLeftToCountry(getStringNorm(cell));
 				
 				//participations
 				
 				Participation p = new Participation();
-				ActivityData a;
 				
 				p.setSchool( readParticipation(SKIP_COLLS+5+numMonths*0, row, numMonths));
 				
@@ -105,7 +115,7 @@ public class ImportService {
 				
 				p.setLocalMeetings( readParticipation(SKIP_COLLS+5+numMonths*6, row, numMonths));
 				
-				result.put(pupil, p);
+				result.add(new PupilParticipation(pupil, p));
 			}
 			
 		} catch (InvalidFormatException e) {
@@ -178,6 +188,19 @@ public class ImportService {
 		}
 		
 		throw new ImportException("N-am putut interpeta valoare de adevar a celulei de pe randul " + (cell.getRowIndex() + 1) + " si coloana " + (cell.getColumnIndex() + 1) );
+	}
+	
+	private static String getStringNorm(Cell cell){
+		
+		if(cell==null)
+			return null;
+		
+		if(cell.getCellType() != Cell.CELL_TYPE_STRING){
+			throw new IllegalArgumentException("The cell is not a string type cell");
+		}
+		
+		return Utils.replaceCedilles(cell.getStringCellValue().trim());
+		
 	}
 	
 	

@@ -18,4 +18,11 @@ privileged aspect Participation_Roo_Finder {
         return q;
     }
     
+    public static TypedQuery<Participation> Participation.findParticipationsByYear(int year) {
+        EntityManager em = Participation.entityManager();
+        TypedQuery<Participation> q = em.createQuery("SELECT o FROM Participation AS o WHERE o.year = :year", Participation.class);
+        q.setParameter("year", year);
+        return q;
+    }
+    
 }

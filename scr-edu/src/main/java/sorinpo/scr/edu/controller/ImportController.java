@@ -4,8 +4,7 @@ import static sorinpo.scr.edu.util.HeaderUtils.headers;
 import static sorinpo.scr.edu.util.HeaderUtils.htmlHeaders;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import sorinpo.scr.edu.dto.ActionResponse;
+import sorinpo.scr.edu.dto.PupilParticipation;
 import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
 import sorinpo.scr.edu.model.User;
@@ -54,9 +54,9 @@ public class ImportController {
 			return new ResponseEntity<String>(new ActionResponse(false, "Fișierul este gol").toJson(), htmlHeaders(), HttpStatus.BAD_REQUEST);
 		}
 		
-		Map<Pupil, Participation> pupilMap;
+		Collection<PupilParticipation> ppList;
 		try {
-			pupilMap = importService.readPupils(file.getInputStream(), 3);
+			ppList = importService.readPupilParticipations(file.getInputStream(), 3);
 		} catch (ImportException e){
 			log.warn(e.getMessage(), e);
 			return new ResponseEntity<String>(new ActionResponse(false,e.getMessage()).toJson(), htmlHeaders(), HttpStatus.BAD_REQUEST);
@@ -65,15 +65,15 @@ public class ImportController {
 			return new ResponseEntity<String>(new ActionResponse(false, "A aparut o eroare necunoscuta: " + e.getMessage()).toJson(), htmlHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		for(Entry<Pupil, Participation> entry: pupilMap.entrySet()){
-			Pupil pupil = entry.getKey();
+		for(PupilParticipation pp: ppList){
+			Pupil pupil = pp.getPupil();
 			pupil.setOwner(username);
 			pupil.persist();
 			
-			Participation p = entry.getValue();
-			p.setPupilId(pupil.getId());
-			p.setYear(year);
-			p.persist();
+			Participation part = pp.getParticipation();
+			part.setPupilId(pupil.getId());
+			part.setYear(year);
+			part.persist();
 		}
 		
 		return new ResponseEntity<String>(new ActionResponse(true).toJson(), htmlHeaders(),

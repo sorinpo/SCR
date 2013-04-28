@@ -10,6 +10,10 @@ Ext.Loader.setConfig({
 Ext.namespace('Helpers');
 Helpers = {
     
+	criticalOperationFailed : function(){
+		alert("NASOL");
+	},	
+		
 	operationFailed : function(){
 		console.log("NASOL");
 	},
@@ -107,7 +111,7 @@ Ext.application({
     
     appFolder : 'resources/js/edu',
     
-    requires : [ 'EDU.component.ParamManager' ],
+    requires : [ 'EDU.component.ParamManager', 'EDU.component.Counter' ],
     
     models : [
          'Config'     
@@ -121,18 +125,28 @@ Ext.application({
     controllers : [
         'InfoController',
         'PupilController',
-        'ImportController'
+        'ImportController',
+        'ReportController'
     ],
     
     launch: function() {
     
+    	var me=this,
+    		counter = new Counter({ counter: 2, handler: me.loadViewport, scope: me });
+    	
     	ParamManager.set('runas', window.APP_SEC.runas);
     	ParamManager.set('activeYear', (new Date()).getFullYear());
     	
+    	me.getStore('Users').load({
+    		//XXX
+    		callback: counter.down,
+    		scope: counter
+		});
+    	
     	EDU.model.Config.load(null, {
-    	    scope: this,
-    	    failure: Helpers.operationFailed,
-    	    success: this.loadViewport
+    		success: counter.down,
+    	    failure: Helpers.criticalOperationFailed,
+    	    scope: counter
     	});
     	        
     },
@@ -194,10 +208,20 @@ Ext.application({
 	            	xtype: 'pupil_main',
 	            	title: 'Informații beneficiari'
 	            },{
-	            	xtype: 'import',
-	            	title: 'Admin'
+	            	xtype: 'panel',
+	            	title: 'Admin',
+	            	items : [{
+	            		xtype: 'import',
+	            		title: 'Import date din teritoriu'
+	            	},{
+	            		xtype: 'report',
+	            		title: 'Raportare'
+	            	}]
 	            }]
 	            
+	        },{
+	        	xtype: 'component',
+	        	html: '<iframe id="download_frame"> </iframe>'
 	        }]
             
         });
