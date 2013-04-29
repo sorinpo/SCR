@@ -43,4 +43,14 @@ public class Pupil {
         q.setParameter("owners", owners);
         return q;
     }
+    
+    public static TypedQuery<Pupil> findPupilsByNameInAndOwner(Collection<String> names, String owner) {
+        if (names == null || names.size() == 0) throw new IllegalArgumentException("The names argument is required");
+        if (owner == null) throw new IllegalArgumentException("The owner argument is required");
+        EntityManager em = Pupil.entityManager();
+        TypedQuery<Pupil> q = em.createQuery("SELECT o FROM Pupil AS o WHERE o.name IN :names AND o.owner = :owner", Pupil.class);
+        q.setParameter("names", names);
+        q.setParameter("owner", owner);
+        return q;
+    }
 }

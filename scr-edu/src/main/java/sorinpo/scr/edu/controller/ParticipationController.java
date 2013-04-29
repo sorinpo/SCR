@@ -2,7 +2,6 @@ package sorinpo.scr.edu.controller;
 
 import static sorinpo.scr.edu.util.HeaderUtils.headers;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,11 +34,8 @@ public class ParticipationController {
         	return new ResponseEntity<String>(headers(), HttpStatus.FORBIDDEN);
         } 
         
-        Participation p;
-		try {
-			p = Participation.findParticipationsByPupilIdAndYear(pupil.getId(), year)
-					.getSingleResult();
-		} catch (EmptyResultDataAccessException e) {
+        Participation p = Participation.getParticipationsByPupilIdAndYear(pupil.getId(), year);
+		if(p == null) {
 			p = new Participation(pupil.getId(), year);
 			p.initializeActivityData();
 		}

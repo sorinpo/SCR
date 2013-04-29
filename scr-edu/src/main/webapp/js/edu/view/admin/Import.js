@@ -16,18 +16,18 @@ Ext.define('EDU.view.admin.Import', {
     	xtype : 'radiogroup',
     	fieldLabel: 'Comportament in caz de conflicte',
     	items : [{
-    		boxLabel: 'Pastreaza datele existente',
-    		name: 'mode',
-    		inputValue: 'KEEP',
+    		boxLabel: 'Suprascrie datele existente',
+    		name: 'strategy',
+    		inputValue: 'OVERWRITE',
     		checked: true
     	},{
-    		boxLabel: 'Abandoneaza',
-    		name: 'mode',
-    		inputValue: 'ABORT'
+    		boxLabel: 'Pastreaza datele existente',
+    		name: 'strategy',
+    		inputValue: 'KEEP'
     	},{
-    		boxLabel: 'Suprascrie datele existente',
-    		name: 'mode',
-    		inputValue: 'OVERWRITE'
+    		boxLabel: 'Abandoneaza',
+    		name: 'strategy',
+    		inputValue: 'ABORT'
     	}]
     },{
         xtype: 'filefield',

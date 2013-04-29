@@ -25,7 +25,7 @@ Ext.define('EDU.controller.ImportController', {
                 params: {'owner' : ParamManager.get('runas'), 'year' : ParamManager.get('activeYear') },
                 success: function(fp, o) {
                 	Ext.StoreManager.get('Pupils').load();
-                    Ext.Msg.alert('Succes', 'Fișierul a fost încărcat cu succes.');
+                    Ext.Msg.alert('Succes', 'Fișierul a fost încărcat cu succes: ' + o.result.message);
                 },
                 failure: function(fp, o) {
                     Ext.Msg.alert('Eroare', 'Serverul raporteaza o eroare: ' + o.result.message);

@@ -4,7 +4,11 @@ import static sorinpo.scr.edu.util.HeaderUtils.headers;
 import static sorinpo.scr.edu.util.HeaderUtils.htmlHeaders;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +43,7 @@ public class ImportController {
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<String> createOrUpdateFromJson(
-			@RequestParam("file") MultipartFile file, @RequestParam("owner") String username, @RequestParam("year") int year) {
+			@RequestParam("file") MultipartFile file, @RequestParam("owner") String username, @RequestParam("year") int year, @RequestParam("strategy") Strategy strategy) {
 
 		if (!SecurityUtil.isAdmin()) {
 			return new ResponseEntity<String>(new ActionResponse(false).toJson(), htmlHeaders(), HttpStatus.FORBIDDEN);
@@ -65,18 +69,62 @@ public class ImportController {
 			return new ResponseEntity<String>(new ActionResponse(false, "A aparut o eroare necunoscuta: " + e.getMessage()).toJson(), htmlHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
+		Collection<String> names = new ArrayList<String>();
+		for(PupilParticipation pp: ppList){
+			names.add(pp.getPupil().getName());
+		}
+		List<Pupil> oldPupils = Pupil.findPupilsByNameInAndOwner(names, username).getResultList();
+		
+		if(strategy == Strategy.ABORT && oldPupils.size()>0){
+			return new ResponseEntity<String>(new ActionResponse(false, "Importul a fost abandonat deoarece s-a detectat existenta unor intrari anterioare.").toJson(), HttpStatus.OK);
+		}
+		
+		Map<String, Pupil> oldPupilsMap = new HashMap<String, Pupil>();
+		for(Pupil pupil: oldPupils){
+			oldPupilsMap.put(pupil.getName(), pupil);
+		}
+		
+		int newEntries = 0;
 		for(PupilParticipation pp: ppList){
 			Pupil pupil = pp.getPupil();
-			pupil.setOwner(username);
-			pupil.persist();
-			
 			Participation part = pp.getParticipation();
+			
+			Pupil existingPupil = oldPupilsMap.get(pupil.getName());
+			
+			if(existingPupil!=null){
+				if(strategy == Strategy.KEEP){
+					continue;
+				} else {
+					pupil = existingPupil;
+					Participation existingParticipation = Participation.getParticipationsByPupilIdAndYear(pupil.getId(), year);
+					if(existingParticipation!=null){
+						part = existingParticipation;
+					}
+				}
+			} else {
+				newEntries++;
+			}
+			
+			pupil.setOwner(username);
+			
+			if(pupil.getId() != null) {
+				pupil.merge();
+			} else {
+				pupil.persist();
+			}
+			
 			part.setPupilId(pupil.getId());
 			part.setYear(year);
 			part.persist();
+			
+			if(part.getId() != null){
+				part.merge();
+			} else {
+				part.persist();
+			}
 		}
 		
-		return new ResponseEntity<String>(new ActionResponse(true).toJson(), htmlHeaders(),
+		return new ResponseEntity<String>(new ActionResponse(true, "Au fost importate " + ppList.size() + " intrari din care " + newEntries + " noi.").toJson(), htmlHeaders(),
 				HttpStatus.OK);
 	}
 
@@ -88,4 +136,9 @@ public class ImportController {
 		this.importService = importService;
 	}
 
+	public static enum Strategy {
+		KEEP,
+		OVERWRITE,
+		ABORT
+	}
 }

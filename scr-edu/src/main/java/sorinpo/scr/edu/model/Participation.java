@@ -7,6 +7,7 @@ import javax.persistence.Embedded;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.json.RooJson;
@@ -61,6 +62,15 @@ public class Participation {
         q.setParameter("pupilIds", pupilIds);
         q.setParameter("year", year);
         return q;
+    }
+	
+	public static Participation getParticipationsByPupilIdAndYear(Long pupilId, int year) {
+		try {
+			return findParticipationsByPupilIdAndYear(pupilId, year)
+					.getSingleResult();
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
     }
 	
 }
