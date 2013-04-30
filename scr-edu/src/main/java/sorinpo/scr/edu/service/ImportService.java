@@ -63,7 +63,7 @@ public class ImportService {
 				}
 				
 				if(!foundHeader){
-					throw new BadHeaderException("headerul \"Nume și prenume\" nu a fost gasit pe coloana " + (SKIP_COLLS+1));
+					break;
 				}
 				
 				Cell cell = row.getCell(SKIP_COLLS, Row.RETURN_BLANK_AS_NULL);
@@ -116,6 +116,10 @@ public class ImportService {
 				p.setLocalMeetings( readParticipation(SKIP_COLLS+5+numMonths*6, row, numMonths));
 				
 				result.add(new PupilParticipation(pupil, p));
+			}
+			
+			if(!foundHeader) {
+				throw new BadHeaderException("headerul \"Nume și prenume\" nu a fost gasit pe coloana " + (SKIP_COLLS+1));
 			}
 			
 		} catch (InvalidFormatException e) {

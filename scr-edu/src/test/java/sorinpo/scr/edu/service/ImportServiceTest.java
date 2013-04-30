@@ -34,7 +34,7 @@ ImportService importService = null;
 		
 		Collection<PupilParticipation> pupilInfo = importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-success-ian-mar_merged.xls"), 3);
 		
-		assertTrue(pupilInfo.size()==50);
+		assertEquals(50, pupilInfo.size());
 		
 		checkFirstEntry(pupilInfo);
 
@@ -45,7 +45,7 @@ ImportService importService = null;
 		
 		Collection<PupilParticipation> pupilInfo = importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-success-ian-mar_not_merged_cedilles.xls"), 3);
 		
-		assertTrue(pupilInfo.size()==50);
+		assertEquals(50, pupilInfo.size());
 		
 		checkFirstEntry(pupilInfo);
 
@@ -56,7 +56,7 @@ ImportService importService = null;
 		
 		Collection<PupilParticipation> pupilInfo = importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-success-caras.xls"), 3);
 		
-		assertTrue(pupilInfo.size()==42);
+		assertEquals(42, pupilInfo.size());
 		
 	}
 	
@@ -118,6 +118,13 @@ ImportService importService = null;
 	public void readPupilsHeaderFailure() throws ImportException{
 		
 		importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-fail-header.xls"), 3);
+		
+	}
+	
+	@Test(expected=BadHeaderException.class)
+	public void readPupilsFailSuceavaHiddenSheets() throws ImportException{
+		
+		importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-fail-suceava.xls"), 3);
 		
 	}
 	
