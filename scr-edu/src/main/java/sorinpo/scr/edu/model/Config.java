@@ -60,10 +60,4 @@ public class Config {
         this.entityManager.flush();
         return merged;
     }
-    
-    @Transactional
-    private void persist() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        this.entityManager.persist(this);
-    }
 }

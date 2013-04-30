@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sorinpo.scr.edu.model.Config;
-import sorinpo.scr.edu.model.Info;
 import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
 import sorinpo.scr.edu.service.Utils;
