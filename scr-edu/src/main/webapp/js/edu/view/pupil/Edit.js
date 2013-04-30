@@ -37,26 +37,8 @@ Ext.define('EDU.view.pupil.Edit', {
                 xtype: 'textarea',
                 name : 'comment',
                 fieldLabel: 'Observații'
-            }/*,{
-                xtype: 'activity',
-                name : 'school',
-                columns: 3,
-                fieldLabel: 'Pregătire şcolară'
-            }*/]
+            }]
         }];
-
-        /*if(APP_SEC.isAdmin){
-        	this.items[0].items.push({
-        		xtype: 'combobox',
-        		store: 'Users',
-        		valueField: 'id',
-        		displayField: 'name',
-        		editable: false,
-        		allowBlank: false,
-                name : 'county',
-                fieldLabel: 'Județul'
-        	});
-        }*/
         
         this.buttons = [
             {
