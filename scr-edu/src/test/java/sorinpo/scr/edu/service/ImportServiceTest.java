@@ -51,6 +51,15 @@ ImportService importService = null;
 
 	}
 	
+	@Test //#SCR2
+	public void readPupilsSuccessCarasEmptyCellComment() throws ImportException{
+		
+		Collection<PupilParticipation> pupilInfo = importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-success-caras.xls"), 3);
+		
+		assertTrue(pupilInfo.size()==42);
+		
+	}
+	
 	private void checkFirstEntry(Collection<PupilParticipation> pupilInfo){
 		boolean found=false;
 		

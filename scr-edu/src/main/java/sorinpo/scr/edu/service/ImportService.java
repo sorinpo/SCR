@@ -89,7 +89,7 @@ public class ImportService {
 				
 				pupil.setParentState(ambii?ParentState.BOTH: mama?ParentState.MOTHER: tata?ParentState.FATHER : ParentState.NONE);
 				
-				Comment comment = cell.getCellComment();
+				Comment comment = cell!=null?cell.getCellComment():null;
 				if(comment!=null){
 					pupil.setComment(comment.getString().getString().substring(comment.getAuthor().length()+2));
 				}
