@@ -1,8 +1,3 @@
-//setup initial runas
-//XXX AG is a hardcoded default for admins
-
-window.APP_SEC.runas = window.APP_SEC.isAdmin?'AG':window.APP_SEC.username.toUpperCase();
-
 Ext.Loader.setConfig({
     disableCaching: false
 });
@@ -134,21 +129,22 @@ Ext.application({
     	var me=this,
     		counter = new Counter({ counter: 2, handler: me.loadViewport, scope: me });
     	
-    	ParamManager.set('runas', window.APP_SEC.runas);
-    	
-    	
-    	me.getStore('Users').load({
-    		//XXX
-    		callback: counter.down,
-    		scope: counter
-		});
+    	me.getStore('Users').load(function(records, operation, success) {
+    		//XXX on failure ?
+    		if(!APP_SEC.isAdmin){//for the admin, the loading of the users store will trigger the setting of runas param
+    			ParamManager.set('runas', APP_SEC.username);    			
+    		}
+    		
+    		Ext.callback(counter.down, counter);
+    		
+    	});
     	
     	EDU.model.Config.load(null, {
     		success: function(config){
     			ParamManager.set('activeYear', config.get('activeYear') );
     			ParamManager.set('activeMonths', config.get('activeMonths') );
     			ParamManager.set('config', config );
-    			Ext.callback(counter.down, counter)
+    			Ext.callback(counter.down, counter);
     		},
     	    failure: Helpers.criticalOperationFailed
     	});
@@ -158,14 +154,22 @@ Ext.application({
     init: function() {
     	var me = this;
     	
-        me.control({
-        	'#centrul' :{
-        		select: function(combo, values){
-        			ParamManager.set(
-        				'runas', values[0].get('username'));
-        		}
-        	}
-        });
+    	if(APP_SEC.isAdmin){
+	        me.control({
+	        	'#centrul' :{
+	        		
+	        		afterrender : function(combo){
+	        			var rec = combo.getStore().first();
+	        			ParamManager.set('runas', rec.get('username'));
+	        			combo.select( rec );
+	        		},
+	        		
+	        		select: function(combo, values){
+	        			ParamManager.set('runas', values[0].get('username'));
+	        		}
+	        	}
+	        });
+    	}
         
     },
     

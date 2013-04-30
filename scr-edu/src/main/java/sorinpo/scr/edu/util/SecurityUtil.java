@@ -29,7 +29,7 @@ public class SecurityUtil {
 		if (username == null)
 			return null;
 
-		return username.toUpperCase();
+		return username;
 	}
 
 	public static User getCurrenUser(){
@@ -39,7 +39,7 @@ public class SecurityUtil {
         if(username == null)
         	return null;
         
-        return User.findUsersByUsernameEquals(username.toUpperCase()).getSingleResult();
+        return User.findUsersByUsernameEquals(username).getSingleResult();
 	}
 	
 	public static boolean isAdmin(){

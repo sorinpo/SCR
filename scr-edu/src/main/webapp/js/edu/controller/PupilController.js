@@ -65,7 +65,7 @@ Ext.define('EDU.controller.PupilController', {
         var view = Ext.widget('pupil_edit'),
         	record = Ext.create('EDU.model.Pupil');
 
-        record.set('owner', APP_SEC.runas);
+        record.set('owner', ParamManager.get('runas'));
         
         view.down('form').loadRecord(record);
     },
