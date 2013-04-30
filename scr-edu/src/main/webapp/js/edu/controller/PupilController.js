@@ -100,6 +100,10 @@ Ext.define('EDU.controller.PupilController', {
 
     	if(selection && selection.length){
         	//TODO ask for confirmation
+    		
+    		grid.up('pupil_main')
+    			.down('pupil_participation_edit').setDisabled(true);
+    		
 			store.remove(selection);
 			store.sync();
     	}

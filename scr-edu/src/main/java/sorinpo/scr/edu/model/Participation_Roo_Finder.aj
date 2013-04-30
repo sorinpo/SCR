@@ -9,6 +9,14 @@ import sorinpo.scr.edu.model.Participation;
 
 privileged aspect Participation_Roo_Finder {
     
+    public static TypedQuery<Participation> Participation.findParticipationsByPupilId(Long pupilId) {
+        if (pupilId == null) throw new IllegalArgumentException("The pupilId argument is required");
+        EntityManager em = Participation.entityManager();
+        TypedQuery<Participation> q = em.createQuery("SELECT o FROM Participation AS o WHERE o.pupilId = :pupilId", Participation.class);
+        q.setParameter("pupilId", pupilId);
+        return q;
+    }
+    
     public static TypedQuery<Participation> Participation.findParticipationsByPupilIdAndYear(Long pupilId, int year) {
         if (pupilId == null) throw new IllegalArgumentException("The pupilId argument is required");
         EntityManager em = Participation.entityManager();

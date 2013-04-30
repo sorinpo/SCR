@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
 import sorinpo.scr.edu.model.User;
 import sorinpo.scr.edu.util.SecurityUtil;
@@ -64,15 +65,26 @@ public class PupilController {
     }
     
     @Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
-    public ResponseEntity<String> deleteFromJson(@PathVariable("id") Long id) {
-        Pupil pupil = Pupil.findPupil(id);
+    @RequestMapping( method = RequestMethod.DELETE, headers = "Accept=application/json")
+    public ResponseEntity<String> deleteFromJson(@RequestParam String owner, @RequestBody String json) {
         
-       
+    	if(!SecurityUtil.isAdmin()){
+        	return new ResponseEntity<String>(headers(), HttpStatus.FORBIDDEN);
+        }
+    	
+    	Pupil pupil = Pupil.fromJsonToPupil(json);        
+    	
         if (pupil == null) {
             return new ResponseEntity<String>(headers(), HttpStatus.NOT_FOUND);
         }
+        
+        //removing participation data
+        for(Participation p : Participation.findParticipationsByPupilId(pupil.getId()).getResultList()){
+        	p.remove();
+        }
+        
         pupil.remove();
+        
         return new ResponseEntity<String>(headers(), HttpStatus.OK);
     }
 }
