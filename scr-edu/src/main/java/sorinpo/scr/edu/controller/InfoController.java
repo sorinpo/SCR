@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sorinpo.scr.edu.model.Config;
 import sorinpo.scr.edu.model.Info;
 import sorinpo.scr.edu.model.User;
+import sorinpo.scr.edu.service.Utils;
 import sorinpo.scr.edu.util.SecurityUtil;
 
 @Controller
@@ -68,18 +70,24 @@ public class InfoController {
 
 		if (null != info.getId()) {
 
+			Info old = Info.findInfo(info.getId());
+			if(old==null || !old.getUserId().equals(info.getUserId()) || old.getYear() != info.getYear()){
+				return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
+			}
+			
+			info = Utils.updateInfo(info, old, Config.getConfig().getActiveMonths());
+			
 			if ((info = info.merge()) == null) {
 				return new ResponseEntity<String>(headers(),
 						HttpStatus.NOT_FOUND);
 			}
 
 		} else {
-			// TODO check that the current user has the right to modify the existing pupil
 			info.persist();
 		}
 
 		return new ResponseEntity<String>(info.toJson(), headers(),
 				HttpStatus.OK);
 	}
-
+	
 }

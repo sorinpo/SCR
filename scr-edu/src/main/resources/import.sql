@@ -16,4 +16,4 @@ insert into user(username,role,description,password,version) values('tm','ROLE_U
 insert into user(username,role,description,password,version) values('vs','ROLE_USER','Vaslui','7b547059e09d157febdcb652fc5a0d5adfa4f20deb479a86f86e0310c10c6f9a',0)
 insert into user(username,role,description,password,version) values('admin','ROLE_ADMIN','','c80194cefba53b4a38d06e32f555e1c745038550992744a876ffbe495f4f93e1',0)
 
-insert into config(id,year) values (1,2013);
+insert into config(id, version, activeyear, activemonths_jan, activemonths_feb, activemonths_mar, activemonths_apr, activemonths_may, activemonths_jun,	activemonths_jul, activemonths_aug, activemonths_sep, activemonths_oct, activemonths_nov, activemonths_dec) values (1, 1, 2013, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)

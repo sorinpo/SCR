@@ -14,7 +14,6 @@ Ext.define('EDU.component.form.InfoGroup', {
         mouseWheelEnabled: false,
         allowDecimals: false,
         labelAlign: 'top',
-        //anchor: '100%',
         width: 50
     },
     
@@ -49,7 +48,18 @@ Ext.define('EDU.component.form.InfoGroup', {
     		
     	});
     	
-    	//this.callParent(arguments);
+    },
+    
+    setActiveMonths : function(activeMonths){
+    	
+    	activeMonths = activeMonths || {};
+    	
+    	Ext.Array.each (this.query('numberfield'), function(field){
+    		
+    		field.setDisabled( !activeMonths[field.itemId] );
+    		
+    	});
+    	
     }
        
 });

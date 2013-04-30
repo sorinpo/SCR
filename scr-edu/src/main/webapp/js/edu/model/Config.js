@@ -1,10 +1,10 @@
 Ext.define('EDU.model.Config', {
     extend: 'Ext.data.Model',
     fields: [
-       {name : 'id', type: 'auto', defaultValue: null }, 
-       {name : 'version', type: 'auto', defaultValue: null },
+       //{name : 'id', type: 'auto', defaultValue: null }, 
+       //{name : 'version', type: 'auto', defaultValue: null },
        
-       {name : 'year', type: 'int'},
+       {name : 'activeYear', type: 'int'},
        {name: 'activeMonths', type: 'auto', defaultValue: null }
     ],
     

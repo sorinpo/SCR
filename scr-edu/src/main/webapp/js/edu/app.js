@@ -118,15 +118,15 @@ Ext.application({
     ],
     
     stores : [
-        'Users',
-        'Months'
+        'Users'
     ],
     
     controllers : [
         'InfoController',
         'PupilController',
         'ImportController',
-        'ReportController'
+        'ReportController',
+        'ConfigController'
     ],
     
     launch: function() {
@@ -135,7 +135,7 @@ Ext.application({
     		counter = new Counter({ counter: 2, handler: me.loadViewport, scope: me });
     	
     	ParamManager.set('runas', window.APP_SEC.runas);
-    	ParamManager.set('activeYear', (new Date()).getFullYear());
+    	
     	
     	me.getStore('Users').load({
     		//XXX
@@ -144,9 +144,13 @@ Ext.application({
 		});
     	
     	EDU.model.Config.load(null, {
-    		success: counter.down,
-    	    failure: Helpers.criticalOperationFailed,
-    	    scope: counter
+    		success: function(config){
+    			ParamManager.set('activeYear', config.get('activeYear') );
+    			ParamManager.set('activeMonths', config.get('activeMonths') );
+    			ParamManager.set('config', config );
+    			Ext.callback(counter.down, counter)
+    		},
+    	    failure: Helpers.criticalOperationFailed
     	});
     	        
     },
@@ -210,7 +214,11 @@ Ext.application({
 	            },{
 	            	xtype: 'panel',
 	            	title: 'Admin',
+	            	hidden: !APP_SEC.isAdmin,
 	            	items : [{
+	            		xtype: 'config',
+	            		title: 'Configurare'
+	            	},{
 	            		xtype: 'import',
 	            		title: 'Import date din teritoriu'
 	            	},{

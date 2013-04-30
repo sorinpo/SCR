@@ -1,5 +1,16 @@
 package sorinpo.scr.edu.service;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+
+import org.springframework.util.ReflectionUtils;
+import org.springframework.util.ReflectionUtils.FieldCallback;
+
+import sorinpo.scr.edu.model.ActivityData;
+import sorinpo.scr.edu.model.Info;
+import sorinpo.scr.edu.model.MonthlyNumbers;
+import sorinpo.scr.edu.model.Participation;
+
 
 public class Utils {
 
@@ -24,4 +35,76 @@ public class Utils {
 		return sb.toString();
 	}
 	
+	public static Info updateInfo(final Info newI, final Info oldI, final ActivityData activeMonths){
+		return updatePair(newI, oldI, activeMonths, MonthlyNumbers.class);
+	}
+	
+	public static Participation updateParticipation(final Participation newP, final Participation oldP, final ActivityData activeMonths){
+		return updatePair(newP, oldP, activeMonths, ActivityData.class);
+	}
+	
+	
+	//overwrites the old with the new if the activeMonth is true for that month
+	private static <T> T updatePair(final T newT, final T oldT, final ActivityData activeMonths, final Class<?> innerType ){
+		
+		ReflectionUtils.doWithFields(ActivityData.class, new FieldCallback() {
+			
+			@Override
+			public void doWith(final Field field) throws IllegalArgumentException,
+					IllegalAccessException {
+								
+				if(field.getType().isPrimitive() && field.getType().isAssignableFrom(boolean.class)){
+						
+					if((boolean)getField(activeMonths, field.getName())){
+						
+						ReflectionUtils.doWithFields(newT.getClass(), new FieldCallback() {
+	
+							@Override
+							public void doWith(Field field2)
+									throws IllegalArgumentException, IllegalAccessException {
+								
+								if(field2.getType().isAssignableFrom(innerType)){
+	
+									Object newO = getField(newT, field2.getName());
+									Object oldO = getField(oldT, field2.getName());
+									
+									Object newVal = getField(newO, field.getName());
+									
+									setField(oldO, field.getName(), newVal);
+									
+								}
+								
+							}
+							
+						});
+						
+						
+					}
+
+				}
+				
+			}
+		});
+		
+		return oldT;
+	}
+		
+	private static Object getField(Object obj, String fieldName){
+		try {
+			PropertyDescriptor desc = new PropertyDescriptor(fieldName, obj.getClass());
+			return desc.getReadMethod().invoke(obj);
+		}catch (Exception e){
+			throw new RuntimeException(e);
+		}
+	}
+	
+	private static void setField(Object obj, String fieldName, Object value){
+		try {
+			PropertyDescriptor desc = new PropertyDescriptor(fieldName, obj.getClass());
+			desc.getWriteMethod().invoke(obj, value);
+		}catch (Exception e){
+			throw new RuntimeException(e);
+		}
+	}
+	 
 }

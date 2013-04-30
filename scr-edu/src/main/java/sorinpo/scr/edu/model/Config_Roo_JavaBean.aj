@@ -3,33 +3,24 @@
 
 package sorinpo.scr.edu.model;
 
-import java.util.Set;
+import sorinpo.scr.edu.model.ActivityData;
 import sorinpo.scr.edu.model.Config;
-import sorinpo.scr.edu.model.Month;
 
 privileged aspect Config_Roo_JavaBean {
     
-    public Long Config.getId() {
-        return this.id;
+    public int Config.getActiveYear() {
+        return this.activeYear;
     }
     
-    public void Config.setId(Long id) {
-        this.id = id;
+    public void Config.setActiveYear(int activeYear) {
+        this.activeYear = activeYear;
     }
     
-    public int Config.getYear() {
-        return this.year;
-    }
-    
-    public void Config.setYear(int year) {
-        this.year = year;
-    }
-    
-    public Set<Month> Config.getActiveMonths() {
+    public ActivityData Config.getActiveMonths() {
         return this.activeMonths;
     }
     
-    public void Config.setActiveMonths(Set<Month> activeMonths) {
+    public void Config.setActiveMonths(ActivityData activeMonths) {
         this.activeMonths = activeMonths;
     }
     

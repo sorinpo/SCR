@@ -41,6 +41,19 @@ Ext.define('EDU.controller.PupilController', {
         		click : me.savePupil
         	},
         	
+        	'pupil_participation_edit' : {
+        		afterrender: function(form){
+               	
+                	me.setActiveMonths(form, ParamManager.get('activeMonths'));
+                	
+                	me.mon(ParamManager, 'change', function(paramName, newValue){
+                		if(paramName == "activeMonths"){
+                			me.setActiveMonths(form, newValue);
+                		}
+    		        });
+                }
+        	},
+        	
         	'pupil_participation_edit [action=save]': {
         		click : me.saveParticipation
         	}
@@ -117,6 +130,12 @@ Ext.define('EDU.controller.PupilController', {
     	
     	record.save();
     	
+    },
+    
+    setActiveMonths: function(form, activeMonths){
+    	Ext.each(form.query('activity'), function(comp){
+    		comp.setActiveMonths(activeMonths);
+    	});
     }
 });
 

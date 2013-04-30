@@ -1,14 +1,8 @@
 package sorinpo.scr.edu.model;
 
-import java.util.EnumSet;
-import java.util.Set;
-
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.EntityManager;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -23,37 +17,17 @@ import flexjson.JSONSerializer;
 public class Config {
 
 	private static final long ID = 1;
-	private static volatile Config INSTANCE;	
-    
-	@Id
-    @Column(name = "id")
-    private Long id;
 	
 	@Column
-	int year;
+	int activeYear;
 	
-	@ElementCollection
-	@Enumerated(EnumType.STRING)
-	Set<Month> activeMonths;
+	@Embedded
+	ActivityData activeMonths;
 	
 	public static Config getConfig() {
-         
-		if (INSTANCE == null) {
-			synchronized (Config.class) {
-				if (INSTANCE == null) {
 
-					Config config = entityManager().find(Config.class, ID);
-					
-					if(config == null){
-						config = new Config();
-						config.persist();
-					}
-					INSTANCE = config;
-				}
-			}
-		}
-         
-        return INSTANCE;
+		return entityManager().find(Config.class, ID);
+		
     }
 
 	public String toJson() {
@@ -61,9 +35,12 @@ public class Config {
     }
     
     public static Config updateFromJson(String json) {
-         Config config = new JSONDeserializer<Config>().use(null, Config.class).deserializeInto(json, getConfig());
-         config.id = ID;
-         config.merge();
+    	
+    	Config config = getConfig();
+    	
+         new JSONDeserializer<Config>().use(null, Config.class).deserializeInto(json, config);
+
+         config = config.merge();
          return config;
     }
 	
@@ -75,11 +52,6 @@ public class Config {
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
-		
-	private Config(){
-		id = ID;
-		activeMonths = EnumSet.noneOf(Month.class);
-	}
 	    
     @Transactional
     private Config merge() {

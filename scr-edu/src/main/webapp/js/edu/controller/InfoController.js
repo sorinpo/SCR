@@ -13,11 +13,15 @@ Ext.define('EDU.controller.InfoController', {
         	'info_edit': {
         		afterrender : function(form){
         			me.loadInfo(form);
+        			me.setActiveMonths(form, ParamManager.get('activeMonths'));
         			
         			me.mon(ParamManager, 'change', function(paramName, newValue){
     		        	if(paramName == "activeYear" || paramName == "runas"){
     		        		me.loadInfo(form);
     		        	}
+    		        	if(paramName == "activeMonths"){
+                			me.setActiveMonths(form, newValue);
+                		}
     		        });
         		}
         	},
@@ -35,7 +39,6 @@ Ext.define('EDU.controller.InfoController', {
     		        		me.loadCentruInfo(form);
     		        	}
     		        });
-		        	
         		}
         	},
         	
@@ -87,6 +90,12 @@ Ext.define('EDU.controller.InfoController', {
 
     	record.set(values);
     	record.save();
+    },
+    
+    setActiveMonths: function(form, activeMonths){
+    	Ext.each(form.query('info'), function(comp){
+    		comp.setActiveMonths(activeMonths);
+    	});
     }
     
 });

@@ -33,8 +33,19 @@ Ext.define('EDU.component.form.ActivityDataGroup', {
     		checkbox.setValue(value[checkbox.itemId]);
     		
     	});
+
+    },
+    
+    setActiveMonths : function(activeMonths){
     	
-    	//this.callParent(arguments);
+    	activeMonths = activeMonths || {};
+    	
+    	Ext.Array.each (this.query('checkbox'), function(field){
+    		
+    		field.setDisabled( !activeMonths[field.itemId] );
+    		
+    	});
+    	
     }
        
 });

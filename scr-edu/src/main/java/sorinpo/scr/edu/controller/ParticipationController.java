@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sorinpo.scr.edu.model.Config;
+import sorinpo.scr.edu.model.Info;
 import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
+import sorinpo.scr.edu.service.Utils;
 import sorinpo.scr.edu.util.SecurityUtil;
 
 @Controller
@@ -38,6 +41,7 @@ public class ParticipationController {
 		if(p == null) {
 			p = new Participation(pupil.getId(), year);
 			p.initializeActivityData();
+			p.persist();
 		}
         		
         return new ResponseEntity<String>(p.toJson(), headers(), HttpStatus.OK);
@@ -67,13 +71,19 @@ public class ParticipationController {
     	
 		if (null != p.getId()) {
 
+			Participation old = Participation.findParticipation(p.getId());
+			if(old==null || !old.getPupilId().equals(p.getPupilId()) || old.getYear() != p.getYear()){
+				return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
+			}
+			
+			p = Utils.updateParticipation(p, old, Config.getConfig().getActiveMonths());
+			
 			if ((p = p.merge()) == null) {
 				return new ResponseEntity<String>(headers(),
 						HttpStatus.NOT_FOUND);
 			}
 
 		} else {
-			// TODO check that the current user has the right to modify the existing participation data
 			p.persist();
 		}
     	
