@@ -46,8 +46,8 @@ public class ParticipationController {
         return new ResponseEntity<String>(p.toJson(), headers(), HttpStatus.OK);
     }
     
-    @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT} , headers = "Accept=application/json")
-    public ResponseEntity<String> createOrUpdateFromJson(@RequestBody String json) {
+    @RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json")
+    public ResponseEntity<String> updateFromJson(@RequestBody String json) {
     
     	Participation p = Participation.fromJsonToParticipation(json);
     	
@@ -66,27 +66,17 @@ public class ParticipationController {
         if(!SecurityUtil.isAdmin() && !SecurityUtil.getCurrenUsername().equals(pupil.getOwner()) ){
         	return new ResponseEntity<String>(headers(), HttpStatus.FORBIDDEN);
         } 
-    	
-    	
-		if (null != p.getId()) {
-
-			Participation old = Participation.findParticipation(p.getId());
-			if(old==null || !old.getPupilId().equals(p.getPupilId()) || old.getYear() != p.getYear()){
-				return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
-			}
-			
-			p = Utils.updateParticipation(p, old, Config.getConfig().getActiveMonths());
-			
-			if ((p = p.merge()) == null) {
-				return new ResponseEntity<String>(headers(),
-						HttpStatus.NOT_FOUND);
-			}
-
-		} else {
-			p.persist();
+	    	
+		Participation old = Participation.findParticipationsByPupilIdAndYear(pupilId, year).getSingleResult();
+		if(old==null || !old.getPupilId().equals(p.getPupilId()) || old.getYear() != p.getYear()){
+			return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
 		}
-    	
-    	return new ResponseEntity<String>(p.toJson(), headers(), HttpStatus.OK);
+		
+		p = Utils.updateParticipation(p, old, Config.getConfig().getActiveMonths());
+		    	
+		p.merge();
+		
+    	return new ResponseEntity<String>(headers(), HttpStatus.OK);
     	
     }
 	

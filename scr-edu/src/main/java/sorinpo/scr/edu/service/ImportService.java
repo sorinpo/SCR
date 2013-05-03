@@ -136,7 +136,7 @@ public class ImportService {
 		if(numMonths<0)
 			throw new IllegalArgumentException("Numarul de luni trebuie sa fie un intreg pozitiv");
 		
-		ActivityData result = new ActivityData();
+		ActivityData result = new ActivityData(true);
 		
 		int i = index;
 		numMonths += index;

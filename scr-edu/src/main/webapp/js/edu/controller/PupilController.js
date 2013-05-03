@@ -3,12 +3,38 @@ Ext.define('EDU.controller.PupilController', {
 
     models : [ 'Pupil', 'Participation' ],
     
-	stores : [ 'Pupils', 'Participations', 'Countries' ],
+	stores : [ 'Pupils', 'Countries' ],
 
 	views : [ 'pupil.Main', 'pupil.List', 'pupil.Edit', 'pupil.participation.Edit' ],
-
+	
+	suspendCheckboxChangeEvent : false,
+	
+	dataToSave : {},
+	
+	loadedPupilId : undefined,
+	
     init: function() {
-        var me= this;
+        var me = this;
+        
+        me.autosaveTask = new Ext.util.DelayedTask( function(){
+        	var data = me.dataToSave;
+        	
+        	if(!Ext.Object.isEmpty(data) && me.loadedPupilId){
+        		me.dataToSave = {};
+        		
+        		data.pupilId = me.loadedPupilId;
+        		data.year = ParamManager.get('activeYear');
+        		
+        		Ext.Ajax.request({
+        			url : SERVER_ROOT + 'participations.json',
+        			defaultHeaders : {'Accept' : 'application/json'},
+        			jsonData: data	
+        		});
+        		
+        	}
+        	
+        });
+        
     	me.control({
         	
         	'pupil_list': {
@@ -23,6 +49,7 @@ Ext.define('EDU.controller.PupilController', {
     		        	if(paramName == "activeYear" || paramName == "runas"){
     		        		var pForm = grid.up('pupil_main').down('pupil_participation_edit');
     		        		pForm.setDisabled(true);
+    		        		me.loadedPupilId = undefined;
     		        		grid.getStore().load();
     		        	}
     		        });
@@ -54,8 +81,17 @@ Ext.define('EDU.controller.PupilController', {
                 }
         	},
         	
-        	'pupil_participation_edit [action=save]': {
-        		click : me.saveParticipation
+        	'pupil_participation_edit activity checkbox' : {
+        		change : function(checkbox, value) {
+        			
+        			if(!me.suspendCheckboxChangeEvent){
+        				
+        				me.addToSaveData(checkbox.ownerCt.name, checkbox.itemId, checkbox.value);
+        				me.autosaveTask.delay(1000);
+        				
+        			}
+        			
+        		}
         	}
         	
         });
@@ -111,28 +147,38 @@ Ext.define('EDU.controller.PupilController', {
     
     pupilSelected: function(rowModel, record) {
     	
-    	var pForm = rowModel.view.up('pupil_main').down('pupil_participation_edit');
+    	var me = this,
+    		pForm = rowModel.view.up('pupil_main').down('pupil_participation_edit');
     	
-    	pForm.setDisabled(false);
+    	pForm.setDisabled(true);
     	
-    	EDU.model.Participation.load(record.getId(), {
-    		scope: this,
-    	    failure: Helpers.operationFailed,
-    	    success: function(record){
-    	    	pForm.loadRecord(record);
-    	    }
-    	});
-    	
+    	me.loadOrDeferPupil(record.getId(), pForm);
     },
     
-    saveParticipation: function(button) {
-    	var form    = button.up('form'),
-	        record = form.getRecord(),
-	        values = Helpers.inflate(form.getValues());
-
-    	record.set(values);
+    loadOrDeferPupil : function(pupilId, pForm){
+    	var me = this;
     	
-    	record.save();
+    	if(!Ext.Object.isEmpty(me.dataToSave)){//there is a save going on, wait to finish 
+    		
+    		Ext.Function.defer(me.loadOrDeferPupil, 100, me, [pupilId, pForm]);
+
+    	} else {
+    	
+	    	me.suspendCheckboxChangeEvent = true;
+	    	EDU.model.Participation.load(pupilId, {
+	    	    callback : function(rec, op){
+	    	    	if(op.success){
+	    	    		pForm.setDisabled(false);
+	    	    		pForm.loadRecord(rec);
+	    	    	} else {
+	    	    		Ext.callback(Helpers.operationFailed, me, arguments);
+	    	    	}
+	    	    	me.suspendCheckboxChangeEvent = false;
+	    	    	me.loadedPupilId = pupilId;
+	    	    }
+	    	});
+    	
+    	}
     	
     },
     
@@ -140,6 +186,25 @@ Ext.define('EDU.controller.PupilController', {
     	Ext.each(form.query('activity'), function(comp){
     		comp.setActiveMonths(activeMonths);
     	});
+    },
+    
+    addToSaveData : function(pprop, prop, newVal){
+    	var me=this, 
+    		pobj, oldVal;
+    	
+    	if(!(pobj = me.dataToSave[pprop])){
+    		pobj = me.dataToSave[pprop] = {};
+    	}
+    	
+    	if((oldVal = pobj[prop]) === undefined ){//set the value
+    		pobj[prop] = newVal;
+    	} else if( oldVal !== newVal ) {//the value was changed back to what it was in the first place, no need to save 
+    		delete pobj[prop];
+    		if(Ext.Object.isEmpty(pobj)){
+    			delete me.dataToSave[pprop];
+    		}
+    	}
     }
+    
 });
 

@@ -8,17 +8,27 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 @RooJavaBean
 public class ActivityData {
 	
-    private boolean jan;
-    private boolean feb;
-    private boolean mar;
-    private boolean apr;
-    private boolean may;
-    private boolean jun;
-    private boolean jul;
-    private boolean aug;
-    private boolean sep;
-    private boolean oct;
-    private boolean nov;
-    private boolean dec;
-   
+    private Boolean jan;
+    private Boolean feb;
+    private Boolean mar;
+    private Boolean apr;
+    private Boolean may;
+    private Boolean jun;
+    private Boolean jul;
+    private Boolean aug;
+    private Boolean sep;
+    private Boolean oct;
+    private Boolean nov;
+    private Boolean dec;
+    
+    public ActivityData(){
+    	this(false);
+    }
+    
+    public ActivityData(boolean initialize){
+    	if(initialize){
+    		jan = feb = mar = apr = may = jun = jul = aug = sep = oct = nov = dec = false;
+    	}
+    };
+    
 }

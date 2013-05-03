@@ -124,51 +124,51 @@ public class ExportService {
 			ActivityData ad = (ActivityData) new PropertyDescriptor(propName, Participation.class).getReadMethod().invoke(p);
 			ActivityReport ar = (ActivityReport) ReportRow.class.getField(propName).get(row);
 			
-			if(ad.isJan()){
+			if(ad.getJan()){
 				ar.jan++;
 			}
 			
-			if(ad.isFeb()){
+			if(ad.getFeb()){
 				ar.feb++;
 			}	
 			
-			if(ad.isMar()){
+			if(ad.getMar()){
 				ar.mar++;
 			}
 			
-			if(ad.isApr()){
+			if(ad.getApr()){
 				ar.apr++;
 			}
 			
-			if(ad.isMay()){
+			if(ad.getMay()){
 				ar.may++;
 			}
 			
-			if(ad.isJun()){
+			if(ad.getJun()){
 				ar.jun++;
 			}
 			
-			if(ad.isJul()){
+			if(ad.getJul()){
 				ar.jul++;
 			}
 			
-			if(ad.isAug()){
+			if(ad.getAug()){
 				ar.aug++;
 			}
 			
-			if(ad.isSep()){
+			if(ad.getSep()){
 				ar.sep++;
 			}
 			
-			if(ad.isOct()){
+			if(ad.getOct()){
 				ar.oct++;
 			}
 			
-			if(ad.isNov()){
+			if(ad.getNov()){
 				ar.nov++;
 			}
 			
-			if(ad.isDec()){
+			if(ad.getDec()){
 				ar.dec++;
 			}
 		} catch (Exception e) {

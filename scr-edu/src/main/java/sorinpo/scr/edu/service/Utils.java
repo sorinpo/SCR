@@ -53,7 +53,7 @@ public class Utils {
 			public void doWith(final Field field) throws IllegalArgumentException,
 					IllegalAccessException {
 								
-				if(field.getType().isPrimitive() && field.getType().isAssignableFrom(boolean.class)){
+				if(field.getType().isAssignableFrom(Boolean.class)){
 						
 					if((boolean)getField(activeMonths, field.getName())){
 						
@@ -66,9 +66,18 @@ public class Utils {
 								if(field2.getType().isAssignableFrom(innerType)){
 	
 									Object newO = getField(newT, field2.getName());
-									Object oldO = getField(oldT, field2.getName());
 									
+									if(newO == null){
+										return;
+									}
+									
+									Object oldO = getField(oldT, field2.getName());
+																		
 									Object newVal = getField(newO, field.getName());
+									
+									if(newVal == null){
+										return;
+									}
 									
 									setField(oldO, field.getName(), newVal);
 									

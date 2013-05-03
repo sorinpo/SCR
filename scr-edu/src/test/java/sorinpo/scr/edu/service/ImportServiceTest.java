@@ -75,40 +75,40 @@ ImportService importService = null;
 				
 				Participation p = entry.getParticipation();
 				
-				assertTrue(p.getSchool().isJan());
-				assertTrue(p.getSchool().isFeb());
-				assertTrue(p.getSchool().isMar());
-				assertTrue(!p.getSchool().isApr());
+				assertTrue(p.getSchool().getJan());
+				assertTrue(p.getSchool().getFeb());
+				assertTrue(p.getSchool().getMar());
+				assertTrue(!p.getSchool().getApr());
 				
-				assertTrue(p.getFreeTime().isJan());
-				assertTrue(p.getFreeTime().isFeb());
-				assertTrue(p.getFreeTime().isMar());
-				assertTrue(!p.getFreeTime().isApr());
+				assertTrue(p.getFreeTime().getJan());
+				assertTrue(p.getFreeTime().getFeb());
+				assertTrue(p.getFreeTime().getMar());
+				assertTrue(!p.getFreeTime().getApr());
 				
-				assertTrue(p.getExtraSchool().isJan());
-				assertTrue(p.getExtraSchool().isFeb());
-				assertTrue(p.getExtraSchool().isMar());
-				assertTrue(!p.getExtraSchool().isApr());
+				assertTrue(p.getExtraSchool().getJan());
+				assertTrue(p.getExtraSchool().getFeb());
+				assertTrue(p.getExtraSchool().getMar());
+				assertTrue(!p.getExtraSchool().getApr());
 				
-				assertTrue(p.getGroupCounseling().isJan());
-				assertTrue(p.getGroupCounseling().isFeb());
-				assertTrue(p.getGroupCounseling().isMar());
-				assertTrue(!p.getGroupCounseling().isApr());
+				assertTrue(p.getGroupCounseling().getJan());
+				assertTrue(p.getGroupCounseling().getFeb());
+				assertTrue(p.getGroupCounseling().getMar());
+				assertTrue(!p.getGroupCounseling().getApr());
 				
-				assertTrue(!p.getIndividualCounseling().isJan());
-				assertTrue(!p.getIndividualCounseling().isFeb());
-				assertTrue(!p.getIndividualCounseling().isMar());
-				assertTrue(!p.getIndividualCounseling().isApr());
+				assertTrue(!p.getIndividualCounseling().getJan());
+				assertTrue(!p.getIndividualCounseling().getFeb());
+				assertTrue(!p.getIndividualCounseling().getMar());
+				assertTrue(!p.getIndividualCounseling().getApr());
 				
-				assertTrue(p.getParentalCommunication().isJan());
-				assertTrue(p.getParentalCommunication().isFeb());
-				assertTrue(p.getParentalCommunication().isMar());
-				assertTrue(!p.getParentalCommunication().isApr());
+				assertTrue(p.getParentalCommunication().getJan());
+				assertTrue(p.getParentalCommunication().getFeb());
+				assertTrue(p.getParentalCommunication().getMar());
+				assertTrue(!p.getParentalCommunication().getApr());
 				
-				assertTrue(p.getLocalMeetings().isJan());
-				assertTrue(p.getLocalMeetings().isFeb());
-				assertTrue(p.getLocalMeetings().isMar());
-				assertTrue(!p.getLocalMeetings().isApr());
+				assertTrue(p.getLocalMeetings().getJan());
+				assertTrue(p.getLocalMeetings().getFeb());
+				assertTrue(p.getLocalMeetings().getMar());
+				assertTrue(!p.getLocalMeetings().getApr());
 			}
 		}
 		assertTrue(found);

@@ -7,99 +7,99 @@ import sorinpo.scr.edu.model.ActivityData;
 
 privileged aspect ActivityData_Roo_JavaBean {
     
-    public boolean ActivityData.isJan() {
+    public Boolean ActivityData.getJan() {
         return this.jan;
     }
     
-    public void ActivityData.setJan(boolean jan) {
+    public void ActivityData.setJan(Boolean jan) {
         this.jan = jan;
     }
     
-    public boolean ActivityData.isFeb() {
+    public Boolean ActivityData.getFeb() {
         return this.feb;
     }
     
-    public void ActivityData.setFeb(boolean feb) {
+    public void ActivityData.setFeb(Boolean feb) {
         this.feb = feb;
     }
     
-    public boolean ActivityData.isMar() {
+    public Boolean ActivityData.getMar() {
         return this.mar;
     }
     
-    public void ActivityData.setMar(boolean mar) {
+    public void ActivityData.setMar(Boolean mar) {
         this.mar = mar;
     }
     
-    public boolean ActivityData.isApr() {
+    public Boolean ActivityData.getApr() {
         return this.apr;
     }
     
-    public void ActivityData.setApr(boolean apr) {
+    public void ActivityData.setApr(Boolean apr) {
         this.apr = apr;
     }
     
-    public boolean ActivityData.isMay() {
+    public Boolean ActivityData.getMay() {
         return this.may;
     }
     
-    public void ActivityData.setMay(boolean may) {
+    public void ActivityData.setMay(Boolean may) {
         this.may = may;
     }
     
-    public boolean ActivityData.isJun() {
+    public Boolean ActivityData.getJun() {
         return this.jun;
     }
     
-    public void ActivityData.setJun(boolean jun) {
+    public void ActivityData.setJun(Boolean jun) {
         this.jun = jun;
     }
     
-    public boolean ActivityData.isJul() {
+    public Boolean ActivityData.getJul() {
         return this.jul;
     }
     
-    public void ActivityData.setJul(boolean jul) {
+    public void ActivityData.setJul(Boolean jul) {
         this.jul = jul;
     }
     
-    public boolean ActivityData.isAug() {
+    public Boolean ActivityData.getAug() {
         return this.aug;
     }
     
-    public void ActivityData.setAug(boolean aug) {
+    public void ActivityData.setAug(Boolean aug) {
         this.aug = aug;
     }
     
-    public boolean ActivityData.isSep() {
+    public Boolean ActivityData.getSep() {
         return this.sep;
     }
     
-    public void ActivityData.setSep(boolean sep) {
+    public void ActivityData.setSep(Boolean sep) {
         this.sep = sep;
     }
     
-    public boolean ActivityData.isOct() {
+    public Boolean ActivityData.getOct() {
         return this.oct;
     }
     
-    public void ActivityData.setOct(boolean oct) {
+    public void ActivityData.setOct(Boolean oct) {
         this.oct = oct;
     }
     
-    public boolean ActivityData.isNov() {
+    public Boolean ActivityData.getNov() {
         return this.nov;
     }
     
-    public void ActivityData.setNov(boolean nov) {
+    public void ActivityData.setNov(Boolean nov) {
         this.nov = nov;
     }
     
-    public boolean ActivityData.isDec() {
+    public Boolean ActivityData.getDec() {
         return this.dec;
     }
     
-    public void ActivityData.setDec(boolean dec) {
+    public void ActivityData.setDec(Boolean dec) {
         this.dec = dec;
     }
     

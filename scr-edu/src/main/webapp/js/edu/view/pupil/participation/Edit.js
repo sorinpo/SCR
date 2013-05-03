@@ -36,14 +36,7 @@ Ext.define('EDU.view.pupil.participation.Edit', {
             name : 'localMeetings',
             fieldLabel: 'Întâlniri cu părinţii sau cei care au grija de copil în tara'
         }];
-
-        this.tbar = [
-            {
-                text: 'Salvează',
-                action: 'save'
-            }
-        ];
-
+        
         //last call
         this.callParent(arguments);
     }

@@ -46,13 +46,13 @@ public class Participation {
 	}
 
 	public void initializeActivityData() {
-		school = new ActivityData();
-		freeTime = new ActivityData();
-		extraSchool = new ActivityData();
-		groupCounseling = new ActivityData();
-		individualCounseling = new ActivityData();
-		parentalCommunication = new ActivityData();
-		localMeetings = new ActivityData();
+		school = new ActivityData(true);
+		freeTime = new ActivityData(true);
+		extraSchool = new ActivityData(true);
+		groupCounseling = new ActivityData(true);
+		individualCounseling = new ActivityData(true);
+		parentalCommunication = new ActivityData(true);
+		localMeetings = new ActivityData(true);
 	}
 	
 	public static TypedQuery<Participation> findParticipationsByPupilIdsAndYear(Collection<Long> pupilIds, int year) {
