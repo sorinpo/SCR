@@ -84,7 +84,7 @@
 		
 		<bean
 			class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-			id="entityManagerFactory">
+			id="entityManagerFactory" depends-on="liquibaseUpdater">
 			<property name="packagesToScan" value="sorinpo.scr.edu.model" />
 			<property name="dataSource" ref="dataSource" />
 			<property name="jpaVendorAdapter" ref="hibernateVendor" />
@@ -115,6 +115,11 @@
 		-->
 	
 		<bean id="hibernateVendor" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		
+		<bean id="liquibaseUpdater" class="liquibase.integration.spring.SpringLiquibase">
+	        <property name="dataSource" ref="dataSource" />
+	        <property name="changeLog" value="classpath:/META-INF/liquibase/db.changelog-master.xml" />
+	    </bean>
 		
 		<!-- a map of properties exposed to jspx files -->
 		<util:map id="props" >

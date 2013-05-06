@@ -66,6 +66,11 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>2.0.5</version>
+		</dependency>
         <!-- General dependencies for standard applications -->
         <dependency>
             <groupId>junit</groupId>

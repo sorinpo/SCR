@@ -1,0 +1,274 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet id="1" author="sorinpo">
+		<sql stripComments="false">
+CREATE TABLE centruinfo (
+  id bigint(20) NOT NULL,
+  address varchar(255) DEFAULT NULL,
+  locality varchar(255) DEFAULT NULL,
+  userid bigint(20) DEFAULT NULL,
+  version int(11) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE config (
+  id bigint(20) NOT NULL,
+  activemonths_apr tinyint(1) NOT NULL,
+  activemonths_aug tinyint(1) NOT NULL,
+  activemonths_dec tinyint(1) NOT NULL,
+  activemonths_feb tinyint(1) NOT NULL,
+  activemonths_jan tinyint(1) NOT NULL,
+  activemonths_jul tinyint(1) NOT NULL,
+  activemonths_jun tinyint(1) NOT NULL,
+  activemonths_mar tinyint(1) NOT NULL,
+  activemonths_may tinyint(1) NOT NULL,
+  activemonths_nov tinyint(1) NOT NULL,
+  activemonths_oct tinyint(1) NOT NULL,
+  activemonths_sep tinyint(1) NOT NULL,
+  activeyear int(11) DEFAULT NULL,
+  version int(11) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE info (
+  id bigint(20) NOT NULL,
+  aparitiipresa_apr int(11) NOT NULL,
+  aparitiipresa_aug int(11) NOT NULL,
+  aparitiipresa_dec int(11) NOT NULL,
+  aparitiipresa_feb int(11) NOT NULL,
+  aparitiipresa_jan int(11) NOT NULL,
+  aparitiipresa_jul int(11) NOT NULL,
+  aparitiipresa_jun int(11) NOT NULL,
+  aparitiipresa_mar int(11) NOT NULL,
+  aparitiipresa_may int(11) NOT NULL,
+  aparitiipresa_nov int(11) NOT NULL,
+  aparitiipresa_oct int(11) NOT NULL,
+  aparitiipresa_sep int(11) NOT NULL,
+  beneficiariindirecti_apr int(11) NOT NULL,
+  beneficiariindirecti_aug int(11) NOT NULL,
+  beneficiariindirecti_dec int(11) NOT NULL,
+  beneficiariindirecti_feb int(11) NOT NULL,
+  beneficiariindirecti_jan int(11) NOT NULL,
+  beneficiariindirecti_jul int(11) NOT NULL,
+  beneficiariindirecti_jun int(11) NOT NULL,
+  beneficiariindirecti_mar int(11) NOT NULL,
+  beneficiariindirecti_may int(11) NOT NULL,
+  beneficiariindirecti_nov int(11) NOT NULL,
+  beneficiariindirecti_oct int(11) NOT NULL,
+  beneficiariindirecti_sep int(11) NOT NULL,
+  conferinteorganizate_apr int(11) NOT NULL,
+  conferinteorganizate_aug int(11) NOT NULL,
+  conferinteorganizate_dec int(11) NOT NULL,
+  conferinteorganizate_feb int(11) NOT NULL,
+  conferinteorganizate_jan int(11) NOT NULL,
+  conferinteorganizate_jul int(11) NOT NULL,
+  conferinteorganizate_jun int(11) NOT NULL,
+  conferinteorganizate_mar int(11) NOT NULL,
+  conferinteorganizate_may int(11) NOT NULL,
+  conferinteorganizate_nov int(11) NOT NULL,
+  conferinteorganizate_oct int(11) NOT NULL,
+  conferinteorganizate_sep int(11) NOT NULL,
+  intalnirigrupurilucru_apr int(11) NOT NULL,
+  intalnirigrupurilucru_aug int(11) NOT NULL,
+  intalnirigrupurilucru_dec int(11) NOT NULL,
+  intalnirigrupurilucru_feb int(11) NOT NULL,
+  intalnirigrupurilucru_jan int(11) NOT NULL,
+  intalnirigrupurilucru_jul int(11) NOT NULL,
+  intalnirigrupurilucru_jun int(11) NOT NULL,
+  intalnirigrupurilucru_mar int(11) NOT NULL,
+  intalnirigrupurilucru_may int(11) NOT NULL,
+  intalnirigrupurilucru_nov int(11) NOT NULL,
+  intalnirigrupurilucru_oct int(11) NOT NULL,
+  intalnirigrupurilucru_sep int(11) NOT NULL,
+  links varchar(255) DEFAULT NULL,
+  participanticonferinte_apr int(11) NOT NULL,
+  participanticonferinte_aug int(11) NOT NULL,
+  participanticonferinte_dec int(11) NOT NULL,
+  participanticonferinte_feb int(11) NOT NULL,
+  participanticonferinte_jan int(11) NOT NULL,
+  participanticonferinte_jul int(11) NOT NULL,
+  participanticonferinte_jun int(11) NOT NULL,
+  participanticonferinte_mar int(11) NOT NULL,
+  participanticonferinte_may int(11) NOT NULL,
+  participanticonferinte_nov int(11) NOT NULL,
+  participanticonferinte_oct int(11) NOT NULL,
+  participanticonferinte_sep int(11) NOT NULL,
+  participantigrupurilucru_apr int(11) NOT NULL,
+  participantigrupurilucru_aug int(11) NOT NULL,
+  participantigrupurilucru_dec int(11) NOT NULL,
+  participantigrupurilucru_feb int(11) NOT NULL,
+  participantigrupurilucru_jan int(11) NOT NULL,
+  participantigrupurilucru_jul int(11) NOT NULL,
+  participantigrupurilucru_jun int(11) NOT NULL,
+  participantigrupurilucru_mar int(11) NOT NULL,
+  participantigrupurilucru_may int(11) NOT NULL,
+  participantigrupurilucru_nov int(11) NOT NULL,
+  participantigrupurilucru_oct int(11) NOT NULL,
+  participantigrupurilucru_sep int(11) NOT NULL,
+  userid bigint(20) DEFAULT NULL,
+  version int(11) DEFAULT NULL,
+  voluntariimplicati_apr int(11) NOT NULL,
+  voluntariimplicati_aug int(11) NOT NULL,
+  voluntariimplicati_dec int(11) NOT NULL,
+  voluntariimplicati_feb int(11) NOT NULL,
+  voluntariimplicati_jan int(11) NOT NULL,
+  voluntariimplicati_jul int(11) NOT NULL,
+  voluntariimplicati_jun int(11) NOT NULL,
+  voluntariimplicati_mar int(11) NOT NULL,
+  voluntariimplicati_may int(11) NOT NULL,
+  voluntariimplicati_nov int(11) NOT NULL,
+  voluntariimplicati_oct int(11) NOT NULL,
+  voluntariimplicati_sep int(11) NOT NULL,
+  `year` int(11) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE participation (
+  id bigint(20) NOT NULL,
+  extraschool_apr tinyint(1) NOT NULL,
+  extraschool_aug tinyint(1) NOT NULL,
+  extraschool_dec tinyint(1) NOT NULL,
+  extraschool_feb tinyint(1) NOT NULL,
+  extraschool_jan tinyint(1) NOT NULL,
+  extraschool_jul tinyint(1) NOT NULL,
+  extraschool_jun tinyint(1) NOT NULL,
+  extraschool_mar tinyint(1) NOT NULL,
+  extraschool_may tinyint(1) NOT NULL,
+  extraschool_nov tinyint(1) NOT NULL,
+  extraschool_oct tinyint(1) NOT NULL,
+  extraschool_sep tinyint(1) NOT NULL,
+  freetime_apr tinyint(1) NOT NULL,
+  freetime_aug tinyint(1) NOT NULL,
+  freetime_dec tinyint(1) NOT NULL,
+  freetime_feb tinyint(1) NOT NULL,
+  freetime_jan tinyint(1) NOT NULL,
+  freetime_jul tinyint(1) NOT NULL,
+  freetime_jun tinyint(1) NOT NULL,
+  freetime_mar tinyint(1) NOT NULL,
+  freetime_may tinyint(1) NOT NULL,
+  freetime_nov tinyint(1) NOT NULL,
+  freetime_oct tinyint(1) NOT NULL,
+  freetime_sep tinyint(1) NOT NULL,
+  groupcounseling_apr tinyint(1) NOT NULL,
+  groupcounseling_aug tinyint(1) NOT NULL,
+  groupcounseling_dec tinyint(1) NOT NULL,
+  groupcounseling_feb tinyint(1) NOT NULL,
+  groupcounseling_jan tinyint(1) NOT NULL,
+  groupcounseling_jul tinyint(1) NOT NULL,
+  groupcounseling_jun tinyint(1) NOT NULL,
+  groupcounseling_mar tinyint(1) NOT NULL,
+  groupcounseling_may tinyint(1) NOT NULL,
+  groupcounseling_nov tinyint(1) NOT NULL,
+  groupcounseling_oct tinyint(1) NOT NULL,
+  groupcounseling_sep tinyint(1) NOT NULL,
+  individualcounseling_apr tinyint(1) NOT NULL,
+  individualcounseling_aug tinyint(1) NOT NULL,
+  individualcounseling_dec tinyint(1) NOT NULL,
+  individualcounseling_feb tinyint(1) NOT NULL,
+  individualcounseling_jan tinyint(1) NOT NULL,
+  individualcounseling_jul tinyint(1) NOT NULL,
+  individualcounseling_jun tinyint(1) NOT NULL,
+  individualcounseling_mar tinyint(1) NOT NULL,
+  individualcounseling_may tinyint(1) NOT NULL,
+  individualcounseling_nov tinyint(1) NOT NULL,
+  individualcounseling_oct tinyint(1) NOT NULL,
+  individualcounseling_sep tinyint(1) NOT NULL,
+  localmeetings_apr tinyint(1) NOT NULL,
+  localmeetings_aug tinyint(1) NOT NULL,
+  localmeetings_dec tinyint(1) NOT NULL,
+  localmeetings_feb tinyint(1) NOT NULL,
+  localmeetings_jan tinyint(1) NOT NULL,
+  localmeetings_jul tinyint(1) NOT NULL,
+  localmeetings_jun tinyint(1) NOT NULL,
+  localmeetings_mar tinyint(1) NOT NULL,
+  localmeetings_may tinyint(1) NOT NULL,
+  localmeetings_nov tinyint(1) NOT NULL,
+  localmeetings_oct tinyint(1) NOT NULL,
+  localmeetings_sep tinyint(1) NOT NULL,
+  parentalcommunication_apr tinyint(1) NOT NULL,
+  parentalcommunication_aug tinyint(1) NOT NULL,
+  parentalcommunication_dec tinyint(1) NOT NULL,
+  parentalcommunication_feb tinyint(1) NOT NULL,
+  parentalcommunication_jan tinyint(1) NOT NULL,
+  parentalcommunication_jul tinyint(1) NOT NULL,
+  parentalcommunication_jun tinyint(1) NOT NULL,
+  parentalcommunication_mar tinyint(1) NOT NULL,
+  parentalcommunication_may tinyint(1) NOT NULL,
+  parentalcommunication_nov tinyint(1) NOT NULL,
+  parentalcommunication_oct tinyint(1) NOT NULL,
+  parentalcommunication_sep tinyint(1) NOT NULL,
+  pupilid bigint(20) DEFAULT NULL,
+  school_apr tinyint(1) NOT NULL,
+  school_aug tinyint(1) NOT NULL,
+  school_dec tinyint(1) NOT NULL,
+  school_feb tinyint(1) NOT NULL,
+  school_jan tinyint(1) NOT NULL,
+  school_jul tinyint(1) NOT NULL,
+  school_jun tinyint(1) NOT NULL,
+  school_mar tinyint(1) NOT NULL,
+  school_may tinyint(1) NOT NULL,
+  school_nov tinyint(1) NOT NULL,
+  school_oct tinyint(1) NOT NULL,
+  school_sep tinyint(1) NOT NULL,
+  version int(11) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE pupil (
+  id bigint(20) NOT NULL,
+  `comment` varchar(255) DEFAULT NULL,
+  deleterequested tinyint(1) NOT NULL,
+  lefttocountry varchar(255) DEFAULT NULL,
+  locked tinyint(1) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `owner` varchar(255) DEFAULT NULL,
+  parentstate varchar(255) DEFAULT NULL,
+  unlockrequested tinyint(1) NOT NULL,
+  version int(11) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE `user` (
+  id bigint(20) NOT NULL,
+  description varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  role varchar(255) DEFAULT NULL,
+  username varchar(255) NOT NULL,
+  version int(11) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+		</sql>
+	</changeSet>
+	<changeSet id="2" author="sorinpo">
+		<sql stripComments="false">
+INSERT INTO user (id, description, password, role, username, version) VALUES (1,'Argeș','801013174f32ac0c7e7769f3c9b560765fc38bd246f15f01edee9d80f94ebf47','ROLE_USER','ag',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (2,'Brașov','d37a41e25fade34a56f0418fd413c989c392014c71ff8bd200da98afd721eae2','ROLE_USER','bv',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (3,'București','76a8277347f52530e1cf979175a178980b3a180d176165c985d85f7e142f1eed','ROLE_USER','b',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (4,'Caraș-Severin','aa8ebf86720ae5dd38222ca249efee187d7ca392ec9c18d9abaf997363a774a2','ROLE_USER','cs',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (5,'Constanța','b493079ca6ed53f8369441a11d806e06d5ef0fa1ef1197d97d6d00279e09a6fb','ROLE_USER','ct',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (6,'Dâmbovița 1','e9e5c570ad87711c0ddeaa4fa6624f3b80e78d14dd805e8ef17d733624a6f757','ROLE_USER','db1',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (7,'Dâmbovița 2','a369d6a22fef8696346428a03ca09db81a928fde8d0382a09a201af0d729f925','ROLE_USER','db2',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (8,'Dolj','4084caecf0b20474680ed6a49cdfa92374998f7931d94288448e538078857734','ROLE_USER','dj',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (9,'HunedoaraP','adc0e261b5f074d424f54828b70702bf4397eef64065eb4ebc5b367005f37155','ROLE_USER','hdp',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (10,'HunedoaraL','037da5240d2154c1e7c2c638007c66ceb43a04d3bd3d7009a9306487b27b862d','ROLE_USER','hdl',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (11,'Iași','9f1cf34385aa1f130d6ed84c5998b1f63a1a327508a2c8e482bf85052a082b0d','ROLE_USER','is',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (12,'Mureș','0f240c0703ae4491466bf5ced39ea3f2d9a12ea623b29f1546470a1278397eb4','ROLE_USER','ms',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (13,'Neamț','7f82258a1ebf7586924dcee8176d7ecd96f3c4ca93c9d10e45b7f8dc726ba2ff','ROLE_USER','nt',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (14,'Suceava','b5653731cd8ccc18b2197e8a2acd005b0d8d577e64ce9c2557e7866dd7608b54','ROLE_USER','sv',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (15,'Timiș','0ae7a41c85a9a431d5875ed17102028111442ffec998902d9bb7118169ac3194','ROLE_USER','tm',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (16,'Vaslui','7b547059e09d157febdcb652fc5a0d5adfa4f20deb479a86f86e0310c10c6f9a','ROLE_USER','vs',0);
+INSERT INTO user (id, description, password, role, username, version) VALUES (17,'','c80194cefba53b4a38d06e32f555e1c745038550992744a876ffbe495f4f93e1','ROLE_ADMIN','admin',0);
+		</sql>
+	</changeSet>
+	<changeSet id="3" author="sorinpo">
+		<sql stripComments="false">
+INSERT INTO config (id, activemonths_apr, activemonths_aug, activemonths_dec, activemonths_feb, activemonths_jan, activemonths_jul, activemonths_jun, activemonths_mar, activemonths_may, activemonths_nov, activemonths_oct, activemonths_sep, activeyear, version) VALUES (1,1,0,0,1,1,0,0,1,0,0,0,0,2013,7);
+		</sql>
+	</changeSet>
+</databaseChangeLog>
+
