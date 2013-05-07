@@ -25,10 +25,10 @@ public class ConfigController {
     }
     
 	@Secured("ROLE_ADMIN")
-    @RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<String> updateConfig(@RequestBody String json) {
         
-        return new ResponseEntity<String>(Config.updateFromJson(json).toJson(), headers(), HttpStatus.CREATED);
+        return new ResponseEntity<String>(Config.updateFromJson(json).toJson(), headers(), HttpStatus.OK);
     }
 	
 }
