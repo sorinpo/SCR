@@ -38,10 +38,11 @@ public class Config {
     	
     	Config config = getConfig();
     	
-         new JSONDeserializer<Config>().use(null, Config.class).deserializeInto(json, config);
-
-         config = config.merge();
-         return config;
+        new JSONDeserializer<Config>().use(null, Config.class).deserializeInto(json, config);
+        config.getActiveMonths().nullToFalse();
+         
+        config = config.merge();
+        return config;
     }
 	
 	@PersistenceContext

@@ -29,6 +29,22 @@ public class ActivityData {
     	if(initialize){
     		jan = feb = mar = apr = may = jun = jul = aug = sep = oct = nov = dec = false;
     	}
-    };
+    }
     
+    //XXX bad desing
+    public void nullToFalse(){
+    	if(jan==null) jan = false;
+    	if(feb==null) feb = false;
+    	if(mar==null) mar = false;
+    	if(apr==null) apr = false;
+    	if(may==null) may = false;
+    	if(jun==null) jun = false;
+    	if(jul==null) jul = false;
+    	if(aug==null) aug = false;
+    	if(sep==null) sep = false;
+    	if(oct==null) oct = false;
+    	if(nov==null) nov = false;
+    	if(dec==null) dec = false;
+    }
+
 }
