@@ -7,7 +7,9 @@ Ext.define('EDU.model.CentruInfo', {
        {name : 'userId', type: 'int'},
        
        {name : 'locality', type: 'string'},
-       {name : 'address', type: 'string'}
+       {name : 'address', type: 'string'},
+       
+       {name : 'team', type: 'string'}
        
     ],
     

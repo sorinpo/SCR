@@ -31,4 +31,12 @@ privileged aspect CentruInfo_Roo_JavaBean {
         this.address = address;
     }
     
+    public String CentruInfo.getTeam() {
+        return this.team;
+    }
+    
+    public void CentruInfo.setTeam(String team) {
+        this.team = team;
+    }
+    
 }

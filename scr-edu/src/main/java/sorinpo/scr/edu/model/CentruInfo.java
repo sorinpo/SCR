@@ -1,5 +1,7 @@
 package sorinpo.scr.edu.model;
 
+import javax.persistence.Column;
+
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.json.RooJson;
@@ -19,5 +21,8 @@ public class CentruInfo {
 	
 	String locality;
 	String address;
+	
+	@Column(length = 1024)
+	String team;
 
 }

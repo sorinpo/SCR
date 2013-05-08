@@ -20,6 +20,11 @@ Ext.define('EDU.view.info_centru.Edit', {
         name : 'address',
         fieldLabel: 'Adresa',
         allowBlank: false
+    },{
+        xtype: 'textarea',
+        name : 'team',
+        fieldLabel: 'Echipa',
+        allowBlank: false
     }],
     
     dockedItems: {
