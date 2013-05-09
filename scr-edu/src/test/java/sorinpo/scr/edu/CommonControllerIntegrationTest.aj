@@ -27,5 +27,5 @@ privileged aspect CommonControllerIntegrationTest {
 	public MockMvc ICommonControllerIntegrationTest.getMockMvc() {
 		return this.mockMvc;
 	}
-    
+	
 }

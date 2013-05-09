@@ -7,6 +7,8 @@ import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.json.RooJson;
 import org.springframework.roo.addon.tostring.RooToString;
 
+import flexjson.JSONDeserializer;
+
 @RooJavaBean
 @RooToString
 @RooJson
@@ -25,4 +27,8 @@ public class CentruInfo {
 	@Column(length = 1024)
 	String team;
 
+	public static void fromJsonToCentruInfo(String json, CentruInfo existing) {
+        new JSONDeserializer<CentruInfo>().use(null, CentruInfo.class).deserializeInto(json, existing);
+    }
+	
 }

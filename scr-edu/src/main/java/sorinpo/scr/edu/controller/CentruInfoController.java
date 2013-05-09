@@ -25,11 +25,7 @@ public class CentruInfoController {
 	public ResponseEntity<String> getJson(@RequestParam String username) {
 
 		User user = User.findUsersByUsernameEquals(username).getSingleResult();
-
-		if (user == null) {
-			return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
-		}
-
+		
 		if (!user.getUsername().equalsIgnoreCase(
 				SecurityUtil.getCurrenUsername())
 				&& !SecurityUtil.isAdmin()) {
@@ -51,28 +47,30 @@ public class CentruInfoController {
 
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT }, headers = "Accept=application/json")
 	public ResponseEntity<String> createOrUpdateFromJson(
-			@RequestBody String json) {
+			@RequestParam String username, @RequestBody String json) {
 
-		CentruInfo centruInfo = CentruInfo.fromJsonToCentruInfo(json);
-
-		User user = User.findUser(centruInfo.getUserId());
-		if (user == null) {
-			return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
-		}
+		User user = User.findUsersByUsernameEquals(username).getSingleResult();
 
 		if (!SecurityUtil.isAdmin() && !SecurityUtil.getCurrenUsername().equals(user.getUsername())) {
 			return new ResponseEntity<String>(headers(), HttpStatus.FORBIDDEN);
 		}
 
-		if (null != centruInfo.getId()) {
+		CentruInfo.findCentruInfoesByUserId(user.getId()).getSingleResult();
+		
+		CentruInfo centruInfo = null;
 
-			if ((centruInfo = centruInfo.merge()) == null) {
-				return new ResponseEntity<String>(headers(),
-						HttpStatus.NOT_FOUND);
+		try {
+			centruInfo = CentruInfo.findCentruInfoesByUserId(user.getId())
+					.getSingleResult();
+			CentruInfo.fromJsonToCentruInfo(json, centruInfo);
+			
+			if (!SecurityUtil.isAdmin() && !user.getId().equals(centruInfo.getUserId())) {
+				return new ResponseEntity<String>(headers(), HttpStatus.FORBIDDEN);
 			}
-
-		} else {
-			// TODO check that the current user has the right to modify the existing pupil
+			
+			centruInfo = centruInfo.merge();
+		} catch (EmptyResultDataAccessException e) {
+			centruInfo = CentruInfo.fromJsonToCentruInfo(json);
 			centruInfo.persist();
 		}
 

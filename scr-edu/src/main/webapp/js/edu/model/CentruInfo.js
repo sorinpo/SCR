@@ -2,7 +2,6 @@ Ext.define('EDU.model.CentruInfo', {
     extend: 'Ext.data.Model',
     fields: [
        {name : 'id', type: 'auto', defaultValue: null }, 
-       {name : 'version', type: 'auto', defaultValue: null },
        
        {name : 'userId', type: 'int'},
        
