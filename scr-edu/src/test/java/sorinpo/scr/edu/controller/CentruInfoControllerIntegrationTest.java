@@ -21,18 +21,19 @@ import sorinpo.scr.edu.util.TestUtil.ValueHolder;
 @ContextConfiguration(classes=TestContextConfig.class)
 public class CentruInfoControllerIntegrationTest {
 	
-	static String username = "ag";
+	static String USERNAME = "ag";
+	static String PATH = "/centru_infos.json";
 	
 	@Test
 	public void getConfig() throws Exception {
 		
-		User user = User.findUsersByUsernameEquals(username).getSingleResult();
-		setAuthentication(username);
+		User user = User.findUsersByUsernameEquals(USERNAME).getSingleResult();
+		setAuthentication(USERNAME);
 		
 		getMockMvc().perform(
-			get("/centru_infos.json")
+			get(PATH)
 				.header("Accept","application/json")
-				.param("username", username))
+				.param("username", USERNAME))
 	        .andExpect(status().isOk())
 	        .andExpect(content().contentType("application/json;charset=utf-8"))
 	        .andExpect(jsonPath("$.userId").value(user.getId().intValue()));
@@ -43,16 +44,16 @@ public class CentruInfoControllerIntegrationTest {
 	@Rollback
 	public void createAndUpdateConfig() throws Exception {
 		
-		User user = User.findUsersByUsernameEquals(username).getSingleResult();
-		setAuthentication(username);
+		User user = User.findUsersByUsernameEquals(USERNAME).getSingleResult();
+		setAuthentication(USERNAME);
 		
 		ValueHolder<Long> idHold = new ValueHolder<Long>();
 		ValueHolder<Integer> versionHold = new ValueHolder<Integer>();
 		
 		getMockMvc().perform(
-			post("/centru_infos.json")
+			post(PATH)
 				.header("Accept","application/json")
-				.param("username", username)
+				.param("username", USERNAME)
 				.content("{ 'userId': "+user.getId()+", address: \"address\", locality: \"locality\", team: \"team\" }"))
         .andExpect(status().isOk())
         .andExpect(content().contentType("application/json;charset=utf-8"))
@@ -64,9 +65,9 @@ public class CentruInfoControllerIntegrationTest {
 		.andExpect(jsonPath("$.version").value( steal(versionHold) ));
 		
 		getMockMvc().perform(
-				put("/centru_infos.json")
+				put(PATH)
 					.header("Accept","application/json")
-					.param("username", username)
+					.param("username", USERNAME)
 					.content("{ 'userId': "+user.getId()+", address: \"address1\", locality: \"locality1\", team: \"team1\", id: "+idHold.getValue()+", version: "+versionHold.getValue()+" }"))
 	        .andExpect(status().isOk())
 	        .andExpect(content().contentType("application/json;charset=utf-8"))
@@ -78,9 +79,9 @@ public class CentruInfoControllerIntegrationTest {
 			.andExpect(jsonPath("$.version").value( versionHold.getValue()+1 ));
 		
 		getMockMvc().perform(
-				get("/centru_infos.json")
+				get(PATH)
 					.header("Accept","application/json")
-					.param("username", username))
+					.param("username", USERNAME))
 		        .andExpect(status().isOk())
 		        .andExpect(content().contentType("application/json;charset=utf-8"))
 		        .andExpect(jsonPath("$.userId").value(user.getId().intValue()))
@@ -93,27 +94,27 @@ public class CentruInfoControllerIntegrationTest {
 	@Transactional
 	@Rollback
 	public void twoPostsOneRead() throws Exception {
-		User user = User.findUsersByUsernameEquals(username).getSingleResult();
-		setAuthentication(username);
+		User user = User.findUsersByUsernameEquals(USERNAME).getSingleResult();
+		setAuthentication(USERNAME);
 		
 		getMockMvc().perform(
-				post("/centru_infos.json")
+				post(PATH)
 					.header("Accept","application/json")
-					.param("username", username)
+					.param("username", USERNAME)
 					.content("{ 'userId': "+user.getId()+", address: \"address\", locality: \"locality\", team: \"team\" }"))
 	        .andExpect(status().isOk());
 	        
 		getMockMvc().perform(
-				post("/centru_infos.json")
+				post(PATH)
 					.header("Accept","application/json")
-					.param("username", username)
+					.param("username", USERNAME)
 					.content("{ 'userId': "+user.getId()+", address: \"address\", locality: \"locality\", team: \"team\" }"))
 	        .andExpect(status().isOk());
 		
 		getMockMvc().perform(
-				get("/centru_infos.json")
+				get(PATH)
 					.header("Accept","application/json")
-					.param("username", username))
+					.param("username", USERNAME))
 		        .andExpect(status().isOk())
 		        .andExpect(content().contentType("application/json;charset=utf-8"))
 		        .andExpect(jsonPath("$.userId").value(user.getId().intValue()));
