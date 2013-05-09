@@ -25,7 +25,7 @@ public class CentruInfoControllerIntegrationTest {
 	static String PATH = "/centru_infos.json";
 	
 	@Test
-	public void getConfig() throws Exception {
+	public void getCentruInfo() throws Exception {
 		
 		User user = User.findUsersByUsernameEquals(USERNAME).getSingleResult();
 		setAuthentication(USERNAME);
@@ -42,7 +42,7 @@ public class CentruInfoControllerIntegrationTest {
 	@Test
 	@Transactional
 	@Rollback
-	public void createAndUpdateConfig() throws Exception {
+	public void createAndUpdateCentruInfo() throws Exception {
 		
 		User user = User.findUsersByUsernameEquals(USERNAME).getSingleResult();
 		setAuthentication(USERNAME);
