@@ -34,11 +34,13 @@ public class UtilsTest {
 		newInfo.getAparitiiPresa().setJan(1);
 		newInfo.getAparitiiPresa().setMar(1);
 		newInfo.getBeneficiariIndirecti().setApr(1);
+		newInfo.setLinks("link1");
 		
 		Info oldInfo = new Info();
 		oldInfo.initializeMonthlyNumbers();
 		oldInfo.getAparitiiPresa().setFeb(1);
 		oldInfo.getBeneficiariIndirecti().setApr(2);
+		oldInfo.setLinks("link0");
 		
 		ActivityData activeMonths = new ActivityData(true);
 		activeMonths.setJan(true);
@@ -51,6 +53,9 @@ public class UtilsTest {
 		assertEquals(0, result.getAparitiiPresa().getMar());
 		assertEquals(1, result.getBeneficiariIndirecti().getApr());
 		assertEquals(0, result.getBeneficiariIndirecti().getMay());
+		
+		//XXX
+		assertEquals("link0", result.getLinks());
 	}
 	
 	@Test

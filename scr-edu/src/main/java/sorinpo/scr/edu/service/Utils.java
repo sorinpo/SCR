@@ -34,17 +34,22 @@ public class Utils {
 		
 		return sb.toString();
 	}
-	
+	/* 
+	 * Updates only MonthlyNumbers
+	 */
 	public static Info updateInfo(final Info newI, final Info oldI, final ActivityData activeMonths){
 		return updatePair(newI, oldI, activeMonths, MonthlyNumbers.class);
 	}
 	
+	/*
+	 * Updates only ActivityData
+	 */
 	public static Participation updateParticipation(final Participation newP, final Participation oldP, final ActivityData activeMonths){
 		return updatePair(newP, oldP, activeMonths, ActivityData.class);
 	}
 	
-	
-	//overwrites the old with the new if the activeMonth is true for that month
+	// TODO refactor this
+	//overwrites the old with the new if the activeMonth is true for that month, and only the fields that have innerType type
 	private static <T> T updatePair(final T newT, final T oldT, final ActivityData activeMonths, final Class<?> innerType ){
 		
 		ReflectionUtils.doWithFields(ActivityData.class, new FieldCallback() {

@@ -68,14 +68,15 @@ public class InfoControllerIntegrationTest {
         .andExpect(jsonPath("$.year").value(YEAR))
         .andExpect(jsonPath("$.beneficiariIndirecti.feb").value(1))
         .andExpect(jsonPath("$.id").value( steal(idHold) ))
-		.andExpect(jsonPath("$.version").value( steal(versionHold) ));
+		.andExpect(jsonPath("$.version").value( steal(versionHold) ))
+		.andExpect(jsonPath("$.links").value( "testlink" ));
 		
 		getMockMvc().perform(
 				put(PATH)
 					.header("Accept","application/json")
 					.param("username", USERNAME)
 					.param("year", String.valueOf(YEAR))
-					.content("{  id: "+idHold.getValue()+", version: "+versionHold.getValue()+", " + innerObj.replaceAll("\"feb\":\"1\"", "\"feb\":\"11\"") + " }"))
+					.content("{  id: "+idHold.getValue()+", version: "+versionHold.getValue()+", " + innerObj.replaceAll("\"feb\":\"1\"", "\"feb\":\"11\"").replaceAll("testlink", "testlink2") + " }"))
 	        .andExpect(status().isOk())
 	        .andExpect(content().contentType("application/json;charset=utf-8"))
             .andExpect(jsonPath("$.userId").value(user.getId().intValue()))
@@ -94,7 +95,8 @@ public class InfoControllerIntegrationTest {
 		        .andExpect(jsonPath("$.userId").value(user.getId().intValue()))
 		        .andExpect(jsonPath("$.year").value(YEAR))
 		        .andExpect(jsonPath("$.id").value( idHold.getValue() ))
-		        .andExpect(jsonPath("$.version").value( versionHold.getValue()+1 ));
+		        .andExpect(jsonPath("$.version").value( versionHold.getValue()+1 ))
+		        .andExpect(jsonPath("$.links").value( "testlink2" ));
 		
 	}
 	

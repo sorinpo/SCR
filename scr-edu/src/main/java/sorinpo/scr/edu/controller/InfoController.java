@@ -72,8 +72,13 @@ public class InfoController {
 				return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
 			}
 			
-			info = Utils.updateInfo(info, old, Config.getConfig().getActiveMonths());
-			info = info.merge();
+			//TODO refactor updateInfo
+			old = Utils.updateInfo(info, old, Config.getConfig().getActiveMonths());
+			
+			//XXX
+			old.setLinks(info.getLinks());
+			
+			info = old.merge();
 		} catch (EmptyResultDataAccessException e) {
 			info.persist();
 		}
