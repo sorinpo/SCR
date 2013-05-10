@@ -7,8 +7,11 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -83,32 +86,12 @@ public class ExportService {
 		int rowIdx = 0;
 		
 		for(ReportRow repRow: rep.values()){
-			Row row = sheet.createRow(START_ROW + rowIdx++);
-			int cellIdx = -1;
-			Cell cell = row.createCell(++cellIdx);
-			cell.setCellValue(repRow.county);
 			
-			cell = row.createCell(++cellIdx);
-			cell.setCellValue(repRow.children);
-			
-			cell = row.createCell(++cellIdx);
-			cell.setCellValue(repRow.motherLeft);
-			
-			cell = row.createCell(++cellIdx);
-			cell.setCellValue(repRow.fatherLeft);
-			
-			cell = row.createCell(++cellIdx);
-			cell.setCellValue(repRow.bothLeft);
-			
-			writeActivityReport(row, repRow.school, ++cellIdx);
-			writeActivityReport(row, repRow.freeTime, cellIdx+=12);
-			writeActivityReport(row, repRow.extraSchool, cellIdx+=12);
-			writeActivityReport(row, repRow.groupCounseling, cellIdx+=12);
-			writeActivityReport(row, repRow.individualCounseling, cellIdx+=12);
-			writeActivityReport(row, repRow.parentalCommunication, cellIdx+=12);
-			writeActivityReport(row, repRow.localMeetings, cellIdx+=12);
+			insertReportRow(repRow, sheet, rowIdx++);
 			
 		}
+		
+		insertTotalRow(sheet, rowIdx++, boldCellStyle(wb));
 		
 		try {
 			wb.write(out);
@@ -116,6 +99,57 @@ public class ExportService {
 			throw new ExportException("Nu s-a scrie raportul. Aceasta este o eroare interna. Contactati un administrator.", e);
 		}
 			
+	}
+	
+	private static void insertReportRow(ReportRow repRow, Sheet sheet, int rowIdx){
+		Row row = sheet.createRow(START_ROW + rowIdx);
+		int cellIdx = -1;
+		Cell cell = row.createCell(++cellIdx);
+		cell.setCellValue(repRow.county);
+		
+		cell = row.createCell(++cellIdx);
+		cell.setCellValue(repRow.children);
+		
+		cell = row.createCell(++cellIdx);
+		cell.setCellValue(repRow.motherLeft);
+		
+		cell = row.createCell(++cellIdx);
+		cell.setCellValue(repRow.fatherLeft);
+		
+		cell = row.createCell(++cellIdx);
+		cell.setCellValue(repRow.bothLeft);
+		
+		writeActivityReport(row, repRow.school, ++cellIdx);
+		writeActivityReport(row, repRow.freeTime, cellIdx+=12);
+		writeActivityReport(row, repRow.extraSchool, cellIdx+=12);
+		writeActivityReport(row, repRow.groupCounseling, cellIdx+=12);
+		writeActivityReport(row, repRow.individualCounseling, cellIdx+=12);
+		writeActivityReport(row, repRow.parentalCommunication, cellIdx+=12);
+		writeActivityReport(row, repRow.localMeetings, cellIdx+=12);
+	}
+	
+	private static CellStyle boldCellStyle(Workbook wb){
+		CellStyle cellStyle = wb.createCellStyle();
+		Font font = wb.createFont();
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		cellStyle.setFont(font);
+		return cellStyle;
+	}
+	
+	private static void insertTotalRow(Sheet sheet, int rowIdx, CellStyle style){
+		Row row = sheet.createRow(START_ROW + rowIdx);
+		Cell cell = row.createCell(0);
+		cell.setCellValue("Total");
+		cell.setCellStyle(style);
+		
+		for(int cellIdx = 1; cellIdx<89; cellIdx++){
+			cell = row.createCell(cellIdx);
+			CellReference top = new CellReference(START_ROW, cellIdx);
+			CellReference bottom = new CellReference(START_ROW + rowIdx - 1, cellIdx);
+			
+			cell.setCellFormula("SUM(" + top.formatAsString() + ":" + bottom.formatAsString() + ")");
+			cell.setCellStyle(style);
+		}
 	}
 	
 	private static void updateActivityData(Participation p, ReportRow row, String propName){

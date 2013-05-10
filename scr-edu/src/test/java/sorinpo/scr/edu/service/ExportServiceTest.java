@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -138,14 +140,25 @@ ExportService exportService = null;
 		assertEquals(1,(int)row.getCell(88).getNumericCellValue());
 		//local nov
 		assertEquals(0,(int)row.getCell(87).getNumericCellValue());
-		
-		
+				
 		//IS
 		row = sheet.getRow(3);
 		assertNotNull(row);
 		
 		assertEquals("IS",row.getCell(0).getStringCellValue());
 		assertEquals(1,(int)row.getCell(1).getNumericCellValue());
+		
+		//TOTAL
+		row = sheet.getRow(4);
+		assertNotNull(row);
+		assertEquals("Total",row.getCell(0).getStringCellValue());
+		
+		assertEquals(Cell.CELL_TYPE_FORMULA, row.getCell(1).getCellType());
+		
+		FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
+		
+		assertEquals(3,  (int)evaluator.evaluate(row.getCell(1)).getNumberValue() );		
+		
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
