@@ -15,7 +15,7 @@ Ext.define('EDU.model.Info', {
        {name : 'participantiConferinte', type: 'auto', defaultValue: null },
        {name : 'aparitiiPresa', type: 'auto', defaultValue: null },
        
-       {name : 'links', type: 'auto', defaultValue: null }
+       {name : 'links', type: 'string', defaultValue: null }
     ],
     
     proxy: {

@@ -46,9 +46,6 @@ public class Info {
 	@Embedded
 	private MonthlyNumbers aparitiiPresa;
 	
-//	@ElementCollection
-//	Collection<String> links;
-	
-	String links;
+	private String links;
 
 }

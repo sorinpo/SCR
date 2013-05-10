@@ -54,8 +54,6 @@ public class CentruInfoController {
 		if (!SecurityUtil.isAdmin() && !SecurityUtil.getCurrenUsername().equals(user.getUsername())) {
 			return new ResponseEntity<String>(headers(), HttpStatus.FORBIDDEN);
 		}
-
-		CentruInfo.findCentruInfoesByUserId(user.getId()).getSingleResult();
 		
 		CentruInfo centruInfo = null;
 

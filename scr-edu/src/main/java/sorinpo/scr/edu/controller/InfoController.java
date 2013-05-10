@@ -24,8 +24,7 @@ public class InfoController {
 
 	@RequestMapping(method = RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
-	public ResponseEntity<String> getJson(@RequestParam String username,
-			@RequestParam int year) {
+	public ResponseEntity<String> getJson(@RequestParam String username, @RequestParam int year) {
 
 		User user = User.findUsersByUsernameEquals(username).getSingleResult();
 
@@ -55,34 +54,27 @@ public class InfoController {
 
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT }, headers = "Accept=application/json")
 	public ResponseEntity<String> createOrUpdateFromJson(
+			@RequestParam String username, @RequestParam int year,
 			@RequestBody String json) {
 
-		Info info = Info.fromJsonToInfo(json);
-
-		User user = User.findUser(info.getUserId());
-		if (user == null || info.getYear() == 0) {
-			return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
-		}
-
+		User user = User.findUsersByUsernameEquals(username).getSingleResult();
+		
 		if (!SecurityUtil.isAdmin() && !SecurityUtil.getCurrenUsername().equals(user.getUsername())) {
 			return new ResponseEntity<String>(headers(), HttpStatus.FORBIDDEN);
 		}
 
-		if (null != info.getId()) {
-
-			Info old = Info.findInfo(info.getId());
-			if(old==null || !old.getUserId().equals(info.getUserId()) || old.getYear() != info.getYear()){
+		Info info = Info.fromJsonToInfo(json);
+		try {
+			Info old = Info.findInfoesByUserIdAndYear(user.getId(), year)
+					.getSingleResult();
+			
+			if(!old.getUserId().equals(info.getUserId()) || old.getYear() != info.getYear()){
 				return new ResponseEntity<String>(headers(), HttpStatus.BAD_REQUEST);
 			}
 			
 			info = Utils.updateInfo(info, old, Config.getConfig().getActiveMonths());
-			
-			if ((info = info.merge()) == null) {
-				return new ResponseEntity<String>(headers(),
-						HttpStatus.NOT_FOUND);
-			}
-
-		} else {
+			info = info.merge();
+		} catch (EmptyResultDataAccessException e) {
 			info.persist();
 		}
 
