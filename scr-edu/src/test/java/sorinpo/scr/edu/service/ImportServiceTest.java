@@ -32,7 +32,7 @@ ImportService importService = null;
 	@Test
 	public void readPupilsSuccessMergedHeader() throws ImportException{
 		
-		Collection<PupilParticipation> pupilInfo = importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-success-ian-mar_merged.xls"), 3);
+		Collection<PupilParticipation> pupilInfo = importService.readPupilParticipations( ImportServiceTest.class.getResourceAsStream("/import/test-success-ian-mar_merged.xls"), 3);
 		
 		assertEquals(50, pupilInfo.size());
 		
@@ -43,7 +43,7 @@ ImportService importService = null;
 	@Test
 	public void readPupilsSuccessNotMergedHeaderWithCedilles() throws ImportException{
 		
-		Collection<PupilParticipation> pupilInfo = importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-success-ian-mar_not_merged_cedilles.xls"), 3);
+		Collection<PupilParticipation> pupilInfo = importService.readPupilParticipations( ImportServiceTest.class.getResourceAsStream("/import/test-success-ian-mar_not_merged_cedilles.xls"), 3);
 		
 		assertEquals(50, pupilInfo.size());
 		
@@ -54,7 +54,7 @@ ImportService importService = null;
 	@Test //#SCR2
 	public void readPupilsSuccessCarasEmptyCellComment() throws ImportException{
 		
-		Collection<PupilParticipation> pupilInfo = importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-success-caras.xls"), 3);
+		Collection<PupilParticipation> pupilInfo = importService.readPupilParticipations( ImportServiceTest.class.getResourceAsStream("/import/test-success-caras.xls"), 3);
 		
 		assertEquals(42, pupilInfo.size());
 		
@@ -117,21 +117,21 @@ ImportService importService = null;
 	@Test(expected=BadHeaderException.class)
 	public void readPupilsHeaderFailure() throws ImportException{
 		
-		importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-fail-header.xls"), 3);
+		importService.readPupilParticipations( ImportServiceTest.class.getResourceAsStream("/import/test-fail-header.xls"), 3);
 		
 	}
 	
 	@Test(expected=BadHeaderException.class)
 	public void readPupilsFailSuceavaHiddenSheets() throws ImportException{
 		
-		importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-fail-suceava.xls"), 3);
+		importService.readPupilParticipations( ImportServiceTest.class.getResourceAsStream("/import/test-fail-suceava.xls"), 3);
 		
 	}
 	
 	@Test(expected=EmptyNameException.class)
 	public void readPupilsEmptyNameFailure() throws ImportException{
 		
-		importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-fail-empty-name.xls"), 3);
+		importService.readPupilParticipations( ImportServiceTest.class.getResourceAsStream("/import/test-fail-empty-name.xls"), 3);
 		
 	}
 	
@@ -145,7 +145,7 @@ ImportService importService = null;
 	@Test(expected=InvalidParentalStatusException.class)
 	public void readPupilsBadMamaTata() throws ImportException{
 		
-		importService.readPupilParticipations( ExportServiceTest.class.getResourceAsStream("/import/test-fail-mama-tata.xls"), 3);
+		importService.readPupilParticipations( ImportServiceTest.class.getResourceAsStream("/import/test-fail-mama-tata.xls"), 3);
 		
 	}
 

@@ -23,16 +23,16 @@ import sorinpo.scr.edu.dto.PupilParticipation;
 import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
 import sorinpo.scr.edu.model.Pupil.ParentState;
-import sorinpo.scr.edu.service.ExportService.ExportException;
+import sorinpo.scr.edu.service.ReportService.ExportException;
 
 
-public class ExportServiceTest {
+public class ReportServiceTest {
 
-ExportService exportService = null;
+ReportService exportService = null;
 	
 	@Before
 	public void setup(){
-		exportService = new ExportService();
+		exportService = new ReportService();
 	}
 
 

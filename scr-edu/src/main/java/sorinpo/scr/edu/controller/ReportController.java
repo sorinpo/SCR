@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sorinpo.scr.edu.dto.PupilParticipation;
 import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
-import sorinpo.scr.edu.service.ExportService;
-import sorinpo.scr.edu.service.ExportService.ExportException;
+import sorinpo.scr.edu.service.ReportService;
+import sorinpo.scr.edu.service.ReportService.ExportException;
 import sorinpo.scr.edu.util.SecurityUtil;
 
 @Controller
@@ -33,7 +33,7 @@ public class ReportController {
 			.getLogger(ReportController.class);
 
 	@Autowired
-	private ExportService exportService;
+	private ReportService exportService;
 
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
@@ -87,11 +87,11 @@ public class ReportController {
 		}
 	}
 
-	public ExportService getExportService() {
+	public ReportService getExportService() {
 		return exportService;
 	}
 
-	public void setExportService(ExportService exportService) {
+	public void setExportService(ReportService exportService) {
 		this.exportService = exportService;
 	}
 	

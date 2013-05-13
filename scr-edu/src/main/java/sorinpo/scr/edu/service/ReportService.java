@@ -24,7 +24,7 @@ import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
 
 @Service
-public class ExportService {
+public class ReportService {
 
 	private static final int SHEET_INDEX = 0;
 	private static final int START_ROW = 2;
@@ -39,7 +39,7 @@ public class ExportService {
 		Workbook wb =  null;
 		
 		try {
-			wb = WorkbookFactory.create(ExportService.class.getResourceAsStream("/poi_templates/raportare.tmpl.xlsx"));
+			wb = WorkbookFactory.create(ReportService.class.getResourceAsStream("/poi_templates/raportare.tmpl.xlsx"));
 		} catch (IllegalArgumentException e){
 			throw new ExportException("Nu s-a putut incarca templata de raport. Aceasta este o eroare interna. Contactati un administrator.", e);
 		} catch (InvalidFormatException e){
