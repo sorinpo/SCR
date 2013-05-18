@@ -11,7 +11,6 @@ import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -30,7 +29,7 @@ public class ReportService {
 	private static final int START_ROW = 2;
 		
 	@SuppressWarnings("incomplete-switch")
-	public void writePupilParticipations(Collection<PupilParticipation> pps, OutputStream out) throws ExportException {
+	public void writePupilParticipations(Collection<PupilParticipation> pps, OutputStream out) throws ReportException {
 
 		if(pps == null || out == null){
 			throw new IllegalArgumentException("PP and out cannot be null. Aceasta este o eroare interna. Contactati un administrator.");
@@ -41,16 +40,16 @@ public class ReportService {
 		try {
 			wb = WorkbookFactory.create(ReportService.class.getResourceAsStream("/poi_templates/raportare.tmpl.xlsx"));
 		} catch (IllegalArgumentException e){
-			throw new ExportException("Nu s-a putut incarca templata de raport. Aceasta este o eroare interna. Contactati un administrator.", e);
+			throw new ReportException("Nu s-a putut incarca templata de raport. Aceasta este o eroare interna. Contactati un administrator.", e);
 		} catch (InvalidFormatException e){
-			throw new ExportException("Nu s-a putut incarca templata de raport. Aceasta este o eroare interna. Contactati un administrator.", e);
+			throw new ReportException("Nu s-a putut incarca templata de raport. Aceasta este o eroare interna. Contactati un administrator.", e);
 		} catch (IOException e){
-			throw new ExportException("Nu s-a putut incarca templata de raport. Aceasta este o eroare interna. Contactati un administrator.", e);
+			throw new ReportException("Nu s-a putut incarca templata de raport. Aceasta este o eroare interna. Contactati un administrator.", e);
 		}
 		
 		Sheet sheet = wb.getSheetAt(SHEET_INDEX);
 		if(sheet==null){
-			throw new ExportException("Sheet-ul cu indice " + (SHEET_INDEX+1) + " nu există.  Aceasta este o eroare interna. Contactati un administrator.");
+			throw new ReportException("Sheet-ul cu indice " + (SHEET_INDEX+1) + " nu există.  Aceasta este o eroare interna. Contactati un administrator.");
 		}
 		
 		Map<String, ReportRow> rep = new TreeMap<String, ReportRow>();
@@ -91,12 +90,12 @@ public class ReportService {
 			
 		}
 		
-		insertTotalRow(sheet, rowIdx++, boldCellStyle(wb));
+		insertTotalRow(sheet, rowIdx++, POIUtils.boldCellStyle(wb));
 		
 		try {
 			wb.write(out);
 		} catch (IOException e) {
-			throw new ExportException("Nu s-a scris raportul. Aceasta este o eroare interna. Contactati un administrator.", e);
+			throw new ReportException("Nu s-a scris raportul. Aceasta este o eroare interna. Contactati un administrator.", e);
 		}
 			
 	}
@@ -126,14 +125,6 @@ public class ReportService {
 		writeActivityReport(row, repRow.individualCounseling, cellIdx+=12);
 		writeActivityReport(row, repRow.parentalCommunication, cellIdx+=12);
 		writeActivityReport(row, repRow.localMeetings, cellIdx+=12);
-	}
-	
-	private static CellStyle boldCellStyle(Workbook wb){
-		CellStyle cellStyle = wb.createCellStyle();
-		Font font = wb.createFont();
-		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
-		cellStyle.setFont(font);
-		return cellStyle;
 	}
 	
 	private static void insertTotalRow(Sheet sheet, int rowIdx, CellStyle style){
@@ -275,13 +266,13 @@ public class ReportService {
 	}
 	
 	@SuppressWarnings("serial")
-	public static class ExportException extends Exception {
+	public static class ReportException extends Exception {
 
-		public ExportException(String message, Throwable cause) {
+		public ReportException(String message, Throwable cause) {
 			super(message, cause);
 		}
 
-		public ExportException(String message) {
+		public ReportException(String message) {
 			super(message);
 		}
 		

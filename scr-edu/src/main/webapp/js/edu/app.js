@@ -227,7 +227,12 @@ Ext.application({
 	            		title: 'Import date din teritoriu'
 	            	},{
 	            		xtype: 'report',
+	            		itemId: 'report',
 	            		title: 'Raportare'
+	            	},{
+	            		xtype: 'report',
+	            		itemId: 'export',
+	            		title: 'Export'
 	            	}]
 	            }]
 	            

@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static sorinpo.scr.edu.util.TestUtil.setAuthentication;
-import static sorinpo.scr.edu.util.TestUtil.steal;
+import static sorinpo.scr.edu.util.TestHelpers.setAuthentication;
+import static sorinpo.scr.edu.util.TestHelpers.steal;
 
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sorinpo.scr.edu.TestContextConfig;
 import sorinpo.scr.edu.model.User;
-import sorinpo.scr.edu.util.TestUtil.ValueHolder;
+import sorinpo.scr.edu.util.TestHelpers.ValueHolder;
 
 @ContextConfiguration(classes=TestContextConfig.class)
 public class CentruInfoControllerIntegrationTest {

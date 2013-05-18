@@ -7,30 +7,31 @@ Ext.define('EDU.controller.ReportController', {
     	var me = this;
     	
         me.control({
-        	'report [action=send]': {
-        		click : me.sendImport
-        	}        	
+        	'#report [action=send]': {
+        		click : me.getReport
+        	},
+	        '#export [action=send]': {
+	    		click : me.getExport
+	    	}
         });
        
     },
     
-    sendImport: function(button) {
-    	var form   = button.up('form');
-
+    getReport: function(button){
+    	this.submitAndGetFile(button.up('form'), SERVER_ROOT + 'report')
+    },
+    
+    getExport: function(button){
+    	this.submitAndGetFile(button.up('form'), SERVER_ROOT + 'export')
+    },
+    
+    submitAndGetFile: function(form, url) {
     	if(form.isValid()){
             form.submit({
-                url: SERVER_ROOT + 'report',
-                //waitMsg: 'Se trimite cererea',
+                url: url,
                 params: {'year' : ParamManager.get('activeYear') },
                 standardSubmit: true,
-                target: 'download_frame'/*,
-                success: function(fp, o) {
-                	//Ext.StoreManager.get('Pupils').load();
-                    //Ext.Msg.alert('Succes', 'Fișierul a fost încărcat cu succes.');
-                },
-                failure: function(fp, o) {
-                    Ext.Msg.alert('Eroare', 'Serverul raporteaza o eroare: ' + o.result.message);
-                }*/
+                target: 'download_frame'
             });
         }
     }

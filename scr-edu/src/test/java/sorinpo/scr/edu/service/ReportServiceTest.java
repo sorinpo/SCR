@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -20,10 +18,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sorinpo.scr.edu.dto.PupilParticipation;
-import sorinpo.scr.edu.model.Participation;
-import sorinpo.scr.edu.model.Pupil;
-import sorinpo.scr.edu.model.Pupil.ParentState;
-import sorinpo.scr.edu.service.ReportService.ExportException;
+import sorinpo.scr.edu.service.ReportService.ReportException;
+import sorinpo.scr.edu.util.TestHelpers;
 
 
 public class ReportServiceTest {
@@ -53,39 +49,7 @@ ReportService exportService = null;
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
-		Pupil pu1 = new Pupil();
-		pu1.setOwner("AG");
-		pu1.setParentState(ParentState.BOTH);
-		
-		Participation pa1 = new Participation();
-		pa1.initializeActivityData();
-		pa1.getSchool().setJan(true);
-		pa1.getFreeTime().setFeb(true);
-		pa1.getExtraSchool().setMar(true);
-		pa1.getGroupCounseling().setApr(true);
-		pa1.getIndividualCounseling().setMay(true);
-		pa1.getParentalCommunication().setJun(true);
-		pa1.getLocalMeetings().setDec(true);
-		
-		Pupil pu2 = new Pupil();
-		pu2.setOwner("AG");
-		pu2.setParentState(ParentState.MOTHER);
-		Participation pa2 = new Participation();
-		pa2.initializeActivityData();
-		
-		Pupil pu3 = new Pupil();
-		pu3.setOwner("IS");
-		pu3.setParentState(ParentState.FATHER);
-		Participation pa3 = new Participation();
-		pa3.initializeActivityData();
-		
-		Collection<PupilParticipation> pps = Arrays.asList(
-			new PupilParticipation(pu1, pa1),
-			new PupilParticipation(pu2, pa2),
-			new PupilParticipation(pu3, pa3)
-		);
-		
-		exportService.writePupilParticipations(pps, out);
+		exportService.writePupilParticipations(TestHelpers.createTestPupilParticipation(), out);
 		
 		byte[] buff = out.toByteArray();
 		
@@ -159,17 +123,17 @@ ReportService exportService = null;
 		
 		assertEquals(3,  (int)evaluator.evaluate(row.getCell(1)).getNumberValue() );		
 		
-	}
+	}	
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void writePupilsNullPP() throws ExportException {
+	public void writePupilsNullPP() throws ReportException {
 		
 		exportService.writePupilParticipations(null, System.out);
 		
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void writePupilsNullOut() throws ExportException {
+	public void writePupilsNullOut() throws ReportException {
 		
 		exportService.writePupilParticipations(Collections.<PupilParticipation>emptyList(), null);
 		

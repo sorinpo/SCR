@@ -21,19 +21,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sorinpo.scr.edu.dto.PupilParticipation;
 import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
-import sorinpo.scr.edu.service.ReportService;
-import sorinpo.scr.edu.service.ReportService.ReportException;
+import sorinpo.scr.edu.service.ExportService;
+import sorinpo.scr.edu.service.ExportService.ExportException;
 import sorinpo.scr.edu.util.SecurityUtil;
 
 @Controller
-@RequestMapping(value = "/report")
-public class ReportController {
+@RequestMapping(value = "/export")
+public class ExportController {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(ReportController.class);
+			.getLogger(ExportController.class);
 
 	@Autowired
-	private ReportService reportService;
+	private ExportService exportService;
 
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST)
@@ -74,25 +74,25 @@ public class ReportController {
 			}
 			
 			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-			response.setHeader("Content-Disposition", "attachment; filename=\"Raport.xlsx\"");
+			response.setHeader("Content-Disposition", "attachment; filename=\"Export.xlsx\"");
 			
-			reportService.writePupilParticipations(rep, response.getOutputStream());
+			exportService.writePupils(rep, response.getOutputStream());
 			
 			response.flushBuffer();
 
 		} catch (IOException e) {
 			log.error("Failed to serve report", e);
-		} catch (ReportException e){
+		} catch (ExportException e){
 			log.error("Failed to serve report", e);
 		}
 	}
 
-	public ReportService getExportService() {
-		return reportService;
+	public ExportService getExportService() {
+		return exportService;
 	}
 
-	public void setExportService(ReportService exportService) {
-		this.reportService = exportService;
+	public void setExportService(ExportService exportService) {
+		this.exportService = exportService;
 	}
 	
 }
