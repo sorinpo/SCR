@@ -29,6 +29,12 @@ Ext.define('EDU.view.admin.Report', {
         items: [{
             text: 'Trimite',
             action: 'send'
+        },{
+            text: 'Selecteaza tot',
+            action: 'checkAll'
+        },{
+            text: 'Deselecteaza tot',
+            action: 'uncheckAll'
         }]
     }
 });
