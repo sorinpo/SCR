@@ -96,7 +96,7 @@ public class ReportService {
 		try {
 			wb.write(out);
 		} catch (IOException e) {
-			throw new ExportException("Nu s-a scrie raportul. Aceasta este o eroare interna. Contactati un administrator.", e);
+			throw new ExportException("Nu s-a scris raportul. Aceasta este o eroare interna. Contactati un administrator.", e);
 		}
 			
 	}
