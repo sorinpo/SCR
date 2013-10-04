@@ -67,8 +67,10 @@ Ext.define('EDU.controller.InfoController', {
 	        record = form.getRecord(),
 	        values = Helpers.inflate(form.getValues());
 
-    	record.set(values);
-    	record.save();
+    	if(form.isValid()){
+	    	record.set(values);
+	    	record.save();
+    	}
     },
     
     loadCentruInfo: function(form) {
@@ -88,8 +90,10 @@ Ext.define('EDU.controller.InfoController', {
 	        record = form.getRecord(),
 	        values = Helpers.inflate(form.getValues());
 
-    	record.set(values);
-    	record.save();
+    	if(form.isValid()){
+    		record.set(values);
+        	record.save();
+    	}
     },
     
     setActiveMonths: function(form, activeMonths){

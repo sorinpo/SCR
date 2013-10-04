@@ -119,14 +119,16 @@ Ext.define('EDU.controller.PupilController', {
 	        values = Helpers.inflate(form.getValues()),
 	        store = this.getPupilsStore();
 
-    	record.set(values);
-    	win.close();
-    	
-    	if(record.phantom){
-    		store.add(record);
+    	if(form.isValid()){
+    		record.set(values);
+        	win.close();
+        	
+        	if(record.phantom){
+        		store.add(record);
+        	}
+    	    // synchronize the store after editing the record
+    	    store.sync();
     	}
-	    // synchronize the store after editing the record
-	    store.sync();
     },
     
     deletePupil: function(button) {
