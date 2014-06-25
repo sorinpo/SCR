@@ -8,6 +8,7 @@ Ext.define('EDU.view.pupil.List' ,{
         
         this.columns = [
             {header: 'Nume',  dataIndex: 'name',  flex: 1},
+            {header: 'Data nașterii',  dataIndex: 'birthDate', xtype: 'datecolumn', format:'j/n/Y', flex: 1},
             {header: 'Situație Părinți', dataIndex: 'parentState', flex: 1,
             	renderer : function(value){
             		if(value === 'MOTHER') {
@@ -22,6 +23,20 @@ Ext.define('EDU.view.pupil.List' ,{
             	}
             },
             {header: 'Ţara unde este plecat părintele', dataIndex: 'leftToCountry', flex: 1},
+            {header: 'Data includere',  dataIndex: 'recruitmentDate', xtype: 'datecolumn', format:'j/n/Y', flex: 1},
+            {header: 'Modalitate includere', dataIndex: 'recruitmentMethod', flex: 1,
+            	renderer : function(value){
+            		if(value === 'PROJECT_TEAM') {
+            			return 'Echipa';
+            		} else if(value === 'PARTNERS') {
+            			return 'Parteneri';
+            		} else if(value === 'COMMUNITY') {
+            			return 'Comunitate';
+            		} else {
+            			return '';
+            		}
+            	}
+            },
             {header: 'Observații', dataIndex: 'comment', flex: 1}
         ];
         

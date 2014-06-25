@@ -9,10 +9,33 @@ import sorinpo.scr.edu.model.CentruInfo;
 
 privileged aspect CentruInfo_Roo_Finder {
     
+    public static Long CentruInfo.countFindCentruInfoesByUserId(Long userId) {
+        if (userId == null) throw new IllegalArgumentException("The userId argument is required");
+        EntityManager em = CentruInfo.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM CentruInfo AS o WHERE o.userId = :userId", Long.class);
+        q.setParameter("userId", userId);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static TypedQuery<CentruInfo> CentruInfo.findCentruInfoesByUserId(Long userId) {
         if (userId == null) throw new IllegalArgumentException("The userId argument is required");
         EntityManager em = CentruInfo.entityManager();
         TypedQuery<CentruInfo> q = em.createQuery("SELECT o FROM CentruInfo AS o WHERE o.userId = :userId", CentruInfo.class);
+        q.setParameter("userId", userId);
+        return q;
+    }
+    
+    public static TypedQuery<CentruInfo> CentruInfo.findCentruInfoesByUserId(Long userId, String sortFieldName, String sortOrder) {
+        if (userId == null) throw new IllegalArgumentException("The userId argument is required");
+        EntityManager em = CentruInfo.entityManager();
+        String jpaQuery = "SELECT o FROM CentruInfo AS o WHERE o.userId = :userId";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<CentruInfo> q = em.createQuery(jpaQuery, CentruInfo.class);
         q.setParameter("userId", userId);
         return q;
     }

@@ -9,10 +9,33 @@ import sorinpo.scr.edu.model.Pupil;
 
 privileged aspect Pupil_Roo_Finder {
     
+    public static Long Pupil.countFindPupilsByOwner(String owner) {
+        if (owner == null || owner.length() == 0) throw new IllegalArgumentException("The owner argument is required");
+        EntityManager em = Pupil.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Pupil AS o WHERE o.owner = :owner", Long.class);
+        q.setParameter("owner", owner);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static TypedQuery<Pupil> Pupil.findPupilsByOwner(String owner) {
         if (owner == null || owner.length() == 0) throw new IllegalArgumentException("The owner argument is required");
         EntityManager em = Pupil.entityManager();
         TypedQuery<Pupil> q = em.createQuery("SELECT o FROM Pupil AS o WHERE o.owner = :owner", Pupil.class);
+        q.setParameter("owner", owner);
+        return q;
+    }
+    
+    public static TypedQuery<Pupil> Pupil.findPupilsByOwner(String owner, String sortFieldName, String sortOrder) {
+        if (owner == null || owner.length() == 0) throw new IllegalArgumentException("The owner argument is required");
+        EntityManager em = Pupil.entityManager();
+        String jpaQuery = "SELECT o FROM Pupil AS o WHERE o.owner = :owner";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<Pupil> q = em.createQuery(jpaQuery, Pupil.class);
         q.setParameter("owner", owner);
         return q;
     }

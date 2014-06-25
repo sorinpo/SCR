@@ -1,21 +1,27 @@
 package sorinpo.scr.edu.model;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
-import org.springframework.roo.addon.json.RooJson;
+
+import sorinpo.scr.edu.util.JsonUtils;
 
 @RooJavaBean
-@RooJson
 @RooJpaActiveRecord(finders = { "findPupilsByOwner" })
 public class Pupil {
     private String name;
+    
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
 
     @Enumerated(EnumType.STRING)
     private ParentState parentState;
@@ -23,6 +29,12 @@ public class Pupil {
     private String leftToCountry;
     
     private String comment;
+    
+    @Temporal(TemporalType.DATE)
+    private Date recruitmentDate;
+    
+    @Enumerated(EnumType.STRING)
+    private RecruimentMethod recruitmentMethod;
     
     //the username that owns the data
     private String owner;
@@ -33,7 +45,39 @@ public class Pupil {
     private boolean locked;
    
     public static enum ParentState {
-    	MOTHER, FATHER, BOTH, NONE
+    	MOTHER("Mama", 1), FATHER("Tatăl", 1), BOTH("Ambii", 2), NONE("-", 0);
+    	
+    	private int num;
+    	private String text;
+    	
+    	ParentState(String text, int num){
+    		this.text = text;
+    		this.num = num;
+    	}
+    	
+    	public String getText() {
+    		return text;
+    	}
+    	
+    	public int getNum() {
+    		return num;
+    	}
+    }
+    
+    public static enum RecruimentMethod {
+    	PROJECT_TEAM("Echipa de proiect"),
+    	PARTNERS("Instituții partenere"),
+    	COMMUNITY("Comunitate");
+    	
+    	private String text;
+    	
+    	RecruimentMethod(String text) {
+    		this.text = text;
+    	}
+    	
+    	public String getText() {
+    		return text;
+    	}
     }
     
     public static TypedQuery<Pupil> findPupilsByOwnerIn(Collection<String> owners) {
@@ -53,4 +97,16 @@ public class Pupil {
         q.setParameter("owner", owner);
         return q;
     }
+
+	public String toJson() {
+        return JsonUtils.newSerializer().serialize(this);
+    }
+
+	public static Pupil fromJsonToPupil(String json) {
+        return JsonUtils.newDeserializer(Pupil.class).deserialize(json);
+    }
+
+	public static String toJsonArray(Collection<Pupil> collection) {
+        return JsonUtils.newSerializer().serialize(collection);
+    }	
 }

@@ -7,7 +7,7 @@ Ext.define('EDU.controller.PupilController', {
 
 	views : [ 'pupil.Main', 'pupil.List', 'pupil.Edit', 'pupil.participation.Edit' ],
 	
-	suspendCheckboxChangeEvent : false,
+	suspendParticipationChangeEvent : false,
 	
 	dataToSave : {},
 	
@@ -81,12 +81,12 @@ Ext.define('EDU.controller.PupilController', {
                 }
         	},
         	
-        	'pupil_participation_edit activity checkbox' : {
-        		change : function(checkbox, value) {
+        	'pupil_participation_edit activity checkbox, pupil_participation_edit parentalCommunicationGroup combobox' : {
+        		change : function(box, value) {
         			
-        			if(!me.suspendCheckboxChangeEvent){
+        			if(!me.suspendParticipationChangeEvent){
         				
-        				me.addToSaveData(checkbox.ownerCt.name, checkbox.itemId, checkbox.value);
+        				me.addToSaveData(box.ownerCt.name, box.itemId, box.value);
         				me.autosaveTask.delay(1000);
         				
         			}
@@ -166,7 +166,7 @@ Ext.define('EDU.controller.PupilController', {
 
     	} else {
     	
-	    	me.suspendCheckboxChangeEvent = true;
+	    	me.suspendParticipationChangeEvent = true;
 	    	EDU.model.Participation.load(pupilId, {
 	    	    callback : function(rec, op){
 	    	    	if(op.success){
@@ -175,7 +175,7 @@ Ext.define('EDU.controller.PupilController', {
 	    	    	} else {
 	    	    		Ext.callback(Helpers.operationFailed, me, arguments);
 	    	    	}
-	    	    	me.suspendCheckboxChangeEvent = false;
+	    	    	me.suspendParticipationChangeEvent = false;
 	    	    	me.loadedPupilId = pupilId;
 	    	    }
 	    	});
@@ -185,7 +185,7 @@ Ext.define('EDU.controller.PupilController', {
     },
     
     setActiveMonths: function(form, activeMonths){
-    	Ext.each(form.query('activity'), function(comp){
+    	Ext.each(form.query('activity, parentalCommunicationGroup'), function(comp){
     		comp.setActiveMonths(activeMonths);
     	});
     },

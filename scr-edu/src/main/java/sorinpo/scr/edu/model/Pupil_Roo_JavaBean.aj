@@ -3,6 +3,7 @@
 
 package sorinpo.scr.edu.model;
 
+import java.util.Date;
 import sorinpo.scr.edu.model.Pupil;
 
 privileged aspect Pupil_Roo_JavaBean {
@@ -13,6 +14,14 @@ privileged aspect Pupil_Roo_JavaBean {
     
     public void Pupil.setName(String name) {
         this.name = name;
+    }
+    
+    public Date Pupil.getBirthDate() {
+        return this.birthDate;
+    }
+    
+    public void Pupil.setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
     
     public ParentState Pupil.getParentState() {
@@ -37,6 +46,22 @@ privileged aspect Pupil_Roo_JavaBean {
     
     public void Pupil.setComment(String comment) {
         this.comment = comment;
+    }
+    
+    public Date Pupil.getRecruitmentDate() {
+        return this.recruitmentDate;
+    }
+    
+    public void Pupil.setRecruitmentDate(Date recruitmentDate) {
+        this.recruitmentDate = recruitmentDate;
+    }
+    
+    public RecruimentMethod Pupil.getRecruitmentMethod() {
+        return this.recruitmentMethod;
+    }
+    
+    public void Pupil.setRecruitmentMethod(RecruimentMethod recruitmentMethod) {
+        this.recruitmentMethod = recruitmentMethod;
     }
     
     public String Pupil.getOwner() {

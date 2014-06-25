@@ -4,6 +4,7 @@
 package sorinpo.scr.edu.model;
 
 import sorinpo.scr.edu.model.ActivityData;
+import sorinpo.scr.edu.model.ParentalCommunicationData;
 import sorinpo.scr.edu.model.Participation;
 
 privileged aspect Participation_Roo_JavaBean {
@@ -78,6 +79,14 @@ privileged aspect Participation_Roo_JavaBean {
     
     public void Participation.setLocalMeetings(ActivityData localMeetings) {
         this.localMeetings = localMeetings;
+    }
+    
+    public ParentalCommunicationData Participation.getParentalCommunicationDetailed() {
+        return this.parentalCommunicationDetailed;
+    }
+    
+    public void Participation.setParentalCommunicationDetailed(ParentalCommunicationData parentalCommunicationDetailed) {
+        this.parentalCommunicationDetailed = parentalCommunicationDetailed;
     }
     
 }

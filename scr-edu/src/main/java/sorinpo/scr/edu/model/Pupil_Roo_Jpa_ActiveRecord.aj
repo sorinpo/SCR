@@ -14,6 +14,8 @@ privileged aspect Pupil_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Pupil.entityManager;
     
+    public static final List<String> Pupil.fieldNames4OrderClauseFilter = java.util.Arrays.asList("name", "birthDate", "parentState", "leftToCountry", "comment", "recruitmentDate", "recruitmentMethod", "owner", "deleteRequested", "unlockRequested", "locked");
+    
     public static final EntityManager Pupil.entityManager() {
         EntityManager em = new Pupil().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect Pupil_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM Pupil o", Pupil.class).getResultList();
     }
     
+    public static List<Pupil> Pupil.findAllPupils(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Pupil o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Pupil.class).getResultList();
+    }
+    
     public static Pupil Pupil.findPupil(Long id) {
         if (id == null) return null;
         return entityManager().find(Pupil.class, id);
@@ -35,6 +48,17 @@ privileged aspect Pupil_Roo_Jpa_ActiveRecord {
     
     public static List<Pupil> Pupil.findPupilEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Pupil o", Pupil.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<Pupil> Pupil.findPupilEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Pupil o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Pupil.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

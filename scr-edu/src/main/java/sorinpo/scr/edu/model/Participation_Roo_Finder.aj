@@ -9,10 +9,49 @@ import sorinpo.scr.edu.model.Participation;
 
 privileged aspect Participation_Roo_Finder {
     
+    public static Long Participation.countFindParticipationsByPupilId(Long pupilId) {
+        if (pupilId == null) throw new IllegalArgumentException("The pupilId argument is required");
+        EntityManager em = Participation.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Participation AS o WHERE o.pupilId = :pupilId", Long.class);
+        q.setParameter("pupilId", pupilId);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long Participation.countFindParticipationsByPupilIdAndYear(Long pupilId, int year) {
+        if (pupilId == null) throw new IllegalArgumentException("The pupilId argument is required");
+        EntityManager em = Participation.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Participation AS o WHERE o.pupilId = :pupilId AND o.year = :year", Long.class);
+        q.setParameter("pupilId", pupilId);
+        q.setParameter("year", year);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long Participation.countFindParticipationsByYear(int year) {
+        EntityManager em = Participation.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Participation AS o WHERE o.year = :year", Long.class);
+        q.setParameter("year", year);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static TypedQuery<Participation> Participation.findParticipationsByPupilId(Long pupilId) {
         if (pupilId == null) throw new IllegalArgumentException("The pupilId argument is required");
         EntityManager em = Participation.entityManager();
         TypedQuery<Participation> q = em.createQuery("SELECT o FROM Participation AS o WHERE o.pupilId = :pupilId", Participation.class);
+        q.setParameter("pupilId", pupilId);
+        return q;
+    }
+    
+    public static TypedQuery<Participation> Participation.findParticipationsByPupilId(Long pupilId, String sortFieldName, String sortOrder) {
+        if (pupilId == null) throw new IllegalArgumentException("The pupilId argument is required");
+        EntityManager em = Participation.entityManager();
+        String jpaQuery = "SELECT o FROM Participation AS o WHERE o.pupilId = :pupilId";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<Participation> q = em.createQuery(jpaQuery, Participation.class);
         q.setParameter("pupilId", pupilId);
         return q;
     }
@@ -26,9 +65,39 @@ privileged aspect Participation_Roo_Finder {
         return q;
     }
     
+    public static TypedQuery<Participation> Participation.findParticipationsByPupilIdAndYear(Long pupilId, int year, String sortFieldName, String sortOrder) {
+        if (pupilId == null) throw new IllegalArgumentException("The pupilId argument is required");
+        EntityManager em = Participation.entityManager();
+        String jpaQuery = "SELECT o FROM Participation AS o WHERE o.pupilId = :pupilId AND o.year = :year";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<Participation> q = em.createQuery(jpaQuery, Participation.class);
+        q.setParameter("pupilId", pupilId);
+        q.setParameter("year", year);
+        return q;
+    }
+    
     public static TypedQuery<Participation> Participation.findParticipationsByYear(int year) {
         EntityManager em = Participation.entityManager();
         TypedQuery<Participation> q = em.createQuery("SELECT o FROM Participation AS o WHERE o.year = :year", Participation.class);
+        q.setParameter("year", year);
+        return q;
+    }
+    
+    public static TypedQuery<Participation> Participation.findParticipationsByYear(int year, String sortFieldName, String sortOrder) {
+        EntityManager em = Participation.entityManager();
+        String jpaQuery = "SELECT o FROM Participation AS o WHERE o.year = :year";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<Participation> q = em.createQuery(jpaQuery, Participation.class);
         q.setParameter("year", year);
         return q;
     }

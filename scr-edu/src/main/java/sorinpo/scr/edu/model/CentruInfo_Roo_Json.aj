@@ -13,19 +13,33 @@ import sorinpo.scr.edu.model.CentruInfo;
 privileged aspect CentruInfo_Roo_Json {
     
     public String CentruInfo.toJson() {
-        return new JSONSerializer().exclude("*.class").serialize(this);
+        return new JSONSerializer()
+        .exclude("*.class").serialize(this);
+    }
+    
+    public String CentruInfo.toJson(String[] fields) {
+        return new JSONSerializer()
+        .include(fields).exclude("*.class").serialize(this);
     }
     
     public static CentruInfo CentruInfo.fromJsonToCentruInfo(String json) {
-        return new JSONDeserializer<CentruInfo>().use(null, CentruInfo.class).deserialize(json);
+        return new JSONDeserializer<CentruInfo>()
+        .use(null, CentruInfo.class).deserialize(json);
     }
     
     public static String CentruInfo.toJsonArray(Collection<CentruInfo> collection) {
-        return new JSONSerializer().exclude("*.class").serialize(collection);
+        return new JSONSerializer()
+        .exclude("*.class").serialize(collection);
+    }
+    
+    public static String CentruInfo.toJsonArray(Collection<CentruInfo> collection, String[] fields) {
+        return new JSONSerializer()
+        .include(fields).exclude("*.class").serialize(collection);
     }
     
     public static Collection<CentruInfo> CentruInfo.fromJsonArrayToCentruInfoes(String json) {
-        return new JSONDeserializer<List<CentruInfo>>().use(null, ArrayList.class).use("values", CentruInfo.class).deserialize(json);
+        return new JSONDeserializer<List<CentruInfo>>()
+        .use("values", CentruInfo.class).deserialize(json);
     }
     
 }

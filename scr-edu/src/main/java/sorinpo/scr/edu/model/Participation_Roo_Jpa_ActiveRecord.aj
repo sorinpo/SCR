@@ -14,6 +14,8 @@ privileged aspect Participation_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Participation.entityManager;
     
+    public static final List<String> Participation.fieldNames4OrderClauseFilter = java.util.Arrays.asList("pupilId", "year", "school", "freeTime", "extraSchool", "groupCounseling", "individualCounseling", "parentalCommunication", "localMeetings", "parentalCommunicationDetailed");
+    
     public static final EntityManager Participation.entityManager() {
         EntityManager em = new Participation().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect Participation_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM Participation o", Participation.class).getResultList();
     }
     
+    public static List<Participation> Participation.findAllParticipations(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Participation o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Participation.class).getResultList();
+    }
+    
     public static Participation Participation.findParticipation(Long id) {
         if (id == null) return null;
         return entityManager().find(Participation.class, id);
@@ -35,6 +48,17 @@ privileged aspect Participation_Roo_Jpa_ActiveRecord {
     
     public static List<Participation> Participation.findParticipationEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Participation o", Participation.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<Participation> Participation.findParticipationEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Participation o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Participation.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

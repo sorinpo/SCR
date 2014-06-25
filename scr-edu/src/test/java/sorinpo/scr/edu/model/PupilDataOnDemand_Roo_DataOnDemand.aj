@@ -5,6 +5,9 @@ package sorinpo.scr.edu.model;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +16,7 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 import sorinpo.scr.edu.model.Pupil;
 import sorinpo.scr.edu.model.Pupil.ParentState;
+import sorinpo.scr.edu.model.Pupil.RecruimentMethod;
 import sorinpo.scr.edu.model.PupilDataOnDemand;
 
 privileged aspect PupilDataOnDemand_Roo_DataOnDemand {
@@ -25,6 +29,7 @@ privileged aspect PupilDataOnDemand_Roo_DataOnDemand {
     
     public Pupil PupilDataOnDemand.getNewTransientPupil(int index) {
         Pupil obj = new Pupil();
+        setBirthDate(obj, index);
         setComment(obj, index);
         setDeleteRequested(obj, index);
         setLeftToCountry(obj, index);
@@ -32,8 +37,15 @@ privileged aspect PupilDataOnDemand_Roo_DataOnDemand {
         setName(obj, index);
         setOwner(obj, index);
         setParentState(obj, index);
+        setRecruitmentDate(obj, index);
+        setRecruitmentMethod(obj, index);
         setUnlockRequested(obj, index);
         return obj;
+    }
+    
+    public void PupilDataOnDemand.setBirthDate(Pupil obj, int index) {
+        Date birthDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
+        obj.setBirthDate(birthDate);
     }
     
     public void PupilDataOnDemand.setComment(Pupil obj, int index) {
@@ -69,6 +81,16 @@ privileged aspect PupilDataOnDemand_Roo_DataOnDemand {
     public void PupilDataOnDemand.setParentState(Pupil obj, int index) {
         ParentState parentState = ParentState.class.getEnumConstants()[0];
         obj.setParentState(parentState);
+    }
+    
+    public void PupilDataOnDemand.setRecruitmentDate(Pupil obj, int index) {
+        Date recruitmentDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
+        obj.setRecruitmentDate(recruitmentDate);
+    }
+    
+    public void PupilDataOnDemand.setRecruitmentMethod(Pupil obj, int index) {
+        RecruimentMethod recruitmentMethod = RecruimentMethod.class.getEnumConstants()[0];
+        obj.setRecruitmentMethod(recruitmentMethod);
     }
     
     public void PupilDataOnDemand.setUnlockRequested(Pupil obj, int index) {
@@ -116,13 +138,13 @@ privileged aspect PupilDataOnDemand_Roo_DataOnDemand {
             Pupil obj = getNewTransientPupil(i);
             try {
                 obj.persist();
-            } catch (ConstraintViolationException e) {
-                StringBuilder msg = new StringBuilder();
+            } catch (final ConstraintViolationException e) {
+                final StringBuilder msg = new StringBuilder();
                 for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext();) {
-                    ConstraintViolation<?> cv = iter.next();
-                    msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
+                    final ConstraintViolation<?> cv = iter.next();
+                    msg.append("[").append(cv.getRootBean().getClass().getName()).append(".").append(cv.getPropertyPath()).append(": ").append(cv.getMessage()).append(" (invalid value = ").append(cv.getInvalidValue()).append(")").append("]");
                 }
-                throw new RuntimeException(msg.toString(), e);
+                throw new IllegalStateException(msg.toString(), e);
             }
             obj.flush();
             data.add(obj);

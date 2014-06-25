@@ -14,7 +14,8 @@ Ext.define('EDU.model.Participation', {
        {name : 'groupCounseling', type: 'auto', defaultValue: null },
        {name : 'individualCounseling', type: 'auto', defaultValue: null },
        {name : 'parentalCommunication', type: 'auto', defaultValue: null },
-       {name : 'localMeetings', type: 'auto', defaultValue: null }
+       {name : 'localMeetings', type: 'auto', defaultValue: null },
+       {name : 'parentalCommunicationDetailed', type: 'auto', defaultValue: null }
     ],
     
     proxy: {

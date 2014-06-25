@@ -2,6 +2,7 @@ package sorinpo.scr.edu.service;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import sorinpo.scr.edu.dto.PupilParticipation;
 import sorinpo.scr.edu.model.ActivityData;
+import sorinpo.scr.edu.model.ParentalCommunicationData;
 import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
 import sorinpo.scr.edu.model.Pupil.ParentState;
@@ -117,6 +119,8 @@ public class ExportService {
 			int cellIdx = 0;
 			cellIdx = writePupilData(pupil, row, cellIdx);
 			
+			cellIdx = writeParentalCommunicationData(row, p.getParentalCommunicationDetailed(), cellIdx);
+			
 			cellIdx = writeActivityData(row, p.getSchool(), cellIdx);
 			cellIdx = writeActivityData(row, p.getFreeTime(), cellIdx);
 			cellIdx = writeActivityData(row, p.getExtraSchool(), cellIdx);
@@ -131,8 +135,15 @@ public class ExportService {
 	
 	private static int writePupilData(Pupil pupil, Row row, int cellIdx){
 		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		
 		Cell cell = row.createCell(cellIdx++);
 		cell.setCellValue(pupil.getName());
+		
+		cell = row.createCell(cellIdx++);
+		if(pupil.getBirthDate() != null){
+			cell.setCellValue( dateFormat.format(pupil.getBirthDate() ));
+		}
 		
 		cell = row.createCell(cellIdx++);
 		POIUtils.setCellValueAs1Blank(cell, pupil.getParentState() == ParentState.MOTHER);
@@ -150,34 +161,40 @@ public class ExportService {
 			POIUtils.setCellComment(cell, pupil.getComment(), pupil.getOwner());
 		}
 		
+		cell = row.createCell(cellIdx++);
+		if(pupil.getRecruitmentDate() != null){
+			cell.setCellValue(dateFormat.format( pupil.getRecruitmentDate() ));
+		}
+		
+		cell = row.createCell(cellIdx++);
+		if(pupil.getRecruitmentMethod() != null){
+			cell.setCellValue(pupil.getRecruitmentMethod().getText());
+		}
+		
+		return cellIdx;
+	}
+	
+	private static int writeParentalCommunicationData(Row row, ParentalCommunicationData data, int cellIdx){
+		
+		for(int month=0; month < 12; month++){
+			Cell cell = row.createCell(cellIdx++);
+			
+			ParentState parentState = data.get(month);
+			
+			if(parentState != null){
+				cell.setCellValue(parentState.getText());
+			}			
+		}
+		
 		return cellIdx;
 	}
 	
 	private static int writeActivityData(Row row, ActivityData data, int cellIdx){
-		Cell cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getJan());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getFeb());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getMar());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getApr());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getMay());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getJun());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getJul());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getAug());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getSep());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getOct());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getNov());
-		cell = row.createCell(cellIdx++);
-		POIUtils.setCellValueAs1Blank(cell, data.getDec());
+		
+		for(int month=0; month < 12; month++){
+			Cell cell = row.createCell(cellIdx++);
+			POIUtils.setCellValueAs1Blank(cell, data.get(month));
+		}
 		
 		return cellIdx;
 	}

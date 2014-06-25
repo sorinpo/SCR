@@ -3,7 +3,9 @@ package sorinpo.scr.edu.service;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -19,8 +21,10 @@ import org.springframework.stereotype.Service;
 
 import sorinpo.scr.edu.dto.PupilParticipation;
 import sorinpo.scr.edu.model.ActivityData;
+import sorinpo.scr.edu.model.ParentalCommunicationData;
 import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.Pupil;
+import sorinpo.scr.edu.model.Pupil.ParentState;
 
 @Service
 public class ReportService {
@@ -73,12 +77,29 @@ public class ReportService {
 				case BOTH: row.bothLeft++;break;
 			}
 			
+			Date rDate = pupil.getRecruitmentDate();
+			if(rDate != null){
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(rDate);
+				
+				if(cal.get(Calendar.YEAR) == p.getYear()) {
+				
+					row.newPupils.inc(cal.get(Calendar.MONTH));
+					
+				}
+			}
+			
+			
+			updateAtLeastOneActivity(p, row);
+			
+			updateParentalCommunicationDetails(p, row);
+			
 			updateActivityData(p, row, "school");
 			updateActivityData(p, row, "freeTime");
 			updateActivityData(p, row, "extraSchool");
 			updateActivityData(p, row, "groupCounseling");
-			updateActivityData(p, row, "individualCounseling");
 			updateActivityData(p, row, "parentalCommunication");
+			updateActivityData(p, row, "individualCounseling");
 			updateActivityData(p, row, "localMeetings");
 		}
 		
@@ -118,13 +139,17 @@ public class ReportService {
 		cell = row.createCell(++cellIdx);
 		cell.setCellValue(repRow.bothLeft);
 		
-		writeActivityReport(row, repRow.school, ++cellIdx);
-		writeActivityReport(row, repRow.freeTime, cellIdx+=12);
-		writeActivityReport(row, repRow.extraSchool, cellIdx+=12);
-		writeActivityReport(row, repRow.groupCounseling, cellIdx+=12);
-		writeActivityReport(row, repRow.individualCounseling, cellIdx+=12);
-		writeActivityReport(row, repRow.parentalCommunication, cellIdx+=12);
-		writeActivityReport(row, repRow.localMeetings, cellIdx+=12);
+		cellIdx = writeActivityReport(row, repRow.atLeastOneActivity, ++cellIdx);
+		cellIdx = writeActivityReport(row, repRow.newPupils, cellIdx);
+		cellIdx = writeActivityReport(row, repRow.parentalCommunicationDetailed, cellIdx);
+		
+		cellIdx = writeActivityReport(row, repRow.school, cellIdx);
+		cellIdx = writeActivityReport(row, repRow.freeTime, cellIdx);
+		cellIdx = writeActivityReport(row, repRow.extraSchool, cellIdx);
+		cellIdx = writeActivityReport(row, repRow.groupCounseling, cellIdx);
+		cellIdx = writeActivityReport(row, repRow.individualCounseling, cellIdx);
+		cellIdx = writeActivityReport(row, repRow.parentalCommunication, cellIdx);
+		cellIdx = writeActivityReport(row, repRow.localMeetings, cellIdx);
 	}
 	
 	private static void insertTotalRow(Sheet sheet, int rowIdx, CellStyle style){
@@ -133,7 +158,7 @@ public class ReportService {
 		cell.setCellValue("Total");
 		cell.setCellStyle(style);
 		
-		for(int cellIdx = 1; cellIdx<89; cellIdx++){
+		for(int cellIdx = 1; cellIdx<125; cellIdx++){
 			cell = row.createCell(cellIdx);
 			CellReference top = new CellReference(START_ROW, cellIdx);
 			CellReference bottom = new CellReference(START_ROW + rowIdx - 1, cellIdx);
@@ -149,52 +174,52 @@ public class ReportService {
 			ActivityData ad = (ActivityData) new PropertyDescriptor(propName, Participation.class).getReadMethod().invoke(p);
 			ActivityReport ar = (ActivityReport) ReportRow.class.getField(propName).get(row);
 			
-			if(ad.getJan()){
-				ar.jan++;
+			for(int month=0; month<12; month++) {
+				
+				if(ad.get(month)) {
+					ar.inc(month);
+				}
+			}			
+		} catch (Exception e) {
+			//XXX
+			throw new RuntimeException(e);
+		}
+		
+	}
+	
+	private static void updateAtLeastOneActivity(Participation p, ReportRow row){
+		ActivityReport rep = row.atLeastOneActivity;
+		
+		for(int month=0; month<12; month++){
+			
+			boolean hasOneActivity = false;
+			
+			for(ActivityData ad : p.getActivityData()){
+				if(ad.get(month)){
+					hasOneActivity = true;
+					break;
+				}
 			}
 			
-			if(ad.getFeb()){
-				ar.feb++;
-			}	
-			
-			if(ad.getMar()){
-				ar.mar++;
+			if(hasOneActivity) {
+				rep.inc(month);
 			}
+		}
+	}
+	
+	private static void updateParentalCommunicationDetails(Participation p, ReportRow row){
+		
+		try {
+			ParentalCommunicationData pd = p.getParentalCommunicationDetailed();
+			ActivityReport ar = row.parentalCommunicationDetailed;
 			
-			if(ad.getApr()){
-				ar.apr++;
-			}
-			
-			if(ad.getMay()){
-				ar.may++;
-			}
-			
-			if(ad.getJun()){
-				ar.jun++;
-			}
-			
-			if(ad.getJul()){
-				ar.jul++;
-			}
-			
-			if(ad.getAug()){
-				ar.aug++;
-			}
-			
-			if(ad.getSep()){
-				ar.sep++;
-			}
-			
-			if(ad.getOct()){
-				ar.oct++;
-			}
-			
-			if(ad.getNov()){
-				ar.nov++;
-			}
-			
-			if(ad.getDec()){
-				ar.dec++;
+			for(int month=0; month<12; month++){
+				
+				ParentState parentState = pd.get(month);
+				
+				if(parentState != null) {
+					ar.inc(month, parentState.getNum());
+				}				
 			}
 		} catch (Exception e) {
 			//XXX
@@ -203,7 +228,7 @@ public class ReportService {
 		
 	}
 	
-	private static void writeActivityReport(Row row, ActivityReport rep, int idx){
+	private static int writeActivityReport(Row row, ActivityReport rep, int idx){
 		Cell cell = row.createCell(idx++);
 		cell.setCellValue(rep.jan);
 		cell = row.createCell(idx++);
@@ -228,6 +253,8 @@ public class ReportService {
 		cell.setCellValue(rep.nov);
 		cell = row.createCell(idx++);
 		cell.setCellValue(rep.dec);
+		
+		return idx;
 	}
 	
 	
@@ -238,7 +265,11 @@ public class ReportService {
 		public int motherLeft;
 		public int fatherLeft;
 		public int bothLeft;
-				
+		
+		public ActivityReport atLeastOneActivity = new ActivityReport();
+		public ActivityReport newPupils = new ActivityReport();
+		public ActivityReport parentalCommunicationDetailed = new ActivityReport();
+		
 		public ActivityReport school = new ActivityReport();
 	    public ActivityReport freeTime = new ActivityReport();
 	    public ActivityReport extraSchool = new ActivityReport();
@@ -263,6 +294,28 @@ public class ReportService {
 	    public int nov;
 	    public int dec;
 	   
+	    public void inc(int month) {
+	    	inc(month, 1);
+	    }
+	    
+	    public void inc(int month, int amount) {
+	    	switch(month) {
+	    		case  0: jan+=amount; break;
+	    		case  1: feb+=amount; break;
+	    		case  2: mar+=amount; break;
+	    		case  3: apr+=amount; break;
+	    		case  4: may+=amount; break;
+	    		case  5: jun+=amount; break;
+	    		case  6: jul+=amount; break;
+	    		case  7: aug+=amount; break;
+	    		case  8: sep+=amount; break;
+	    		case  9: oct+=amount; break;
+	    		case 10: nov+=amount; break;
+	    		case 11: dec+=amount; break;
+	    		
+	    		default: throw new IllegalArgumentException("Month number " + month + " is not defined");
+	    	}
+	    }
 	}
 	
 	@SuppressWarnings("serial")

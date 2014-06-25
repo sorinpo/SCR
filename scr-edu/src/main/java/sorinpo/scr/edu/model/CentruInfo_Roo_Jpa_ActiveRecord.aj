@@ -14,6 +14,8 @@ privileged aspect CentruInfo_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager CentruInfo.entityManager;
     
+    public static final List<String> CentruInfo.fieldNames4OrderClauseFilter = java.util.Arrays.asList("userId", "locality", "address", "team");
+    
     public static final EntityManager CentruInfo.entityManager() {
         EntityManager em = new CentruInfo().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect CentruInfo_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM CentruInfo o", CentruInfo.class).getResultList();
     }
     
+    public static List<CentruInfo> CentruInfo.findAllCentruInfoes(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM CentruInfo o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, CentruInfo.class).getResultList();
+    }
+    
     public static CentruInfo CentruInfo.findCentruInfo(Long id) {
         if (id == null) return null;
         return entityManager().find(CentruInfo.class, id);
@@ -35,6 +48,17 @@ privileged aspect CentruInfo_Roo_Jpa_ActiveRecord {
     
     public static List<CentruInfo> CentruInfo.findCentruInfoEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM CentruInfo o", CentruInfo.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<CentruInfo> CentruInfo.findCentruInfoEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM CentruInfo o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, CentruInfo.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

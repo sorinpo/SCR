@@ -12,8 +12,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 import sorinpo.scr.edu.model.ActivityData;
+import sorinpo.scr.edu.model.ParentalCommunicationData;
 import sorinpo.scr.edu.model.Participation;
 import sorinpo.scr.edu.model.ParticipationDataOnDemand;
+import sorinpo.scr.edu.model.Pupil.ParentState;
 
 privileged aspect ParticipationDataOnDemand_Roo_DataOnDemand {
     
@@ -32,6 +34,7 @@ privileged aspect ParticipationDataOnDemand_Roo_DataOnDemand {
         setIndividualCounseling(obj, index);
         setParentalCommunication(obj, index);
         setLocalMeetings(obj, index);
+        setParentalCommunicationDetailed(obj, index);
         setPupilId(obj, index);
         setYear(obj, index);
         return obj;
@@ -576,6 +579,83 @@ privileged aspect ParticipationDataOnDemand_Roo_DataOnDemand {
         obj.setDec(dec);
     }
     
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailed(Participation obj, int index) {
+        ParentalCommunicationData embeddedClass = new ParentalCommunicationData();
+        setParentalCommunicationDetailedJan(embeddedClass, index);
+        setParentalCommunicationDetailedFeb(embeddedClass, index);
+        setParentalCommunicationDetailedMar(embeddedClass, index);
+        setParentalCommunicationDetailedApr(embeddedClass, index);
+        setParentalCommunicationDetailedMay(embeddedClass, index);
+        setParentalCommunicationDetailedJun(embeddedClass, index);
+        setParentalCommunicationDetailedJul(embeddedClass, index);
+        setParentalCommunicationDetailedAug(embeddedClass, index);
+        setParentalCommunicationDetailedSep(embeddedClass, index);
+        setParentalCommunicationDetailedOct(embeddedClass, index);
+        setParentalCommunicationDetailedNov(embeddedClass, index);
+        setParentalCommunicationDetailedDec(embeddedClass, index);
+        obj.setParentalCommunicationDetailed(embeddedClass);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedJan(ParentalCommunicationData obj, int index) {
+        ParentState jan = ParentState.class.getEnumConstants()[0];
+        obj.setJan(jan);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedFeb(ParentalCommunicationData obj, int index) {
+        ParentState feb = ParentState.class.getEnumConstants()[0];
+        obj.setFeb(feb);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedMar(ParentalCommunicationData obj, int index) {
+        ParentState mar = ParentState.class.getEnumConstants()[0];
+        obj.setMar(mar);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedApr(ParentalCommunicationData obj, int index) {
+        ParentState apr = ParentState.class.getEnumConstants()[0];
+        obj.setApr(apr);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedMay(ParentalCommunicationData obj, int index) {
+        ParentState may = ParentState.class.getEnumConstants()[0];
+        obj.setMay(may);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedJun(ParentalCommunicationData obj, int index) {
+        ParentState jun = ParentState.class.getEnumConstants()[0];
+        obj.setJun(jun);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedJul(ParentalCommunicationData obj, int index) {
+        ParentState jul = ParentState.class.getEnumConstants()[0];
+        obj.setJul(jul);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedAug(ParentalCommunicationData obj, int index) {
+        ParentState aug = ParentState.class.getEnumConstants()[0];
+        obj.setAug(aug);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedSep(ParentalCommunicationData obj, int index) {
+        ParentState sep = ParentState.class.getEnumConstants()[0];
+        obj.setSep(sep);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedOct(ParentalCommunicationData obj, int index) {
+        ParentState oct = ParentState.class.getEnumConstants()[0];
+        obj.setOct(oct);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedNov(ParentalCommunicationData obj, int index) {
+        ParentState nov = ParentState.class.getEnumConstants()[0];
+        obj.setNov(nov);
+    }
+    
+    public void ParticipationDataOnDemand.setParentalCommunicationDetailedDec(ParentalCommunicationData obj, int index) {
+        ParentState dec = ParentState.class.getEnumConstants()[0];
+        obj.setDec(dec);
+    }
+    
     public void ParticipationDataOnDemand.setPupilId(Participation obj, int index) {
         Long pupilId = new Integer(index).longValue();
         obj.setPupilId(pupilId);
@@ -626,13 +706,13 @@ privileged aspect ParticipationDataOnDemand_Roo_DataOnDemand {
             Participation obj = getNewTransientParticipation(i);
             try {
                 obj.persist();
-            } catch (ConstraintViolationException e) {
-                StringBuilder msg = new StringBuilder();
+            } catch (final ConstraintViolationException e) {
+                final StringBuilder msg = new StringBuilder();
                 for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext();) {
-                    ConstraintViolation<?> cv = iter.next();
-                    msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
+                    final ConstraintViolation<?> cv = iter.next();
+                    msg.append("[").append(cv.getRootBean().getClass().getName()).append(".").append(cv.getPropertyPath()).append(": ").append(cv.getMessage()).append(" (invalid value = ").append(cv.getInvalidValue()).append(")").append("]");
                 }
-                throw new RuntimeException(msg.toString(), e);
+                throw new IllegalStateException(msg.toString(), e);
             }
             obj.flush();
             data.add(obj);

@@ -9,6 +9,7 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 import sorinpo.scr.edu.model.ActivityData;
 import sorinpo.scr.edu.model.Info;
 import sorinpo.scr.edu.model.MonthlyNumbers;
+import sorinpo.scr.edu.model.ParentalCommunicationData;
 import sorinpo.scr.edu.model.Participation;
 
 
@@ -45,7 +46,10 @@ public class Utils {
 	 * Updates only ActivityData
 	 */
 	public static Participation updateParticipation(final Participation newP, final Participation oldP, final ActivityData activeMonths){
-		return updatePair(newP, oldP, activeMonths, ActivityData.class);
+		updatePair(newP, oldP, activeMonths, ActivityData.class);
+		updatePair(newP, oldP, activeMonths, ParentalCommunicationData.class);
+		
+		return oldP;
 	}
 	
 	// TODO refactor this
@@ -77,12 +81,12 @@ public class Utils {
 									}
 									
 									Object oldO = getField(oldT, field2.getName());
-																		
+									
 									Object newVal = getField(newO, field.getName());
 									
 									if(newVal == null){
 										return;
-									}
+									}									
 									
 									setField(oldO, field.getName(), newVal);
 									

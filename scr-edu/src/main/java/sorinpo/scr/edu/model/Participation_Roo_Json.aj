@@ -13,19 +13,33 @@ import sorinpo.scr.edu.model.Participation;
 privileged aspect Participation_Roo_Json {
     
     public String Participation.toJson() {
-        return new JSONSerializer().exclude("*.class").serialize(this);
+        return new JSONSerializer()
+        .exclude("*.class").serialize(this);
+    }
+    
+    public String Participation.toJson(String[] fields) {
+        return new JSONSerializer()
+        .include(fields).exclude("*.class").serialize(this);
     }
     
     public static Participation Participation.fromJsonToParticipation(String json) {
-        return new JSONDeserializer<Participation>().use(null, Participation.class).deserialize(json);
+        return new JSONDeserializer<Participation>()
+        .use(null, Participation.class).deserialize(json);
     }
     
     public static String Participation.toJsonArray(Collection<Participation> collection) {
-        return new JSONSerializer().exclude("*.class").serialize(collection);
+        return new JSONSerializer()
+        .exclude("*.class").serialize(collection);
+    }
+    
+    public static String Participation.toJsonArray(Collection<Participation> collection, String[] fields) {
+        return new JSONSerializer()
+        .include(fields).exclude("*.class").serialize(collection);
     }
     
     public static Collection<Participation> Participation.fromJsonArrayToParticipations(String json) {
-        return new JSONDeserializer<List<Participation>>().use(null, ArrayList.class).use("values", Participation.class).deserialize(json);
+        return new JSONDeserializer<List<Participation>>()
+        .use("values", Participation.class).deserialize(json);
     }
     
 }

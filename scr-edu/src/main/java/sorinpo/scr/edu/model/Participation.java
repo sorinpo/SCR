@@ -1,5 +1,6 @@
 package sorinpo.scr.edu.model;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -39,6 +40,8 @@ public class Participation {
     private ActivityData parentalCommunication;
     @Embedded
     private ActivityData localMeetings;
+    @Embedded
+    private ParentalCommunicationData parentalCommunicationDetailed;
     
 	public Participation(long pupilId, int year) {
 		this.pupilId = pupilId;
@@ -53,6 +56,11 @@ public class Participation {
 		individualCounseling = new ActivityData(true);
 		parentalCommunication = new ActivityData(true);
 		localMeetings = new ActivityData(true);
+		parentalCommunicationDetailed = new ParentalCommunicationData(true);
+	}
+	
+	public Iterable<ActivityData> getActivityData() {
+		return Arrays.asList(school, freeTime, extraSchool, groupCounseling, individualCounseling, parentalCommunication, localMeetings);
 	}
 	
 	public static TypedQuery<Participation> findParticipationsByPupilIdsAndYear(Collection<Long> pupilIds, int year) {

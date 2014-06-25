@@ -1,0 +1,29 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet id="1" author="sorinpo">
+		<sql stripComments="false">
+ALTER TABLE pupil ADD COLUMN birthdate DATE DEFAULT NULL;
+ALTER TABLE pupil ADD COLUMN recruitmentdate DATE DEFAULT NULL;
+ALTER TABLE pupil ADD COLUMN recruitmentmethod VARCHAR(255) DEFAULT NULL;
+		</sql>
+	</changeSet>
+	<changeSet id="2" author="sorinpo">
+		<sql stripComments="false">
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_apr VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_aug VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_dec VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_feb VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_jan VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_jul VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_jun VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_mar VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_may VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_nov VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_oct VARCHAR(255) DEFAULT 'NONE';
+ALTER TABLE participation ADD COLUMN parentalcommunicationdetailed_sep VARCHAR(255) DEFAULT 'NONE';
+		</sql>
+	</changeSet>
+</databaseChangeLog>
+
