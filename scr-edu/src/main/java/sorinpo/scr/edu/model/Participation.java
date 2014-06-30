@@ -52,6 +52,9 @@ public class Participation {
 	}
 
 	public void initializeActivityData() {
+		
+		inactivity = new ActivityData(true);
+		
 		school = new ActivityData(true);
 		freeTime = new ActivityData(true);
 		extraSchool = new ActivityData(true);

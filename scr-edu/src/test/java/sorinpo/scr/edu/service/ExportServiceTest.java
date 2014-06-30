@@ -60,61 +60,73 @@ ExportService exportService = null;
 		//AG test 1
 		Row row = sheet.getRow(2);
 		
-		assertEquals("test 1",row.getCell(0).getStringCellValue());
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(1)));
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(2)));
-		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(3)));
+		int cell; 
 		
-		assertEquals("country 1",row.getCell(4).getStringCellValue());
-		assertEquals("comment 1",row.getCell(4).getCellComment().getString().getString());
+		assertEquals(1,(int)row.getCell(0).getNumericCellValue());
+		
+		cell = 1;
+		assertEquals("test 1",row.getCell(cell).getStringCellValue());
+		cell++;
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 1)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 2)));
+		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(cell + 3)));
+		
+		assertEquals("country 1",row.getCell(cell + 4).getStringCellValue());
+		assertEquals("comment 1",row.getCell(cell + 4).getCellComment().getString().getString());
 
+		cell += 38; 
 		//school jan
-		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(5)));
+		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(cell + 5)));
 		//school feb		
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(6)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 6)));
 		
 		//free time feb
-		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(18)));
+		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(cell + 18)));
 		//free time mar
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(19)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 19)));
 		
 		//extra mar
-		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(31)));
+		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(cell + 31)));
 		//extra apr
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(32)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 32)));
 		
 		//group apr
-		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(44)));
+		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(cell + 44)));
 		//group may
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(45)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 45)));
 		
 		//individual may
-		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(57)));
+		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(cell + 57)));
 		//individual jun
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(58)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 58)));
 		
 		//communication jun
-		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(70)));
+		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(cell + 70)));
 		//communication jul
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(51)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 51)));
 		
 		//local dec
-		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(88)));
+		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(cell + 88)));
 		//local nov
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(87)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 87)));
 				
 		//AG test 2
 		row = sheet.getRow(3);
-		assertEquals("test 2",row.getCell(0).getStringCellValue());
-		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(1)));
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(2)));
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(3)));
 		
-		assertEquals("country 2",row.getCell(4).getStringCellValue());
-		assertEquals(null, row.getCell(4).getCellComment());
+		assertEquals(2,(int)row.getCell(0).getNumericCellValue());
+		
+		cell = 1;
+		assertEquals("test 2",row.getCell(cell).getStringCellValue());
+		cell++;
+		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(cell + 1)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 2)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 3)));
+		
+		assertEquals("country 2",row.getCell(cell + 4).getStringCellValue());
+		assertEquals(null, row.getCell(cell + 4).getCellComment());
 
 		//school jan
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(5)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 5)));
 		
 		//IS
 		sheet = wb.getSheetAt(1);
@@ -123,16 +135,20 @@ ExportService exportService = null;
 		//IS test 3
 		row = sheet.getRow(2);
 		
-		assertEquals("test 3",row.getCell(0).getStringCellValue());
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(1)));
-		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(2)));
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(3)));
+		assertEquals(1,(int)row.getCell(0).getNumericCellValue());
+
+		cell = 1;
+		assertEquals("test 3",row.getCell(cell).getStringCellValue());
+		cell++;
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 1)));
+		assertEquals(true, POIUtils.getCellValueAs1Blank(row.getCell(cell + 2)));
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 3)));
 		
-		assertEquals("country 3",row.getCell(4).getStringCellValue());
-		assertEquals("comment 3",row.getCell(4).getCellComment().getString().getString());
+		assertEquals("country 3",row.getCell(cell + 4).getStringCellValue());
+		assertEquals("comment 3",row.getCell(cell + 4).getCellComment().getString().getString());
 
 		//school jan
-		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(5)));		
+		assertEquals(false, POIUtils.getCellValueAs1Blank(row.getCell(cell + 5)));		
 		
 	}
 	

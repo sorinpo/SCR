@@ -63,65 +63,71 @@ ReportService exportService = null;
 		Row row = sheet.getRow(2);
 		assertNotNull(row);
 		
-		assertEquals("AG",row.getCell(0).getStringCellValue());
-		assertEquals(2,(int)row.getCell(1).getNumericCellValue());
+		assertEquals(1,(int)row.getCell(0).getNumericCellValue());
+		int cell = 1;
+		assertEquals("AG",row.getCell(cell).getStringCellValue());
+		assertEquals(2,(int)row.getCell(cell + 1).getNumericCellValue());
 		
-		assertEquals(1,(int)row.getCell(2).getNumericCellValue());
-		assertEquals(0,(int)row.getCell(3).getNumericCellValue());
-		assertEquals(1,(int)row.getCell(4).getNumericCellValue());
+		assertEquals(1,(int)row.getCell(cell + 2).getNumericCellValue());
+		assertEquals(0,(int)row.getCell(cell + 3).getNumericCellValue());
+		assertEquals(1,(int)row.getCell(cell + 4).getNumericCellValue());
 		
+		cell+=48;
 		//school jan
-		assertEquals(1,(int)row.getCell(5).getNumericCellValue());
+		assertEquals(1,(int)row.getCell(cell + 5).getNumericCellValue());
 		//school feb
-		assertEquals(0,(int)row.getCell(6).getNumericCellValue());
+		assertEquals(0,(int)row.getCell(cell + 6).getNumericCellValue());
 		
 		//free time feb
-		assertEquals(1,(int)row.getCell(18).getNumericCellValue());
+		assertEquals(1,(int)row.getCell(cell + 18).getNumericCellValue());
 		//free time mar
-		assertEquals(0,(int)row.getCell(19).getNumericCellValue());
+		assertEquals(0,(int)row.getCell(cell + 19).getNumericCellValue());
 		
 		//extra mar
-		assertEquals(1,(int)row.getCell(31).getNumericCellValue());
+		assertEquals(1,(int)row.getCell(cell + 31).getNumericCellValue());
 		//extra apr
-		assertEquals(0,(int)row.getCell(32).getNumericCellValue());
+		assertEquals(0,(int)row.getCell(cell + 32).getNumericCellValue());
 		
 		//group apr
-		assertEquals(1,(int)row.getCell(44).getNumericCellValue());
+		assertEquals(1,(int)row.getCell(cell + 44).getNumericCellValue());
 		//group may
-		assertEquals(0,(int)row.getCell(45).getNumericCellValue());
+		assertEquals(0,(int)row.getCell(cell + 45).getNumericCellValue());
 		
 		//individual may
-		assertEquals(1,(int)row.getCell(57).getNumericCellValue());
+		assertEquals(1,(int)row.getCell(cell + 57).getNumericCellValue());
 		//individual jun
-		assertEquals(0,(int)row.getCell(58).getNumericCellValue());
+		assertEquals(0,(int)row.getCell(cell + 58).getNumericCellValue());
 		
 		//communication jun
-		assertEquals(1,(int)row.getCell(70).getNumericCellValue());
+		assertEquals(1,(int)row.getCell(cell + 70).getNumericCellValue());
 		//communication jul
-		assertEquals(0,(int)row.getCell(51).getNumericCellValue());
+		assertEquals(0,(int)row.getCell(cell + 51).getNumericCellValue());
 		
 		//local dec
-		assertEquals(1,(int)row.getCell(88).getNumericCellValue());
+		assertEquals(1,(int)row.getCell(cell + 88).getNumericCellValue());
 		//local nov
-		assertEquals(0,(int)row.getCell(87).getNumericCellValue());
+		assertEquals(0,(int)row.getCell(cell + 87).getNumericCellValue());
 				
 		//IS
 		row = sheet.getRow(3);
 		assertNotNull(row);
 		
-		assertEquals("IS",row.getCell(0).getStringCellValue());
-		assertEquals(1,(int)row.getCell(1).getNumericCellValue());
+		assertEquals(2,(int)row.getCell(0).getNumericCellValue());
+		cell = 1;
+		assertEquals("IS",row.getCell(cell).getStringCellValue());
+		assertEquals(1,(int)row.getCell(cell + 1).getNumericCellValue());
 		
 		//TOTAL
 		row = sheet.getRow(4);
 		assertNotNull(row);
-		assertEquals("Total",row.getCell(0).getStringCellValue());
-		
-		assertEquals(Cell.CELL_TYPE_FORMULA, row.getCell(1).getCellType());
+		cell = 0;
+		assertEquals("Total",row.getCell(cell).getStringCellValue());
+		cell++;
+		assertEquals(Cell.CELL_TYPE_FORMULA, row.getCell(cell + 1).getCellType());
 		
 		FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
 		
-		assertEquals(3,  (int)evaluator.evaluate(row.getCell(1)).getNumberValue() );		
+		assertEquals(3,  (int)evaluator.evaluate(row.getCell(cell + 1)).getNumberValue() );		
 		
 	}	
 	
