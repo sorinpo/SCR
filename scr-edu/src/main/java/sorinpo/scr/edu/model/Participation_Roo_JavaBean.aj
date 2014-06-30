@@ -25,6 +25,14 @@ privileged aspect Participation_Roo_JavaBean {
         this.year = year;
     }
     
+    public ActivityData Participation.getInactivity() {
+        return this.inactivity;
+    }
+    
+    public void Participation.setInactivity(ActivityData inactivity) {
+        this.inactivity = inactivity;
+    }
+    
     public ActivityData Participation.getSchool() {
         return this.school;
     }

@@ -6,11 +6,11 @@ Ext.namespace('Helpers');
 Helpers = {
     
 	criticalOperationFailed : function(){
-		alert("NASOL");
+		alert("Aplicația nu a putut fi pornită. Incercați un refresh cu CTRL+F5.");
 	},	
 		
 	operationFailed : function(){
-		console.log("NASOL");
+		console.log("Aplicația nu a putut fi pornită. Incercați un refresh cu CTRL+F5.");
 	},
 		
     inflate: function(data){
@@ -222,10 +222,10 @@ Ext.application({
 	            	items : [{
 	            		xtype: 'config',
 	            		title: 'Configurare'
-	            	},{
+	            	}/*,{
 	            		xtype: 'import',
 	            		title: 'Import date din teritoriu'
-	            	},{
+	            	}*/,{
 	            		xtype: 'report',
 	            		itemId: 'report',
 	            		title: 'Raportare'

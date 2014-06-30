@@ -92,6 +92,8 @@ public class ReportService {
 			
 			updateAtLeastOneActivity(p, row);
 			
+			updateActivityData(p, row, "inactivity");
+			
 			updateParentalCommunicationDetails(p, row);
 			
 			updateActivityData(p, row, "school");
@@ -123,24 +125,30 @@ public class ReportService {
 	
 	private static void insertReportRow(ReportRow repRow, Sheet sheet, int rowIdx){
 		Row row = sheet.createRow(START_ROW + rowIdx);
-		int cellIdx = -1;
-		Cell cell = row.createCell(++cellIdx);
+		
+		int cellIdx = 0;
+		
+		Cell cell = row.createCell(cellIdx++);
+		cell.setCellValue(rowIdx + 1);
+		
+		cell = row.createCell(cellIdx++);
 		cell.setCellValue(repRow.county);
 		
-		cell = row.createCell(++cellIdx);
+		cell = row.createCell(cellIdx++);
 		cell.setCellValue(repRow.children);
 		
-		cell = row.createCell(++cellIdx);
+		cell = row.createCell(cellIdx++);
 		cell.setCellValue(repRow.motherLeft);
 		
-		cell = row.createCell(++cellIdx);
+		cell = row.createCell(cellIdx++);
 		cell.setCellValue(repRow.fatherLeft);
 		
-		cell = row.createCell(++cellIdx);
+		cell = row.createCell(cellIdx++);
 		cell.setCellValue(repRow.bothLeft);
 		
-		cellIdx = writeActivityReport(row, repRow.atLeastOneActivity, ++cellIdx);
+		cellIdx = writeActivityReport(row, repRow.atLeastOneActivity, cellIdx);
 		cellIdx = writeActivityReport(row, repRow.newPupils, cellIdx);
+		cellIdx = writeActivityReport(row, repRow.inactivity, cellIdx);
 		cellIdx = writeActivityReport(row, repRow.parentalCommunicationDetailed, cellIdx);
 		
 		cellIdx = writeActivityReport(row, repRow.school, cellIdx);
@@ -158,7 +166,7 @@ public class ReportService {
 		cell.setCellValue("Total");
 		cell.setCellStyle(style);
 		
-		for(int cellIdx = 1; cellIdx<125; cellIdx++){
+		for(int cellIdx = 2; cellIdx<138; cellIdx++){
 			cell = row.createCell(cellIdx);
 			CellReference top = new CellReference(START_ROW, cellIdx);
 			CellReference bottom = new CellReference(START_ROW + rowIdx - 1, cellIdx);
@@ -268,6 +276,7 @@ public class ReportService {
 		
 		public ActivityReport atLeastOneActivity = new ActivityReport();
 		public ActivityReport newPupils = new ActivityReport();
+		public ActivityReport inactivity = new ActivityReport();
 		public ActivityReport parentalCommunicationDetailed = new ActivityReport();
 		
 		public ActivityReport school = new ActivityReport();

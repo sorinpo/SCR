@@ -8,6 +8,8 @@ Ext.define('EDU.model.Participation', {
        {name : 'pupilId', type: 'int'},
        {name : 'year', type: 'int'},
        
+       {name : 'inactivity', type: 'auto', defaultValue: null },
+       
        {name : 'school', type: 'auto', defaultValue: null },
        {name : 'freeTime', type: 'auto', defaultValue: null },
        {name : 'extraSchool', type: 'auto', defaultValue: null },

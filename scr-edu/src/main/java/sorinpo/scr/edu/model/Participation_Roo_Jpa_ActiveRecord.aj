@@ -14,7 +14,7 @@ privileged aspect Participation_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Participation.entityManager;
     
-    public static final List<String> Participation.fieldNames4OrderClauseFilter = java.util.Arrays.asList("pupilId", "year", "school", "freeTime", "extraSchool", "groupCounseling", "individualCounseling", "parentalCommunication", "localMeetings", "parentalCommunicationDetailed");
+    public static final List<String> Participation.fieldNames4OrderClauseFilter = java.util.Arrays.asList("pupilId", "year", "inactivity", "school", "freeTime", "extraSchool", "groupCounseling", "individualCounseling", "parentalCommunication", "localMeetings", "parentalCommunicationDetailed");
     
     public static final EntityManager Participation.entityManager() {
         EntityManager em = new Participation().entityManager;

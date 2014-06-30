@@ -116,10 +116,17 @@ public class ExportService {
 			
 			Row row = sheet.createRow(START_ROW + rowIdx++);
 			
-			int cellIdx = 0;
+			int cellIdx = writeNrCrt(rowIdx, row);
+			
 			cellIdx = writePupilData(pupil, row, cellIdx);
 			
 			cellIdx = writeParentalCommunicationData(row, p.getParentalCommunicationDetailed(), cellIdx);
+			
+			//minimum one activity
+			cellIdx = writeMinimumActivityData(row, p, cellIdx);
+			
+			//inactivity
+			cellIdx = writeActivityData(row, p.getInactivity(), cellIdx);
 			
 			cellIdx = writeActivityData(row, p.getSchool(), cellIdx);
 			cellIdx = writeActivityData(row, p.getFreeTime(), cellIdx);
@@ -128,9 +135,14 @@ public class ExportService {
 			cellIdx = writeActivityData(row, p.getIndividualCounseling(), cellIdx);
 			cellIdx = writeActivityData(row, p.getParentalCommunication(), cellIdx);
 			cellIdx = writeActivityData(row, p.getLocalMeetings(), cellIdx);
-						
 		}
 		
+	}
+	
+	private static int writeNrCrt(int rowIdx, Row row){
+		Cell cell = row.createCell(0);
+		cell.setCellValue(rowIdx);
+		return 1;
 	}
 	
 	private static int writePupilData(Pupil pupil, Row row, int cellIdx){
@@ -187,6 +199,27 @@ public class ExportService {
 		}
 		
 		return cellIdx;
+	}
+	
+	private static int writeMinimumActivityData(Row row, Participation p, int cellIdx) {
+		
+		for(int month=0; month < 12; month++){
+			
+			boolean val = false;
+			
+			for(ActivityData ad: p.getActivityData()) {
+				if(ad.get(month)) {
+					val = true;
+					break;
+				}
+			}
+			
+			Cell cell = row.createCell(cellIdx++);
+			POIUtils.setCellValueAs1Blank(cell, val);
+		}
+		
+		return cellIdx;
+		
 	}
 	
 	private static int writeActivityData(Row row, ActivityData data, int cellIdx){

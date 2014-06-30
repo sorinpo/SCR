@@ -64,6 +64,10 @@ Ext.define('EDU.controller.PupilController', {
         		click : me.deletePupil
         	},
         	
+        	'pupil_list #filter': {
+        		change : me.updateFilter
+        	},
+        	
         	'pupil_edit [action=save]': {
         		click : me.savePupil
         	},
@@ -96,7 +100,7 @@ Ext.define('EDU.controller.PupilController', {
         	
         });
     },
-
+    
     addPupil: function(button) {
         var view = Ext.widget('pupil_edit'),
         	record = Ext.create('EDU.model.Pupil');
@@ -144,6 +148,32 @@ Ext.define('EDU.controller.PupilController', {
     		
 			store.remove(selection);
 			store.sync();
+    	}
+    },
+    
+    updateFilter : function(textField) {
+    	
+    	var store = textField.up('grid').getStore();
+    	var filter = textField.getValue()?textField.getValue().trim().toLowerCase():'';
+    	
+    	store.clearFilter();
+    	
+    	if(filter){
+	    	store.filterBy(function(model){
+	    		
+	    		var match = false;
+	    		
+	    		Ext.each(EDU.model.Pupil.getFields(), function(field){
+	    			var str = '' + model.get(field.name);
+	    			
+	    			if(str.toLowerCase().indexOf(filter) >=0){
+	    				match = true;
+	    				return false;
+	    			}	    			
+	    		});	    		
+	    		
+	    		return match;
+	    	});
     	}
     },
     
@@ -206,6 +236,10 @@ Ext.define('EDU.controller.PupilController', {
     			delete me.dataToSave[pprop];
     		}
     	}
+    },
+    
+    manageInactivity: function() {
+    	
     }
     
 });

@@ -21,7 +21,8 @@ Ext.define('EDU.view.pupil.Edit', {
                 fieldLabel: 'Data nașterii',
                 allowBlank: false,
                 format: 'j/n/Y',
-                altFormats: 'j/n/Y|j/m/Y|d/n/Y|d/m/Y|j.n.Y|j.m.Y|d.n.Y|d.m.Y|j-n-Y|j-m-Y|d-n-Y|d-m-Y'
+                altFormats: 'j/n/Y|j/m/Y|d/n/Y|d/m/Y|j.n.Y|j.m.Y|d.n.Y|d.m.Y|j-n-Y|j-m-Y|d-n-Y|d-m-Y',
+                maxValue: new Date()
             },{
                 xtype: 'radiogroup',
                 fieldLabel: 'Situație Părinți',
@@ -46,7 +47,9 @@ Ext.define('EDU.view.pupil.Edit', {
                 fieldLabel: 'Data includerii în program',
                 allowBlank: false,
                 format: 'j/n/Y',
-                altFormats: 'j/n/Y|j/m/Y|d/n/Y|d/m/Y|j.n.Y|j.m.Y|d.n.Y|d.m.Y|j-n-Y|j-m-Y|d-n-Y|d-m-Y'
+                altFormats: 'j/n/Y|j/m/Y|d/n/Y|d/m/Y|j.n.Y|j.m.Y|d.n.Y|d.m.Y|j-n-Y|j-m-Y|d-n-Y|d-m-Y',
+                minValue: '1/7/2013',
+                maxValue: new Date()
             },{
                 xtype: 'radiogroup',
                 fieldLabel: 'Modalitate de includere în program',

@@ -27,6 +27,7 @@ privileged aspect ParticipationDataOnDemand_Roo_DataOnDemand {
     
     public Participation ParticipationDataOnDemand.getNewTransientParticipation(int index) {
         Participation obj = new Participation();
+        setInactivity(obj, index);
         setSchool(obj, index);
         setFreeTime(obj, index);
         setExtraSchool(obj, index);
@@ -38,6 +39,83 @@ privileged aspect ParticipationDataOnDemand_Roo_DataOnDemand {
         setPupilId(obj, index);
         setYear(obj, index);
         return obj;
+    }
+    
+    public void ParticipationDataOnDemand.setInactivity(Participation obj, int index) {
+        ActivityData embeddedClass = new ActivityData();
+        setInactivityJan(embeddedClass, index);
+        setInactivityFeb(embeddedClass, index);
+        setInactivityMar(embeddedClass, index);
+        setInactivityApr(embeddedClass, index);
+        setInactivityMay(embeddedClass, index);
+        setInactivityJun(embeddedClass, index);
+        setInactivityJul(embeddedClass, index);
+        setInactivityAug(embeddedClass, index);
+        setInactivitySep(embeddedClass, index);
+        setInactivityOct(embeddedClass, index);
+        setInactivityNov(embeddedClass, index);
+        setInactivityDec(embeddedClass, index);
+        obj.setInactivity(embeddedClass);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityJan(ActivityData obj, int index) {
+        Boolean jan = Boolean.TRUE;
+        obj.setJan(jan);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityFeb(ActivityData obj, int index) {
+        Boolean feb = Boolean.TRUE;
+        obj.setFeb(feb);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityMar(ActivityData obj, int index) {
+        Boolean mar = Boolean.TRUE;
+        obj.setMar(mar);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityApr(ActivityData obj, int index) {
+        Boolean apr = Boolean.TRUE;
+        obj.setApr(apr);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityMay(ActivityData obj, int index) {
+        Boolean may = Boolean.TRUE;
+        obj.setMay(may);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityJun(ActivityData obj, int index) {
+        Boolean jun = Boolean.TRUE;
+        obj.setJun(jun);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityJul(ActivityData obj, int index) {
+        Boolean jul = Boolean.TRUE;
+        obj.setJul(jul);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityAug(ActivityData obj, int index) {
+        Boolean aug = Boolean.TRUE;
+        obj.setAug(aug);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivitySep(ActivityData obj, int index) {
+        Boolean sep = Boolean.TRUE;
+        obj.setSep(sep);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityOct(ActivityData obj, int index) {
+        Boolean oct = Boolean.TRUE;
+        obj.setOct(oct);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityNov(ActivityData obj, int index) {
+        Boolean nov = Boolean.TRUE;
+        obj.setNov(nov);
+    }
+    
+    public void ParticipationDataOnDemand.setInactivityDec(ActivityData obj, int index) {
+        Boolean dec = Boolean.TRUE;
+        obj.setDec(dec);
     }
     
     public void ParticipationDataOnDemand.setSchool(Participation obj, int index) {

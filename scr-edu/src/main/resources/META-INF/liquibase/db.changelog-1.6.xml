@@ -1,0 +1,22 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet id="1" author="sorinpo">
+		<sql stripComments="false">
+ALTER TABLE participation ADD COLUMN inactivity_apr tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_aug tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_dec tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_feb tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_jan tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_jul tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_jun tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_mar tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_may tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_nov tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_oct tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE participation ADD COLUMN inactivity_sep tinyint(1) NOT NULL DEFAULT 0;
+		</sql>
+	</changeSet>
+</databaseChangeLog>
+

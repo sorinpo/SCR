@@ -27,6 +27,9 @@ public class Participation {
     private int year;
 
     @Embedded
+    private ActivityData inactivity;
+    
+    @Embedded
     private ActivityData school;
     @Embedded
     private ActivityData freeTime;

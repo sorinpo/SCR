@@ -7,6 +7,7 @@ Ext.define('EDU.view.pupil.List' ,{
     initComponent: function() {
         
         this.columns = [
+            {header: 'Nr.', xtype: 'rownumberer'},
             {header: 'Nume',  dataIndex: 'name',  flex: 1},
             {header: 'Data nașterii',  dataIndex: 'birthDate', xtype: 'datecolumn', format:'j/n/Y', flex: 1},
             {header: 'Situație Părinți', dataIndex: 'parentState', flex: 1,
@@ -40,12 +41,21 @@ Ext.define('EDU.view.pupil.List' ,{
             {header: 'Observații', dataIndex: 'comment', flex: 1}
         ];
         
-        this.tbar = [
+        var tbar = [
              {text: 'Adaugă', action: 'add'}
         ]
         if(APP_SEC.isAdmin){
-        	this.tbar.push({text: 'Șterge', action: 'delete'});
+        	tbar.push({text: 'Șterge', action: 'delete'});
         }
+        
+        tbar.push({
+        	xtype: 'textfield',
+        	itemId: 'filter',
+        	width: 200,
+        	emptyText: 'Tastați pentru a filtra lista'
+        });
+        
+        this.tbar = tbar;
         
         //last call
         this.callParent(arguments);

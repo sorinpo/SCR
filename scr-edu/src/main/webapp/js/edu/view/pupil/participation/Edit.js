@@ -16,6 +16,9 @@ Ext.define('EDU.view.pupil.participation.Edit', {
     
     initComponent: function() {
         this.items = [{
+            name : 'inactivity',
+            fieldLabel: 'Inactivitate'
+        },{
             name : 'school',
             fieldLabel: 'Pregătire şcolară'
         },{
