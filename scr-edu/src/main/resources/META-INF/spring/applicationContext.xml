@@ -22,11 +22,12 @@
 			location="classpath*:META-INF/spring/*.properties" order="100" />
 
 	</beans>
-	<beans profile="cloudbees" >
-		<context:property-placeholder
-				location="classpath*:META-INF/spring/profiles/cloudbees.properties" order="1" ignore-unresolvable="true" />
-	</beans>
-	
+
+    <beans profile="prod" >
+        <context:property-placeholder
+                location="classpath*:META-INF/spring/profiles/prod.properties" order="10" ignore-unresolvable="true" />
+    </beans>
+
 	<beans profile="test" >
 		<context:property-placeholder
 				location="classpath*:META-INF/spring/profiles/test.properties" order="1" ignore-unresolvable="true" />
