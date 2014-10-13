@@ -4,7 +4,7 @@
     <groupId>sorinpo.scr.edu</groupId>
     <artifactId>scr-edu</artifactId>
     <packaging>war</packaging>
-    <version>1.1.0.BUILD-SNAPSHOT</version>
+    <version>1.1.1</version>
     <name>scr-edu</name>
     <properties>
         <aspectj.version>1.7.0</aspectj.version>
