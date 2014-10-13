@@ -19,7 +19,7 @@
 			The located property files are parsed and their values can then be used within 
 			application context files in the form of ${propertyKey}. -->
 		<context:property-placeholder
-			location="classpath*:META-INF/spring/database.properties" order="100" />
+			location="classpath*:META-INF/spring/*.properties" order="100" />
 
 	</beans>
 
