@@ -18,7 +18,7 @@ public class VersionController {
         return version;
     }
 
-    @Value("project.version")
+    @Value("${project.version}")
     public void setVersion(String version) {
         this.version = version;
     }
