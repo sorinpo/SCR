@@ -7,7 +7,7 @@ Ext.define('EDU.view.pupil.List' ,{
     initComponent: function() {
         
         this.columns = [
-            {header: 'Nr.', xtype: 'rownumberer'},
+            {header: 'Nr.', xtype: 'rownumberer', width: 30},
             {header: 'Nume',  dataIndex: 'name',  flex: 1},
             {header: 'Data nașterii',  dataIndex: 'birthDate', xtype: 'datecolumn', format:'j/n/Y', flex: 1},
             {header: 'Situație Părinți', dataIndex: 'parentState', flex: 1,
